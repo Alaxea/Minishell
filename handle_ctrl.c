@@ -12,38 +12,23 @@
 
 #include "minishell.h"
 
-/*handle ctrl-c*/
-/*void  handle_sigint(int sig)
-{
-	(void)sig;
-
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}*/
-/*handle ctrl-\*/
-void	do_nothing(int sig)
-{
-	if (sig == 2)
-		printf("\n");
-}
-
+//handle ctrl-d
 void	handle_sigint(int sig)
 {
 	(void)sig;
+
 	if (sig == 2)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 		rl_redisplay();
 	}
 }
 void handle_sigquit(int sig)
 {
     (void)sig;
-	do_nothing(sig);
+	handle_sigint(sig);
 }
 
 int main()
@@ -55,10 +40,7 @@ int main()
 		char *input;
 		input = readline("minishell>> ");
 		if(input == NULL)
-		{
-			printf("Exiting minishell...\n");
 			break;
-		}
 		free(input);
 	}
 	return(0);
