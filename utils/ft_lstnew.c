@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 17:55:54 by ugerkens          #+#    #+#             */
-/*   Updated: 2024/08/19 13:59:01 by zogorzeb         ###   ########.fr       */
+/*   Created: 2023/03/13 15:37:16 by ugerkens          #+#    #+#             */
+/*   Updated: 2024/08/20 15:39:39 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../minishell.h"
+#include "./../minishell.h"
 
-t_token	*ft_lstlast(t_token *lst)
+t_token	*ft_lstnew(void *content, t_type type)
 {
-	while (lst && lst->next)
-		lst = lst->next;
-	return (lst);
+	t_token	*head;
+
+	head = malloc(sizeof(t_token));
+	if (!head)
+		return (NULL);
+	head->value = content;
+	head->next = NULL;
+	head->prev = NULL;
+	head->data_type = type;
+	return (head);
 }

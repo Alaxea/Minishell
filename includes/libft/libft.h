@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:27:47 by astefans          #+#    #+#             */
-/*   Updated: 2024/08/19 14:05:37 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:38:51 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,23 @@
 # include <unistd.h>
 //# include <stdbool.h> /*tylko do splita, ale zmienilam*/
 # include <stddef.h>
+# include "./../../minishell.h"
+
+// typedef enum	s_type
+// {
+// 	WORD,
+// 	OPERATOR
+// }	t_type;
+
+
+// typedef struct s_token 
+// {
+// 	struct s_token	*next;
+// 	struct s_token	*prev;
+// 	char	*value;
+// 	int		data_type;
+// }	t_token;
+
 
 //LIBC FUNCTIONS//
 int		ft_isalpha(int c);
@@ -56,12 +73,5 @@ char	**ft_split(char const *s, char c);
 char	*ft_itoa(int nbr);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-void	ft_lstadd_back(t_token **lst, t_token *new);
-void	ft_lstadd_front(t_token **lst, t_token *new);
-void	ft_lstclear(t_token **lst, void (*del)(void *));
-void	ft_lstdelone(t_token *lst, void (*del)(void *));
-t_token	*ft_lstlast(t_token *lst);
-t_token	*ft_lstnew(void *content);
-int		ft_lstsize(t_token *lst);
 
 #endif

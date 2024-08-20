@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 18:09:59 by ugerkens          #+#    #+#             */
-/*   Updated: 2024/08/19 13:57:42 by zogorzeb         ###   ########.fr       */
+/*   Created: 2023/03/13 15:52:38 by ugerkens          #+#    #+#             */
+/*   Updated: 2024/08/20 15:39:27 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../minishell.h"
+#include "./../minishell.h"
 
-void	ft_lstclear(t_token **lst, void (*del)(void *))
+void	ft_lstadd_front(t_token **lst, t_token *new)
 {
-	t_token	*buffer;
-
-	if (!lst || !*lst)
-		return ;
-	while (*lst)
-	{
-		buffer = (*lst)->next;
-		ft_lstdelone(*lst, del);
-		*lst = buffer;
-	}
-	*lst = NULL;
+	new->next = *lst;
+	if (*lst != NULL)
+		(*lst)->prev = new;
+	*lst = new;
 }
