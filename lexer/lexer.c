@@ -60,7 +60,7 @@ t_token	*word_or_operator(char *input, int max, int start)
 
 int	ft_iswhitespace(char c)
 {
-	if ((c >= 9 && c <= 13) || c == '\n' || c == 32)
+	if ((c >= 9 && c <= 13) || c == '\0' || c == 32)
 		return (1);
 	return (0);
 }
@@ -95,12 +95,12 @@ void	token_creator(char *input)
 	while (input[i])
 	{
 		check_quote(&mode, input[i]);
-		if (ft_iswhitespace(input[i]) && mode == DEFAULT)
+		if (ft_iswhitespace(input[i + 1]) && mode == DEFAULT)
 		{
 			printf("delimit\n");
-			new = word_or_operator(input, i, start);
+			new = word_or_operator(input, i + 1, start);
 			printf("%s\n", new->value);
-			start = i + 1;
+			start = i + 2;
 			ft_lstadd_back(&token, new);
 		}
 		/*
