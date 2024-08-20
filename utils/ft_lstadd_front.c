@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 15:57:40 by ugerkens          #+#    #+#             */
-/*   Updated: 2024/08/19 13:59:39 by zogorzeb         ###   ########.fr       */
+/*   Created: 2023/03/13 15:52:38 by ugerkens          #+#    #+#             */
+/*   Updated: 2024/08/20 15:39:27 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../minishell.h"
+#include "./../minishell.h"
 
-int	ft_lstsize(t_token *lst)
+void	ft_lstadd_front(t_token **lst, t_token *new)
 {
-	int	size;
-
-	size = 0;
-	while (lst)
-	{
-		size++;
-		lst = lst->next;
-	}
-	return (size);
+	new->next = *lst;
+	if (*lst != NULL)
+		(*lst)->prev = new;
+	*lst = new;
 }

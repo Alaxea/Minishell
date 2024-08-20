@@ -26,15 +26,21 @@ typedef enum	s_type
 // tokens (nodes) -> for tokenization input (first step lexing)
 // "The shell breaks the input into tokens: words and operators" - Shell Command Language
 
-typedef struct s_token 
+typedef struct s_token
 {
-	t_token	*next;
-	t_token	*prev;
-	char	*value;
-	int		data_type;
+	struct s_token	*next;
+	struct s_token	*prev;
+	char			*value;
+	int				data_type;
 }	t_token;
 
-int	ft_iswhitespace(char c);
-
+int		ft_iswhitespace(char c);
+void	ft_lstadd_back(t_token **lst, t_token *new);
+void	ft_lstadd_front(t_token **lst, t_token *new);
+void	ft_lstclear(t_token **lst);
+void	ft_lstdelone(t_token *lst);
+t_token	*ft_lstlast(t_token *lst);
+t_token	*ft_lstnew(void *content, t_type type);
+int		ft_lstsize(t_token *lst);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:06:55 by ugerkens          #+#    #+#             */
-/*   Updated: 2024/08/19 13:58:37 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:39:30 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../minishell.h"
+#include "./../minishell.h"
 
-void	ft_lstdelone(t_token *lst, void (*del)(void *))
+void	ft_lstdelone(t_token *lst)
 {
 	if (!lst)
 		return ;

@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 18:03:27 by ugerkens          #+#    #+#             */
-/*   Updated: 2024/08/20 13:08:16 by zogorzeb         ###   ########.fr       */
+/*   Created: 2023/03/13 15:37:16 by ugerkens          #+#    #+#             */
+/*   Updated: 2024/08/20 15:39:39 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../minishell.h"
+#include "./../minishell.h"
 
-void	ft_lstadd_back(t_token **lst, t_token *new)
+t_token	*ft_lstnew(void *content, t_type type)
 {
-	t_token	*tmp;
+	t_token	*head;
 
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		tmp = ft_lstlast(*lst);
-		tmp->next = new;
-		new->prev = tmp;
-	}
+	head = malloc(sizeof(t_token));
+	if (!head)
+		return (NULL);
+	head->value = content;
+	head->next = NULL;
+	head->prev = NULL;
+	head->data_type = type;
+	return (head);
 }

@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 17:55:54 by ugerkens          #+#    #+#             */
-/*   Updated: 2024/08/19 13:59:01 by zogorzeb         ###   ########.fr       */
+/*   Created: 2023/03/13 18:03:27 by ugerkens          #+#    #+#             */
+/*   Updated: 2024/08/20 15:39:20 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../minishell.h"
+#include "./../minishell.h"
 
-t_token	*ft_lstlast(t_token *lst)
+void	ft_lstadd_back(t_token **lst, t_token *new)
 {
-	while (lst && lst->next)
-		lst = lst->next;
-	return (lst);
+	t_token	*tmp;
+
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		tmp = ft_lstlast(*lst);
+		tmp->next = new;
+		new->prev = tmp;
+	}
 }
