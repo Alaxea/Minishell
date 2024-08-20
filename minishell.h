@@ -20,7 +20,6 @@ typedef enum	s_quote_mode
 typedef enum	s_type
 {
 	WORD,
-	NEWLINE,
 	OPERATOR
 }	t_type;
 

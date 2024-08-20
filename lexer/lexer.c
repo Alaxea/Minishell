@@ -8,30 +8,30 @@ During token recognition no substitutions shall be actually performed,
 and the result token shall contain exactly the characters that appear in the input 
 */
 
-// static int	recognise_operator(char c)
-// {
-// 	if (c == '>')
-// 		return (1);
-// 	else if (c == '<')
-// 		return ś(1);
-// 	else if (c == '|')
-// 		return (1);
-// 	else (0);
+static int	recognise_operator(char c)
+{
+	if (c == '>')
+		return (1);
+	else if (c == '<')
+		return (1);
+	else if (c == '|')
+		return (1);
+	else (0);
 
-// }
+}
 
-// word_or_operator()
-// {
-// 	if (recognise_operator())
-// 		add_token();
-// 	else
-// 		add_token();
+word_or_operator(char *input, int max, int start)
+{
+	if (recognise_operator(input[max - 1]))
+		add_token();
+	else
+		add_token();
 
-// }ś
+}
 
 int	ft_iswhitespace(char c)
 {
-	if (c == 9 || c == 32 || c == '\n')
+	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
 	return (0);
 }
@@ -54,15 +54,21 @@ void	check_quote(t_quote_mode *mode, char c)
 token_creator(char *input)
 {
 	int				i;
+	int				start;
 	t_quote_mode	mode;
 	t_token 		token;
 
+	i = 0;
+	start = 0;
 	mode = DEFAULT;
 	while (input[i])
 	{
 		check_quote(&mode, input[i]);
 		if (ft_iswhitespace(input[i]) && mode == DEFAULT)
-			word_or_operator();
+		{
+			word_or_operator(input, i, start);
+			start = i + 1;
+		}
 		/*
 		quote(mode);
 		if (input[i] == whitespace (tab or space) and mode != quoted)
@@ -73,6 +79,7 @@ token_creator(char *input)
 			delimit token
 			---- word();
 		*/
+	i++;
 	}
 
 
