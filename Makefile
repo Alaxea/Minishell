@@ -16,9 +16,8 @@ LIBFT_PATH = includes/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 RM = rm -f
 NAME = minishell
-SRC = minishell.c
+SRC = minishell.c handle_ctrl.c
 OBJ = $(SRC:.c=.o)
-INCLUDE_DIR = includes
 
 all: $(NAME)
 $(LIBFT):

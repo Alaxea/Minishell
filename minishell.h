@@ -8,6 +8,7 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
 
 typedef enum	s_quote_mode
 {
