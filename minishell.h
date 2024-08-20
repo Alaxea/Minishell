@@ -34,4 +34,7 @@ typedef struct s_token
 	int		data_type;
 }	t_token;
 
+int	ft_iswhitespace(char c);
+
+
 #endif
