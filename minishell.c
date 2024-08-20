@@ -1,12 +1,11 @@
 #include "minishell.h"
 /*command to compilation: cc -Wall -Wextra -Werror -o main main.c -lreadline
 I tested it for exit and ls -l and it works*/
-int	main()
+int	function()
 {
 	char *input;
 
 	/*to initialize the history*/
-	using_history();
 	while(1)
 	{
 		input = readline("minishell>> ");
