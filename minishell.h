@@ -42,5 +42,6 @@ void	ft_lstdelone(t_token *lst);
 t_token	*ft_lstlast(t_token *lst);
 t_token	*ft_lstnew(void *content, t_type type);
 int		ft_lstsize(t_token *lst);
-
+void	handle_sigquit(int sig);
+void	handle_sigint(int sig);
 #endif
