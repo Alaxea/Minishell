@@ -15,7 +15,7 @@ int	minishell()
 			exit(1);
 		}
 		/*if the line is empty, continue to the next iteration*/
-		if (strcmp(input, "") == 0)
+		if (ft_strcmp(input, "") == 0)
 		{
 			free(input);
 			continue;
@@ -23,7 +23,7 @@ int	minishell()
 		/*to add line to the history*/
 		add_history(input);
 		/*if the user types "exit", break the loop and exit*/
-		if (strcmp(input, "exit") == 0) 
+		if (ft_strcmp(input, "exit") == 0) 
 		{
             free(input);
             break;

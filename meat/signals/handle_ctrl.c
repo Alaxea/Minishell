@@ -41,7 +41,7 @@ void	handle_sigint(int sig)
 int main()
 {
 	signal(SIGINT, handle_sigint);
-    signal(SIGQUIT, SIG_IGN); /*sig_ing to do nothing when is ctrl-\*/
+    signal(SIGQUIT, SIG_IGN); /*sig_ign to do nothing when is ctrl-\*/
 	while(1)
 	{
 		char *input;
@@ -55,3 +55,4 @@ int main()
 	}
 	return(0);
 }
+/*to do: handle ctrl-d when user writes something after prompt*/
