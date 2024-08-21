@@ -6,11 +6,11 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:37:16 by ugerkens          #+#    #+#             */
-/*   Updated: 2024/08/20 15:39:39 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/08/21 13:41:05 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../minishell.h"
+#include "../../minishell.h"
 
 t_token	*ft_lstnew(void *content, t_type type)
 {
