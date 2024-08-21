@@ -16,9 +16,19 @@ LIBFT_PATH = includes/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 RM = rm -f
 NAME = minishell
-SRC = minishell.c handle_ctrl.c
+SRC =	meat/signals/handle_ctrl.c \
+		meat/utils/ft_lstadd_back.c \
+		meat/utils/ft_lstadd_front.c \
+		meat/utils/ft_lstclear.c \
+		meat/utils/ft_lstdelone.c \
+		meat/utils/ft_lstlast.c \
+		meat/utils/ft_lstmap.c \
+		meat/utils/ft_lstnew.c \
+		meat/utils/ft_lstsize.c \
+		meat/parser/0_parser.c \
+		meat/lexer/lexer.c \
+		minishell.c
 OBJ = $(SRC:.c=.o)
-
 all: $(NAME)
 $(LIBFT):
 	make -C $(LIBFT_PATH)

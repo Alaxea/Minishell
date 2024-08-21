@@ -125,10 +125,10 @@ void	token_creator(char *input)
 	}
 }
 
-int main()
+/*int main()
 {
 	char *input = readline("minishell: ");
 	token_creator(input);
 
 	return (0);
-}
+}*/

@@ -10,53 +10,45 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-/*handle ctrl-c*/
-/*void  handle_sigint(int sig)
+//handle ctrl-d
+void	handle_sigquit(int sig)
 {
-	(void)sig;
-
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}*/
-/*handle ctrl-\*/
-void	do_nothing(int sig)
-{
-	if (sig == 2)
-		printf("\n");
-}
-
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	if (sig == 2)
+	if (sig == SIGQUIT)
 	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
 		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
+		write(1, "exit\n", 5);
+		exit(0);
 	}
 }
-void handle_sigquit(int sig)
+
+//handle ctrl-c
+void	handle_sigint(int sig)
 {
-    (void)sig;
-	do_nothing(sig);
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 int main()
 {
 	signal(SIGINT, handle_sigint);
-    signal(SIGQUIT, handle_sigquit);
+    signal(SIGQUIT, SIG_IGN); /*sig_ing to do nothing when is ctrl-\*/
 	while(1)
 	{
 		char *input;
 		input = readline("minishell>> ");
 		if(input == NULL)
 		{
-			printf("Exiting minishell...\n");
+			write(1, "exit\n", 5);
 			break;
 		}
 		free(input);
