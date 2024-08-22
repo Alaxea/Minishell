@@ -1,4 +1,16 @@
-#include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/21 13:36:08 by zogorzeb          #+#    #+#             */
+/*   Updated: 2024/08/21 14:17:22 by zogorzeb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../minishell.h"
 
 /*
 lexer is breaking input into tokens (words and operators), tokens will be a linked list because this form
@@ -60,7 +72,7 @@ t_token	*word_or_operator(char *input, int max, int start)
 
 int	ft_iswhitespace(char c)
 {
-	if ((c >= 9 && c <= 13) || c == '\n' || c == 32)
+	if ((c >= 9 && c <= 13) || c == '\0' || c == 32)
 		return (1);
 	return (0);
 }
@@ -80,7 +92,7 @@ void	check_quote(t_quote_mode *mode, char c)
 		*mode = DEFAULT;
 }
 
-void	token_creator(char *input)
+int	token_creator(char *input)
 {
 	int				i;
 	int				start;
@@ -95,40 +107,28 @@ void	token_creator(char *input)
 	while (input[i])
 	{
 		check_quote(&mode, input[i]);
-		if (ft_iswhitespace(input[i]) && mode == DEFAULT)
+		if (ft_iswhitespace(input[i + 1]) && mode == DEFAULT)
 		{
-			printf("delimit\n");
-			new = word_or_operator(input, i, start);
-			printf("%s\n", new->value);
-			start = i + 1;
+			new = word_or_operator(input, i + 1, start);
+			// printf("%s\n", new->value);
+			start = i + 2;
 			ft_lstadd_back(&token, new);
 		}
-		/*
-		quote(mode);
-		if (input[i] == whitespace (tab or space) and mode != quoted)
-			delimit token
-				----- word_or_operator();
-		NOT NEEDED \/
-		if mode == quoted && input[i] = quote
-			delimit token
-			---- word();
-		*/
 		i++;
 	}
-	i = 0;
-	t_token *tmp = token;
-	while (i < 3)
+	if (mode == SINGLE_Q || mode == DOUBLE_Q)
 	{
-		printf("token: %s\n", tmp->value);
-		tmp = tmp->next;
-		i++;
+		token_error(&token, "error - unclosed quotation marks");
+		return (0);
 	}
+	else
+		return (validation(&token));
 }
 
-/*int main()
+int main()
 {
 	char *input = readline("minishell: ");
 	token_creator(input);
 
 	return (0);
-}*/
+}

@@ -9,6 +9,30 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
+#include <stdbool.h>
+
+typedef struct	s_io_fd
+{
+	int	input;
+	int	output;
+	int heredoc;
+}	t_io_fd;
+
+
+typedef enum	s_redir_type
+{
+	DEFAULT,
+	REDIR_INPUT, // < //
+	REDIR_OUTPUT, // > //
+	REDIR_APPEND, // >> //
+	REDIR_HEREDOC // << - specific mode //
+}	t_redir_type;
+
+typedef	enum	s_node_type
+{
+	COMMAND_NODE,
+	PIPE_NODE,
+}	t_node_type;
 
 typedef enum	s_quote_mode
 {
@@ -23,8 +47,6 @@ typedef enum	s_type
 	OPERATOR
 }	t_type;
 
-// tokens (nodes) -> for tokenization input (first step lexing)
-// "The shell breaks the input into tokens: words and operators" - Shell Command Language
 
 typedef struct s_token
 {
@@ -33,6 +55,26 @@ typedef struct s_token
 	char			*value;
 	int				data_type;
 }	t_token;
+
+
+typedef struct s_simple_cmd
+{
+	char			*name;
+	char			**cmd;
+	char			*path;
+	t_redir_type	redir_type;
+	char			*input_file;
+	char			*output_file;
+}	t_simple_cmd;
+
+
+typedef struct	s_ast_node
+{
+	t_node_type			node_type;
+	struct s_ast_node	*left;
+	struct s_ast_node	*rigth;
+	t_simple_cmd		*cmd;
+}	t_ast;
 
 int		ft_iswhitespace(char c);
 void	ft_lstadd_back(t_token **lst, t_token *new);
@@ -44,4 +86,7 @@ t_token	*ft_lstnew(void *content, t_type type);
 int		ft_lstsize(t_token *lst);
 void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
+void	token_error(t_token **token, char *message);
+int		validation(t_token **token);
+
 #endif

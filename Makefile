@@ -6,7 +6,7 @@
 #    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/08/20 13:08:13 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/08/21 14:02:48 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC =	meat/signals/handle_ctrl.c \
 		meat/utils/ft_lstsize.c \
 		meat/parser/0_parser.c \
 		meat/lexer/lexer.c \
-		minishell.c
+		meat/lexer/validation.c \
+		minishell.c 
 OBJ = $(SRC:.c=.o)
 all: $(NAME)
 $(LIBFT):
