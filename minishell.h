@@ -21,11 +21,12 @@ typedef struct	s_io_fd
 
 typedef enum	s_redir_type
 {
-	DEFAULT,
+	STANDARD,
 	REDIR_INPUT, // < //
 	REDIR_OUTPUT, // > //
 	REDIR_APPEND, // >> //
-	REDIR_HEREDOC // << - specific mode //
+	REDIR_HEREDOC, // << - specific mode //
+	PIPE
 }	t_redir_type;
 
 typedef	enum	s_node_type
@@ -62,19 +63,13 @@ typedef struct s_simple_cmd
 	char			*name;
 	char			**cmd;
 	char			*path;
-	t_redir_type	redir_type;
-	char			*input_file;
-	char			*output_file;
+	char			*output_path;
+	char			*output_path_append;
+	char			*input_path;
+	bool			heredoc;
+	bool			parser_done;
+	
 }	t_simple_cmd;
-
-
-typedef struct	s_ast_node
-{
-	t_node_type			node_type;
-	struct s_ast_node	*left;
-	struct s_ast_node	*rigth;
-	t_simple_cmd		*cmd;
-}	t_ast;
 
 int		ft_iswhitespace(char c);
 void	ft_lstadd_back(t_token **lst, t_token *new);

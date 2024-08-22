@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 13:36:08 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/08/21 14:17:22 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:16:52 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@ and the result token shall contain exactly the characters that appear in the inp
 
 t_token *add_token(char *input, int max, int start, t_type type)
 {
-	printf("add token\n");
 	char	*str;
 	int		i;
 
+	if (ft_iswhitespace(input[max - 1]))
+		max--;
+	if (ft_iswhitespace(input[start]))
+		start++;
 	str = (char *)malloc(sizeof(char) * (max - start) + 1);
 	if (!str)
 		return (NULL);
@@ -53,26 +56,23 @@ static int	recognise_operator(char c)
 
 }
 
-t_token	*word_or_operator(char *input, int max, int start)
+void	word_or_operator(char *input, int max, int start, t_token **token)
 {
-	t_token	*new;
+	t_token *word;
+	t_token	*operator;
 
-	if (recognise_operator(input[max - 1]))
-	{
-		printf("oper\n");
-		new = add_token(input, max, start, OPERATOR);
-	}
-	else
-	{
-		printf("word\n");
-		new = add_token(input, max, start, WORD);
-	}
-	return (new);
+	word = add_token(input, max, start, WORD);
+	ft_lstadd_back(token, word);
+	start = max;
+	while (recognise_operator(input[max]))
+		max++;
+	operator = add_token(input, max, start, OPERATOR);
+	ft_lstadd_back(token, operator);
 }
 
 int	ft_iswhitespace(char c)
 {
-	if ((c >= 9 && c <= 13) || c == '\0' || c == 32)
+	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
 	return (0);
 }
@@ -98,7 +98,6 @@ int	token_creator(char *input)
 	int				start;
 	t_quote_mode	mode;
 	t_token 		*token;
-	t_token			*new;
 
 	i = 0;
 	start = 0;
@@ -107,22 +106,30 @@ int	token_creator(char *input)
 	while (input[i])
 	{
 		check_quote(&mode, input[i]);
-		if (ft_iswhitespace(input[i + 1]) && mode == DEFAULT)
+		if (recognise_operator(input[i + 1]) && mode == DEFAULT)
 		{
-			new = word_or_operator(input, i + 1, start);
-			// printf("%s\n", new->value);
-			start = i + 2;
-			ft_lstadd_back(&token, new);
+			word_or_operator(input, i + 1, start, &token);
+			if (recognise_operator(input[i + 2]))
+			{
+				i += 1;
+				start = i + 3;
+			}
+			else
+				start = i + 2;
 		}
+		if (input[i + 1] == '\0')
+			ft_lstadd_back(&token, add_token(input, i + 1, start, WORD));
 		i++;
 	}
-	if (mode == SINGLE_Q || mode == DOUBLE_Q)
+	t_token *buf = token;
+	while (buf)
 	{
-		token_error(&token, "error - unclosed quotation marks");
-		return (0);
+		printf("value: %s\n", buf->value); 
+		buf = buf->next;
 	}
-	else
-		return (validation(&token));
+	// else
+	// 	return (validation(&token));
+	return (1);
 }
 
 int main()
