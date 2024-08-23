@@ -71,6 +71,12 @@ typedef struct s_simple_cmd
 	
 }	t_simple_cmd;
 
+typedef struct s_data
+{
+	char		*current_dir;
+	char		*old__dir;
+}	t_data;
+
 int		ft_iswhitespace(char c);
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstadd_front(t_token **lst, t_token *new);

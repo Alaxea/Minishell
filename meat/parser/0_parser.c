@@ -21,8 +21,6 @@ there are two major modes of parsing:
 
 #include "../../minishell.h"
 
-
-
 void	sc_initializer(t_simple_cmd *sc)
 {
 	sc->cmd = NULL;
@@ -56,11 +54,12 @@ t_redir_type check_operator(char *str)
 		return (PIPE);
 }
 
-redir_modify(t_token *token, t_simple_cmd *simple_cmd)
+void	redir_modify(t_token *token, t_simple_cmd *simple_cmd)
 {
 	t_redir_type type;
 
 	type = check_operator(token->value);
+
 	if (type == REDIR_INPUT)
 		simple_cmd->input_path = token->next->value;
 	if (type == REDIR_OUTPUT)
@@ -103,11 +102,13 @@ int	parser(t_token **tokens)
 {
 	t_token *buf;
 
+	if (tokens == NULL)
+        return (-1);
 	buf = *tokens;
 	while (buf)
 	{
 		simple_cmd_creator(buf);
+		buf = buf->next; // Move to the next token
 	}
-
-
+	return(0);
 }

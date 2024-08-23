@@ -132,7 +132,7 @@ int	token_creator(char *input)
 	return (1);
 }
 
-int main()
+int main_fun()
 {
 	char *input = readline("minishell: ");
 	token_creator(input);
