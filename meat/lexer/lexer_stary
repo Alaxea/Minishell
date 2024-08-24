@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenization.c                                     :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 13:36:08 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/08/24 22:58:08 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:07:13 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ allows us to dynamically add next tokens
 During token recognition no substitutions shall be actually performed, 
 and the result token shall contain exactly the characters that appear in the input 
 */
-t_redir_type	recognise_operator(char *str, int i);
+static int	recognise_operator(char c);
 
-t_token *add_token(char *input, int max, int start, t_redir_type type)
+t_token *add_token(char *input, int max, int start, t_type type)
 {
 	char	*str;
 	int		i;
@@ -43,23 +43,39 @@ t_token *add_token(char *input, int max, int start, t_redir_type type)
 		start++;
 	}
 	str[i] = '\0';
+	if (recognise_operator(input[start]))
+		type = OPERATOR;
+	else
+		type = WORD;
 	return (ft_lstnew(str, type));
 }
 
-t_redir_type	recognise_operator(char *str, int i)
+static int	recognise_operator(char c)
 {
-	if (str[i] == '>')
-		return (REDIR_OUTPUT);
-	else if (str[i] == '<')
-		return (REDIR_INPUT);
-	else if (str[i] == '|')
-		return (PIPE);
-	else if (str[i] == '<' && str[i - 1] == '<')
-		return (REDIR_HEREDOC);
-	else if (str[i] == '>' && str[i - 1] == '>')
-		return (REDIR_APPEND);
+	if (c == '>')
+		return (1);
+	else if (c == '<')
+		return (1);
+	else if (c == '|')
+		return (1);
 	else
-		return (STANDARD);
+		return (0);
+}
+
+void	word_or_operator(char *input, int max, int start, t_token **token)
+{
+	t_token *word;
+	t_token	*operator;
+
+	word = add_token(input, max, start, WORD);
+	if (word)
+		ft_lstadd_back(token, word);
+	start = max;
+	while (recognise_operator(input[max]) && input[max] == input[start])
+		max++;
+	operator = add_token(input, max, start, OPERATOR);
+		if (operator)
+	ft_lstadd_back(token, operator);
 }
 
 int	ft_iswhitespace(char c)
@@ -90,26 +106,25 @@ t_token	*token_creator(char *input)
 	int				start;
 	t_quote_mode	mode;
 	t_token 		*token;
-	t_token			*new;
-	t_redir_type	type_mode;
+	t_type			type_mode;
 
 	i = 0;
 	start = 0;
 	mode = DEFAULT;
 	token = NULL;
-	type_mode = recognise_operator(input, i);
+	type_mode = recognise_operator(input[i]);
 	while (input[i])
 	{
-		type_mode = recognise_operator(input, i);
 		check_quote(&mode, input[i]);
-		if (recognise_operator(input, i + 1) != type_mode && mode == DEFAULT && input[i + 1])
+		if (recognise_operator(input[i + 1]) && mode == DEFAULT)
 		{
-			new = add_token(input, i + 1, start, recognise_operator(input, i));
-			ft_lstadd_back(&token, new);
-			start = i + 1;
+			word_or_operator(input, i + 1, start, &token);
+			if (recognise_operator(input[i + 2]) && input[i + 2] == input[i + 1])
+				i += 1;
+			start = i + 2;
 		}
 		if (input[i + 1] == '\0')
-			ft_lstadd_back(&token, add_token(input, i + 1, start, recognise_operator(input, i)));
+			ft_lstadd_back(&token, add_token(input, i + 1, start, WORD));
 		i++;
 	}
 	t_token *buf = token;

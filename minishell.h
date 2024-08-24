@@ -54,7 +54,7 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 	char			*value;
-	int				data_type;
+	t_redir_type	data_type;
 }	t_token;
 
 
@@ -83,11 +83,12 @@ void	ft_lstadd_front(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
 void	ft_lstdelone(t_token *lst);
 t_token	*ft_lstlast(t_token *lst);
-t_token	*ft_lstnew(void *content, t_type type);
+t_token	*ft_lstnew(void *content, t_redir_type type);
 int		ft_lstsize(t_token *lst);
 void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
 void	token_error(t_token **token, char *message);
 int		validation(t_token **token);
+t_token		*token_creator(char *input);
 
 #endif
