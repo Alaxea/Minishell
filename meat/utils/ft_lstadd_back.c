@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:03:27 by ugerkens          #+#    #+#             */
-/*   Updated: 2024/08/21 13:40:48 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/08/25 15:29:39 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	ft_lstadd_back(t_token **lst, t_token *new)
 {
 	t_token	*tmp;
+	if (new == NULL)
+		return ;
 
 	if (!*lst)
 		*lst = new;

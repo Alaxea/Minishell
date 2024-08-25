@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 13:36:08 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/08/24 22:58:08 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/08/25 22:03:45 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_token *add_token(char *input, int max, int start, t_redir_type type)
 		max--;
 	while (ft_iswhitespace(input[start]))
 		start++;
-	if ((max - start) == 0)
+	if ((max - start) <= 0)
 		return (NULL);
 	str = (char *)malloc(sizeof(char) * (max - start) + 1);
 	if (!str)
@@ -54,10 +54,12 @@ t_redir_type	recognise_operator(char *str, int i)
 		return (REDIR_INPUT);
 	else if (str[i] == '|')
 		return (PIPE);
-	else if (str[i] == '<' && str[i - 1] == '<')
+	if (str[i] == '<' && str[i - 1] == '<')
 		return (REDIR_HEREDOC);
 	else if (str[i] == '>' && str[i - 1] == '>')
 		return (REDIR_APPEND);
+	else if (str[i] == '<')
+		return (REDIR_INPUT);
 	else
 		return (STANDARD);
 }
@@ -112,12 +114,12 @@ t_token	*token_creator(char *input)
 			ft_lstadd_back(&token, add_token(input, i + 1, start, recognise_operator(input, i)));
 		i++;
 	}
-	t_token *buf = token;
-	while (buf)
-	{
-		printf("value: %s\n", buf->value); 
-		buf = buf->next;
-	}
+	// t_token *buf = token;
+	// while (buf)
+	// {
+	// 	printf("value: %s\n", buf->value); 
+	// 	buf = buf->next;
+	// }
 	// else
 	// 	return (validation(&token));
 	return (token);

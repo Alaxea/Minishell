@@ -37,7 +37,7 @@ TEST_ASSERT_EQUAL_STRING("grep", result->next->next->next->next->value);
 }
 
 void test_function5(void) {
-    t_token *result = token_creator("ls>cat>>test<s|<<eof cat -e |  sort -e");
+    t_token *result = token_creator("ls>cat>>test<s | <<eof cat -e |  sort -e");
 TEST_ASSERT_EQUAL_STRING("ls", result->value);
 TEST_ASSERT_EQUAL_STRING(">", result->next->value);
 TEST_ASSERT_EQUAL_STRING("cat", result->next->next->value);
@@ -81,6 +81,34 @@ void test_function9(void) {
 TEST_ASSERT_EQUAL_STRING("grep '| << echo >'", result->value);
 }
 
+void test_function10(void) {
+    t_token *result = token_creator("ls | < test grep so_long > file2");
+TEST_ASSERT_EQUAL_STRING("ls", result->value);
+TEST_ASSERT_EQUAL_STRING("|", result->next->value);
+TEST_ASSERT_EQUAL_STRING("<", result->next->next->value);
+TEST_ASSERT_EQUAL_STRING("test grep so_long", result->next->next->next->value);
+TEST_ASSERT_EQUAL_STRING(">", result->next->next->next->next->value);
+TEST_ASSERT_EQUAL_STRING("file2", result->next->next->next->next->next->value);
+}
+
+void test_function11(void) {
+    t_token *result = token_creator("< file1 cat | sort | uniq >output");
+TEST_ASSERT_EQUAL_STRING("<", result->value);
+TEST_ASSERT_EQUAL_STRING("file1 cat", result->next->value);
+TEST_ASSERT_EQUAL_STRING("|", result->next->next->value);
+TEST_ASSERT_EQUAL_STRING("sort", result->next->next->next->value);
+TEST_ASSERT_EQUAL_STRING("|", result->next->next->next->next->value);
+TEST_ASSERT_EQUAL_STRING("uniq", result->next->next->next->next->next->value);
+TEST_ASSERT_EQUAL_STRING(">", result->next->next->next->next->next->next->value);
+TEST_ASSERT_EQUAL_STRING("output", result->next->next->next->next->next->next->next->value);
+}
+
+void test_function12(void) {
+    t_token *result = token_creator("watch -n 5 'df -h | grep \"^/dev\"'");
+TEST_ASSERT_EQUAL_STRING("watch -n 5 'df -h | grep \"^/dev\"'", result->value);
+}
+
+
 // not needed when using generate_test_runner.rb
 int main(void) {
     UNITY_BEGIN();
@@ -93,6 +121,9 @@ int main(void) {
     RUN_TEST(test_function7);
     RUN_TEST(test_function8);
     RUN_TEST(test_function9);
-    
+    RUN_TEST(test_function10);
+    RUN_TEST(test_function11);
+    RUN_TEST(test_function12);
+
     return UNITY_END();
 }

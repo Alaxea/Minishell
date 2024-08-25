@@ -33,33 +33,31 @@ void	sc_initializer(t_simple_cmd *sc)
 	sc->path = NULL;
 }
 
-
-t_redir_type check_operator(char *str)
+t_token	*ft_lstlast_sc(t_token *lst)
 {
-	if (str[0] == '<')
-	{
-		if (str[1] == '<')
-			return (REDIR_HEREDOC);
-		else
-			return (REDIR_INPUT);
-	}
-	else if (str[0] == '>')
-	{
-		if (str[1] == '>')
-			return (REDIR_APPEND);
-		else
-			return (REDIR_OUTPUT);
-	}
-	else
-		return (PIPE);
+	while (lst && lst->next)
+		lst = lst->next;
+	return (lst);
 }
 
-void	redir_modify(t_token *token, t_simple_cmd *simple_cmd)
+void	ft_lstadd_back_sc(t_token **lst, t_token *new)
 {
-	t_redir_type type;
+	t_token	*tmp;
+	if (new == NULL)
+		return ;
 
-	type = check_operator(token->value);
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		tmp = ft_lstlast(*lst);
+		tmp->next = new;
+		new->prev = tmp;
+	}
+}
 
+void	redir_modify(t_token *token, t_simple_cmd *simple_cmd, t_redir_type type)
+{
 	if (type == REDIR_INPUT)
 		simple_cmd->input_path = token->next->value;
 	if (type == REDIR_OUTPUT)
@@ -68,8 +66,6 @@ void	redir_modify(t_token *token, t_simple_cmd *simple_cmd)
 		simple_cmd->output_path_append = token->next->value;
 	if (type == REDIR_HEREDOC)
 		simple_cmd->heredoc = true;
-	if (type == PIPE)
-		simple_cmd->parser_done = true;
 }
 
 t_simple_cmd	*simple_cmd_creator(t_token *token)
@@ -82,33 +78,40 @@ t_simple_cmd	*simple_cmd_creator(t_token *token)
 	if (!simple_cmd)
 		return (0);
 	sc_initializer(simple_cmd);
-	while (buf && !(simple_cmd->parser_done))
+	while (buf && buf->data_type != PIPE)
 	{
-		if (buf->data_type == OPERATOR)
+		if (buf->data_type != STANDARD)
 		{
-			redir_modify(buf, simple_cmd);
+			redir_modify(buf, simple_cmd, buf->data_type);
 			buf = buf->next;
 		}
-		else if (buf->data_type == WORD)
+		else
 		{
 			simple_cmd->cmd = ft_split(buf->value, ' ');
-			simple_cmd->cmd[0] = simple_cmd->name;
+			simple_cmd->name = simple_cmd->cmd[0];
 		}
 		buf = buf->next;
+		
 	}
 	return (simple_cmd);
 }
-int	parser(t_token **tokens)
-{
-	t_token *buf;
+// int	parser(t_token *tokens)
+// {
+// 	t_token 		*buf;
+// 	t_simple_cmd	*simple_cmd;
+// 	t_simple_cmd	*sc_list;
 
-	if (tokens == NULL)
-        return (-1);
-	buf = *tokens;
-	while (buf)
-	{
-		simple_cmd_creator(buf);
-		buf = buf->next; // Move to the next token
-	}
-	return(0);
-}
+// 	if (tokens == NULL)
+//         return (-1);
+// 	buf = tokens;
+// 	while (buf)
+// 	{
+// 		if (buf->prev == NULL || buf->prev == PIPE)
+// 		{
+// 			simple_cmd = simple_cmd_creator(buf);
+// 			ft_lstadd_back(&sc_list, simple_cmd);
+// 		}
+// 		buf = buf->next; // Move to the next token
+// 	}
+// 	return(0);
+// }

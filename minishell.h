@@ -90,5 +90,5 @@ void	handle_sigint(int sig);
 void	token_error(t_token **token, char *message);
 int		validation(t_token **token);
 t_token		*token_creator(char *input);
-
+t_simple_cmd	*simple_cmd_creator(t_token *token);
 #endif
