@@ -24,11 +24,13 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/utils/ft_lstmap.c \
 		meat/utils/ft_lstnew.c \
 		meat/utils/ft_lstsize.c \
+		meat/utils/utils.c \
 		meat/parser/0_parser.c \
 		meat/lexer/tokenization.c \
 		meat/lexer/validation.c \
-		minishell.c \
-		# meat/signals/handle_ctrl.c \
+		meat/builtins/pwd_builtin.c \
+		meat/builtins/env_builtin.c \
+		minishell.c
 
 
 OBJ = $(SRC:.c=.o)

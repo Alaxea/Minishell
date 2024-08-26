@@ -1,7 +1,7 @@
 #include "minishell.h"
 /*command to compilation: cc -Wall -Wextra -Werror -o main main.c -lreadline
 I tested it for exit and ls -l and it works*/
-int	minishell()
+int	main()
 {
 	char *input;
 

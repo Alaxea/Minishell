@@ -55,7 +55,7 @@ void	run_signals(int sig)
 		exit(0);
 	}
 }
-int main()
+int main_function()
 {
 	run_signals(1);
 

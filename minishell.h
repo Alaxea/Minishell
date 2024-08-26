@@ -10,6 +10,11 @@
 #include <readline/history.h>
 #include <signal.h>
 #include <stdbool.h>
+#include <limits.h>
+
+#ifndef PATH_MAX
+# define PATH_MAX 4096 /*pełna ścieżka do pliku, wliczając w to katalogi i nazwę pliku, w linux*/
+#endif
 
 typedef struct	s_io_fd
 {
@@ -75,6 +80,7 @@ typedef struct s_data
 {
 	char		*current_dir;
 	char		*old__dir;
+	char		**env;
 }	t_data;
 
 int		ft_iswhitespace(char c);
@@ -85,10 +91,11 @@ void	ft_lstdelone(t_token *lst);
 t_token	*ft_lstlast(t_token *lst);
 t_token	*ft_lstnew(void *content, t_redir_type type);
 int		ft_lstsize(t_token *lst);
-void	handle_sigquit(int sig);
-void	handle_sigint(int sig);
 void	token_error(t_token **token, char *message);
 int		validation(t_token **token);
 t_token		*token_creator(char *input);
 t_simple_cmd	*simple_cmd_creator(t_token *token);
+int		pwd_builtin(t_data *data, char **args);
+void	error(void);
+int		env_builtin(t_data *data, char **args);
 #endif
