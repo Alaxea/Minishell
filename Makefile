@@ -6,7 +6,7 @@
 #    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/08/25 22:16:18 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/08/26 18:14:23 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,4 +58,4 @@ test_lexer:
 test_validation:
 	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/lex_valid_test.c -lreadline meat/lexer/tokenization.c meat/lexer/validation.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
 test_parser:
-	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/parser_test.c -lreadline meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
+	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/parser_test.c -lreadline meat/parser/ft_split_quotes.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out

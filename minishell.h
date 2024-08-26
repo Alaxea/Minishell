@@ -77,18 +77,21 @@ typedef struct s_data
 	char		*old__dir;
 }	t_data;
 
-int		ft_iswhitespace(char c);
-void	ft_lstadd_back(t_token **lst, t_token *new);
-void	ft_lstadd_front(t_token **lst, t_token *new);
-void	ft_lstclear(t_token **lst);
-void	ft_lstdelone(t_token *lst);
-t_token	*ft_lstlast(t_token *lst);
-t_token	*ft_lstnew(void *content, t_redir_type type);
-int		ft_lstsize(t_token *lst);
-void	handle_sigquit(int sig);
-void	handle_sigint(int sig);
-void	token_error(t_token **token, char *message);
-int		validation(t_token **token);
-t_token		*token_creator(char *input);
+int				ft_iswhitespace(char c);
+void			ft_lstadd_back(t_token **lst, t_token *new);
+void			ft_lstadd_front(t_token **lst, t_token *new);
+void			ft_lstclear(t_token **lst);
+void			ft_lstdelone(t_token *lst);
+t_token			*ft_lstlast(t_token *lst);
+t_token			*ft_lstnew(void *content, t_redir_type type);
+int				ft_lstsize(t_token *lst);
+void			handle_sigquit(int sig);
+void			handle_sigint(int sig);
+void			token_error(t_token **token, char *message);
+int				validation(t_token **token);
+t_token			*token_creator(char *input);
 t_simple_cmd	*simple_cmd_creator(t_token *token);
+void			check_quote(t_quote_mode *mode, char c);
+char			**ft_split_quotes(char *str, char c);
+
 #endif

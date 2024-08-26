@@ -87,11 +87,10 @@ t_simple_cmd	*simple_cmd_creator(t_token *token)
 		}
 		else
 		{
-			simple_cmd->cmd = ft_split(buf->value, ' ');
+			simple_cmd->cmd = ft_split_quotes(buf->value, ' ');
 			simple_cmd->name = simple_cmd->cmd[0];
 		}
 		buf = buf->next;
-		
 	}
 	return (simple_cmd);
 }
