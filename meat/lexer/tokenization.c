@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 13:36:08 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/08/25 22:03:45 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:35:49 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,12 @@ t_token	*token_creator(char *input)
 			ft_lstadd_back(&token, add_token(input, i + 1, start, recognise_operator(input, i)));
 		i++;
 	}
-	// t_token *buf = token;
-	// while (buf)
-	// {
-	// 	printf("value: %s\n", buf->value); 
-	// 	buf = buf->next;
-	// }
+	t_token *buf = token;
+	while (buf)
+	{
+		printf("value: %s\n", buf->value); 
+		buf = buf->next;
+	}
 	// else
 	// 	return (validation(&token));
 	return (token);

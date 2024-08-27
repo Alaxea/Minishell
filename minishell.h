@@ -66,6 +66,7 @@ typedef struct s_simple_cmd
 	char			*output_path;
 	char			*output_path_append;
 	char			*input_path;
+	char			*delimiter_heredoc;
 	bool			heredoc;
 	bool			parser_done;
 	
@@ -93,5 +94,7 @@ t_token			*token_creator(char *input);
 t_simple_cmd	*simple_cmd_creator(t_token *token);
 void			check_quote(t_quote_mode *mode, char c);
 char			**ft_split_quotes(char *str, char c);
+char			*trim_the_value(char *old);
+char			*cut_out_path(char *value);
 
 #endif

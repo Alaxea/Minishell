@@ -24,6 +24,7 @@ there are two major modes of parsing:
 void	sc_initializer(t_simple_cmd *sc)
 {
 	sc->cmd = NULL;
+	sc->delimiter_heredoc = NULL;
 	sc->heredoc = false;
 	sc->input_path = NULL;
 	sc->output_path = NULL;
@@ -56,16 +57,87 @@ void	ft_lstadd_back_sc(t_token **lst, t_token *new)
 	}
 }
 
+char	*trim_the_value(char *old)
+{
+	size_t	start;
+	char	*new;
+	int		len;
+
+	start = 0;
+	len = ft_strlen(old);
+	while (old[start] && old[start] != ' ')
+		start++;
+	new = ft_substr(old, start + 1, len - start);
+	printf("%s\n", new);
+	// free(old);
+	return (new);
+}
+char	*ft_substr_new(char const *s, unsigned int start, size_t len)
+{
+	char			*str;
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	slen;
+
+	if (!s)
+		return (NULL);
+	slen = ft_strlen(s);
+	if (!(str = malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	i = start;
+	j = 0;
+	if (start < slen)
+	{
+		while (i < start + len && s[i] != '\0')
+		{
+			str[j] = s[i];
+			j++;
+			i++;
+		}
+	}
+	str[j] = '\0';
+	return (str);
+}
+
+char	*cut_out_path(char *value)
+{
+	int		stop;
+	char	*ret;
+	int		i;
+
+	stop = 0;
+	i = 0;
+	while (value[stop] && value[stop] != ' ')
+		stop++;
+	printf("%d\n", stop);
+	ret = (char *)malloc(sizeof(char) * (stop + 1));
+	if (!ret)
+		return (NULL);
+	while (i < stop)
+	{
+		ret[i] = value[i];
+		i++; 
+	}
+	ret[i] = '\0';
+	printf("%s\n", ret);
+
+	return (ret);
+}
+
 void	redir_modify(t_token *token, t_simple_cmd *simple_cmd, t_redir_type type)
 {
 	if (type == REDIR_INPUT)
-		simple_cmd->input_path = token->next->value;
-	if (type == REDIR_OUTPUT)
-		simple_cmd->output_path = token->next->value;
-	if (type == REDIR_APPEND)
-		simple_cmd->output_path_append = token->next->value;
-	if (type == REDIR_HEREDOC)
+		simple_cmd->input_path = cut_out_path(token->next->value);
+	else if (type == REDIR_OUTPUT)
+		simple_cmd->output_path = cut_out_path(token->next->value);
+	else if (type == REDIR_APPEND)
+		simple_cmd->output_path_append = cut_out_path(token->next->value);
+	else if (type == REDIR_HEREDOC)
+	{
+		simple_cmd->delimiter_heredoc = cut_out_path(token->next->value);
 		simple_cmd->heredoc = true;
+	}
+	printf("KURWAAA\n");
 }
 
 t_simple_cmd	*simple_cmd_creator(t_token *token)
@@ -87,7 +159,12 @@ t_simple_cmd	*simple_cmd_creator(t_token *token)
 		}
 		else
 		{
+			printf("entered standard\n");
+			// if (buf->prev && buf->prev->data_type != STANDARD && buf->prev->data_type != PIPE)
+				// buf->value = trim_the_value(buf->value);
 			simple_cmd->cmd = ft_split_quotes(buf->value, ' ');
+			if (!simple_cmd->cmd)
+				return (NULL);
 			simple_cmd->name = simple_cmd->cmd[0];
 		}
 		buf = buf->next;
