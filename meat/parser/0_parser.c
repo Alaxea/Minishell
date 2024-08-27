@@ -67,36 +67,16 @@ char	*trim_the_value(char *old)
 	len = ft_strlen(old);
 	while (old[start] && old[start] != ' ')
 		start++;
-	new = ft_substr(old, start + 1, len - start);
-	printf("%s\n", new);
-	// free(old);
-	return (new);
-}
-char	*ft_substr_new(char const *s, unsigned int start, size_t len)
-{
-	char			*str;
-	unsigned int	i;
-	unsigned int	j;
-	unsigned int	slen;
-
-	if (!s)
-		return (NULL);
-	slen = ft_strlen(s);
-	if (!(str = malloc(sizeof(char) * (len + 1))))
-		return (NULL);
-	i = start;
-	j = 0;
-	if (start < slen)
+	if (old[start] != ' ')
 	{
-		while (i < start + len && s[i] != '\0')
-		{
-			str[j] = s[i];
-			j++;
-			i++;
-		}
+		free(old);
+		return (NULL);
 	}
-	str[j] = '\0';
-	return (str);
+	// printf("to be trimmed: %s\n", old);
+	new = ft_substr(old, start + 1, len - start);
+	// printf("new trimmed: %s\n", new);
+	free(old);
+	return (new);
 }
 
 char	*cut_out_path(char *value)
@@ -109,7 +89,7 @@ char	*cut_out_path(char *value)
 	i = 0;
 	while (value[stop] && value[stop] != ' ')
 		stop++;
-	printf("%d\n", stop);
+	// printf("%d\n", stop);
 	ret = (char *)malloc(sizeof(char) * (stop + 1));
 	if (!ret)
 		return (NULL);
@@ -119,7 +99,7 @@ char	*cut_out_path(char *value)
 		i++; 
 	}
 	ret[i] = '\0';
-	printf("%s\n", ret);
+	// printf("%s\n", ret);
 
 	return (ret);
 }
@@ -137,7 +117,6 @@ void	redir_modify(t_token *token, t_simple_cmd *simple_cmd, t_redir_type type)
 		simple_cmd->delimiter_heredoc = cut_out_path(token->next->value);
 		simple_cmd->heredoc = true;
 	}
-	printf("KURWAAA\n");
 }
 
 t_simple_cmd	*simple_cmd_creator(t_token *token)
@@ -155,13 +134,12 @@ t_simple_cmd	*simple_cmd_creator(t_token *token)
 		if (buf->data_type != STANDARD)
 		{
 			redir_modify(buf, simple_cmd, buf->data_type);
-			buf = buf->next;
+			buf->next->value = trim_the_value(buf->next->value);
+			if (!buf->next->value)
+				buf = buf->next;
 		}
 		else
 		{
-			printf("entered standard\n");
-			// if (buf->prev && buf->prev->data_type != STANDARD && buf->prev->data_type != PIPE)
-				// buf->value = trim_the_value(buf->value);
 			simple_cmd->cmd = ft_split_quotes(buf->value, ' ');
 			if (!simple_cmd->cmd)
 				return (NULL);
