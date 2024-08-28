@@ -24,6 +24,7 @@ there are two major modes of parsing:
 void	sc_initializer(t_simple_cmd *sc)
 {
 	sc->cmd = NULL;
+	sc->delimiter_heredoc = NULL;
 	sc->heredoc = false;
 	sc->input_path = NULL;
 	sc->output_path = NULL;
@@ -56,16 +57,66 @@ void	ft_lstadd_back_sc(t_token **lst, t_token *new)
 	}
 }
 
+char	*trim_the_value(char *old)
+{
+	size_t	start;
+	char	*new;
+	int		len;
+
+	start = 0;
+	len = ft_strlen(old);
+	while (old[start] && old[start] != ' ')
+		start++;
+	if (old[start] != ' ')
+	{
+		free(old);
+		return (NULL);
+	}
+	// printf("to be trimmed: %s\n", old);
+	new = ft_substr(old, start + 1, len - start);
+	// printf("new trimmed: %s\n", new);
+	free(old);
+	return (new);
+}
+
+char	*cut_out_path(char *value)
+{
+	int		stop;
+	char	*ret;
+	int		i;
+
+	stop = 0;
+	i = 0;
+	while (value[stop] && value[stop] != ' ')
+		stop++;
+	// printf("%d\n", stop);
+	ret = (char *)malloc(sizeof(char) * (stop + 1));
+	if (!ret)
+		return (NULL);
+	while (i < stop)
+	{
+		ret[i] = value[i];
+		i++; 
+	}
+	ret[i] = '\0';
+	// printf("%s\n", ret);
+
+	return (ret);
+}
+
 void	redir_modify(t_token *token, t_simple_cmd *simple_cmd, t_redir_type type)
 {
 	if (type == REDIR_INPUT)
-		simple_cmd->input_path = token->next->value;
-	if (type == REDIR_OUTPUT)
-		simple_cmd->output_path = token->next->value;
-	if (type == REDIR_APPEND)
-		simple_cmd->output_path_append = token->next->value;
-	if (type == REDIR_HEREDOC)
+		simple_cmd->input_path = cut_out_path(token->next->value);
+	else if (type == REDIR_OUTPUT)
+		simple_cmd->output_path = cut_out_path(token->next->value);
+	else if (type == REDIR_APPEND)
+		simple_cmd->output_path_append = cut_out_path(token->next->value);
+	else if (type == REDIR_HEREDOC)
+	{
+		simple_cmd->delimiter_heredoc = cut_out_path(token->next->value);
 		simple_cmd->heredoc = true;
+	}
 }
 
 t_simple_cmd	*simple_cmd_creator(t_token *token)
@@ -83,15 +134,18 @@ t_simple_cmd	*simple_cmd_creator(t_token *token)
 		if (buf->data_type != STANDARD)
 		{
 			redir_modify(buf, simple_cmd, buf->data_type);
-			buf = buf->next;
+			buf->next->value = trim_the_value(buf->next->value);
+			if (!buf->next->value)
+				buf = buf->next;
 		}
 		else
 		{
-			simple_cmd->cmd = ft_split(buf->value, ' ');
+			simple_cmd->cmd = ft_split_quotes(buf->value, ' ');
+			if (!simple_cmd->cmd)
+				return (NULL);
 			simple_cmd->name = simple_cmd->cmd[0];
 		}
 		buf = buf->next;
-		
 	}
 	return (simple_cmd);
 }
