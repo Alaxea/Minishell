@@ -12,6 +12,9 @@
 #include <stdbool.h>
 #include <limits.h>
 
+# define CMD_NOT_FOUND 127
+# define CMD_NOT_EXECUTABLE 126
+
 #ifndef PATH_MAX
 # define PATH_MAX 4096 /*pełna ścieżka do pliku, wliczając w to katalogi i nazwę pliku, w linux*/
 #endif
@@ -105,5 +108,6 @@ char			*cut_out_path(char *value);
 int				pwd_builtin(t_data *data, char **args);
 void			error(void);
 int				env_builtin(t_data *data, char **args);
+int				is_valid_env_var_key(char *var);
 
 #endif

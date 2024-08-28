@@ -30,6 +30,7 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/lexer/validation.c \
 		meat/builtins/pwd_builtin.c \
 		meat/builtins/env_builtin.c \
+		meat/builtins/export_builtin.c \
 		minishell.c
 
 
