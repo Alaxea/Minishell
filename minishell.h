@@ -11,14 +11,6 @@
 #include <signal.h>
 #include <stdbool.h>
 
-typedef struct	s_io_fd
-{
-	int	input;
-	int	output;
-	int heredoc;
-}	t_io_fd;
-
-
 typedef enum	s_redir_type
 {
 	STANDARD,
@@ -69,13 +61,19 @@ typedef struct s_simple_cmd
 	char			*delimiter_heredoc;
 	bool			heredoc;
 	bool			parser_done;
+	struct s_simple_cmd	*next;
+	struct s_simple_cmd	*prev;
 	
 }	t_simple_cmd;
 
 typedef struct s_data
 {
+	char		*input;
 	char		*current_dir;
 	char		*old__dir;
+	t_token		*tokens;
+	t_simple_cmd	*simple_cmds;
+	char	**envp;
 }	t_data;
 
 int				ft_iswhitespace(char c);
