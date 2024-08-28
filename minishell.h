@@ -96,5 +96,7 @@ void			check_quote(t_quote_mode *mode, char c);
 char			**ft_split_quotes(char *str, char c);
 char			*trim_the_value(char *old);
 char			*cut_out_path(char *value);
+t_simple_cmd	*parser(t_token *tokens);
+
 
 #endif

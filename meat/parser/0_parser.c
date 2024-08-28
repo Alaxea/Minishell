@@ -149,23 +149,23 @@ t_simple_cmd	*simple_cmd_creator(t_token *token)
 	}
 	return (simple_cmd);
 }
-// int	parser(t_token *tokens)
-// {
-// 	t_token 		*buf;
-// 	t_simple_cmd	*simple_cmd;
-// 	t_simple_cmd	*sc_list;
+t_simple_cmd	*parser(t_token *tokens)
+{
+	t_token 		*buf;
+	t_simple_cmd	*simple_cmd;
+	t_simple_cmd	*sc_list;
 
-// 	if (tokens == NULL)
-//         return (-1);
-// 	buf = tokens;
-// 	while (buf)
-// 	{
-// 		if (buf->prev == NULL || buf->prev == PIPE)
-// 		{
-// 			simple_cmd = simple_cmd_creator(buf);
-// 			ft_lstadd_back(&sc_list, simple_cmd);
-// 		}
-// 		buf = buf->next; // Move to the next token
-// 	}
-// 	return(0);
-// }
+	if (tokens == NULL)
+        return (-1);
+	buf = tokens;
+	while (buf)
+	{
+		if (buf->prev == NULL || buf->prev == PIPE)
+		{
+			simple_cmd = simple_cmd_creator(buf);
+			ft_lstadd_back(&sc_list, simple_cmd);
+		}
+		buf = buf->next; // Move to the next token
+	}
+	return(sc_list);
+}
