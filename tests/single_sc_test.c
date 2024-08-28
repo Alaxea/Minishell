@@ -140,6 +140,7 @@ void test_function8(void) {
 }
 
 void test_function9(void) {
+    printf("\033[0;32mTEST9\033[0m\n");
     t_token *tokens = token_creator("<input.txt sort>>output.txt");
 		printf("\033[1;32m<input.txt sort>>output.txt\033[0m\n");
 
@@ -173,6 +174,106 @@ void test_function10(void) {
 	TEST_ASSERT_EQUAL_STRING("x", sc->delimiter_heredoc);
 }
 
+
+
+void test_function11(void) {
+    printf("\033[0;32mTEST11\033[0m\n");
+
+    printf("\033[1;32mecho hello > file.txt\033[0m\n");
+
+    t_token *tokens = token_creator("echo hello > file.txt");
+	t_simple_cmd *sc = simple_cmd_creator(tokens);
+	TEST_ASSERT_EQUAL_STRING("echo", sc->name);
+
+	TEST_ASSERT_EQUAL_STRING("file.txt", sc->output_path);
+	TEST_ASSERT_EQUAL(false, sc->heredoc);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->input_path);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path_append);
+	TEST_ASSERT_EQUAL_STRING("echo", sc->cmd[0]);
+	TEST_ASSERT_EQUAL_STRING("hello", sc->cmd[1]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->cmd[2]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->delimiter_heredoc);
+}
+
+void test_function12(void) {
+    printf("\033[0;32mTEST12\033[0m\n");
+
+    printf("\033[1;32mcat < input.txt\033[0m\n");
+
+    t_token *tokens = token_creator("cat < input.txt");
+	t_simple_cmd *sc = simple_cmd_creator(tokens);
+	TEST_ASSERT_EQUAL_STRING("cat", sc->name);
+
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path);
+	TEST_ASSERT_EQUAL(false, sc->heredoc);
+	TEST_ASSERT_EQUAL_STRING("input.txt", sc->input_path);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path_append);
+	TEST_ASSERT_EQUAL_STRING("cat", sc->cmd[0]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->cmd[1]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->delimiter_heredoc);
+}
+
+void test_function13(void) {
+    printf("\033[0;32mTEST13\033[0m\n");
+
+    printf("\033[1;32mgcc -o program file.c\033[0m\n");
+
+    t_token *tokens = token_creator("gcc -o program file.c");
+	t_simple_cmd *sc = simple_cmd_creator(tokens);
+	TEST_ASSERT_EQUAL_STRING("gcc", sc->name);
+
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path);
+	TEST_ASSERT_EQUAL(false, sc->heredoc);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->input_path);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path_append);
+	TEST_ASSERT_EQUAL_STRING("gcc", sc->cmd[0]);
+	TEST_ASSERT_EQUAL_STRING("-o", sc->cmd[1]);
+	TEST_ASSERT_EQUAL_STRING("program", sc->cmd[2]);
+	TEST_ASSERT_EQUAL_STRING("file.c", sc->cmd[3]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->cmd[4]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->delimiter_heredoc);
+}
+
+void test_function14(void) {
+    printf("\033[0;32mTEST14\033[0m\n");
+
+    printf("\033[1;32mrm -rf /home/user/*\033[0m\n");
+
+    t_token *tokens = token_creator("rm -rf /home/user/*");
+	t_simple_cmd *sc = simple_cmd_creator(tokens);
+	TEST_ASSERT_EQUAL_STRING("rm", sc->name);
+
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path);
+	TEST_ASSERT_EQUAL(false, sc->heredoc);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->input_path);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path_append);
+	TEST_ASSERT_EQUAL_STRING("rm", sc->cmd[0]);
+	TEST_ASSERT_EQUAL_STRING("-rf", sc->cmd[1]);
+	TEST_ASSERT_EQUAL_STRING("/home/user/*", sc->cmd[2]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->cmd[3]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->delimiter_heredoc);
+}
+
+void test_function15(void) {
+    printf("\033[0;32mTEST15\033[0m\n");
+
+    printf("\033[1;32mmkdir -p /new/dir && cd /new/dir\033[0m\n");
+
+    t_token *tokens = token_creator("mkdir -p /new/dir && cd /new/dir");
+	t_simple_cmd *sc = simple_cmd_creator(tokens);
+	TEST_ASSERT_EQUAL_STRING("mkdir", sc->name);
+
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path);
+	TEST_ASSERT_EQUAL(false, sc->heredoc);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->input_path);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path_append);
+	TEST_ASSERT_EQUAL_STRING("mkdir", sc->cmd[0]);
+	TEST_ASSERT_EQUAL_STRING("-p", sc->cmd[1]);
+	TEST_ASSERT_EQUAL_STRING("/new/dir", sc->cmd[2]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->cmd[3]);
+	TEST_ASSERT_EQUAL_STRING(NULL, sc->delimiter_heredoc);
+}
+
 	// sc->cmd **char
 	// sc->heredoc bool
 	// sc->input_path *char
@@ -182,6 +283,8 @@ void test_function10(void) {
 	// sc->parser_done bool
 	// sc->path *char
 
+// ls>cat>>test<s 
+// <<eof cat -e 
 
 int main(void) {
     UNITY_BEGIN();
@@ -195,6 +298,10 @@ int main(void) {
     RUN_TEST(test_function8);
     RUN_TEST(test_function9);
     RUN_TEST(test_function10);
+    RUN_TEST(test_function11);
+    RUN_TEST(test_function12);
+    RUN_TEST(test_function13);
+    RUN_TEST(test_function14);
 
     return UNITY_END();
 }

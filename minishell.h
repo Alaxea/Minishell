@@ -105,9 +105,14 @@ void			check_quote(t_quote_mode *mode, char c);
 char			**ft_split_quotes(char *str, char c);
 char			*trim_the_value(char *old);
 char			*cut_out_path(char *value);
+<<<<<<< HEAD
 int				pwd_builtin(t_data *data, char **args);
 void			error(void);
 int				env_builtin(t_data *data, char **args);
 int				is_valid_env_var_key(char *var);
+=======
+t_simple_cmd	*parser(t_token *tokens);
+
+>>>>>>> main
 
 #endif
