@@ -82,6 +82,7 @@ typedef struct s_data
 	t_token		*tokens;
 	t_simple_cmd	*simple_cmds;
 	char	**envp;
+	char	**env;
 }	t_data;
 
 int				ft_iswhitespace(char c);
