@@ -108,6 +108,14 @@ void test_function12(void) {
 TEST_ASSERT_EQUAL_STRING("watch -n 5 'df -h | grep \"^/dev\"'", result->value);
 }
 
+void test_function13(void) {
+    t_token *result = token_creator("ls -la | grep \"test\" | sort");
+TEST_ASSERT_EQUAL_STRING("ls -la", result->value);
+TEST_ASSERT_EQUAL_STRING("|", result->next->value);
+TEST_ASSERT_EQUAL_STRING("grep \"test\"", result->next->next->value);
+TEST_ASSERT_EQUAL_STRING("|", result->next->next->next->value);
+TEST_ASSERT_EQUAL_STRING("sort", result->next->next->next->next->value);
+}
 
 // not needed when using generate_test_runner.rb
 int main(void) {
@@ -124,6 +132,8 @@ int main(void) {
     RUN_TEST(test_function10);
     RUN_TEST(test_function11);
     RUN_TEST(test_function12);
+    RUN_TEST(test_function13);
+
 
     return UNITY_END();
 }

@@ -34,16 +34,16 @@ void	sc_initializer(t_simple_cmd *sc)
 	sc->path = NULL;
 }
 
-t_token	*ft_lstlast_sc(t_token *lst)
+t_simple_cmd	*ft_lstlast_sc(t_simple_cmd *lst)
 {
 	while (lst && lst->next)
 		lst = lst->next;
 	return (lst);
 }
 
-void	ft_lstadd_back_sc(t_token **lst, t_token *new)
+void	ft_lstadd_back_sc(t_simple_cmd **lst, t_simple_cmd *new)
 {
-	t_token	*tmp;
+	t_simple_cmd	*tmp;
 	if (new == NULL)
 		return ;
 
@@ -51,7 +51,7 @@ void	ft_lstadd_back_sc(t_token **lst, t_token *new)
 		*lst = new;
 	else
 	{
-		tmp = ft_lstlast(*lst);
+		tmp = ft_lstlast_sc(*lst);
 		tmp->next = new;
 		new->prev = tmp;
 	}
@@ -153,17 +153,17 @@ t_simple_cmd	*parser(t_token *tokens)
 {
 	t_token 		*buf;
 	t_simple_cmd	*simple_cmd;
-	t_simple_cmd	*sc_list;
+	t_simple_cmd	*sc_list = NULL;
 
 	if (tokens == NULL)
-        return (-1);
+        return (NULL);
 	buf = tokens;
 	while (buf)
 	{
-		if (buf->prev == NULL || buf->prev == PIPE)
+		if (buf->prev == NULL || buf->prev->data_type == PIPE)
 		{
 			simple_cmd = simple_cmd_creator(buf);
-			ft_lstadd_back(&sc_list, simple_cmd);
+			ft_lstadd_back_sc(&sc_list, simple_cmd);
 		}
 		buf = buf->next; // Move to the next token
 	}

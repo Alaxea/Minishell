@@ -19,14 +19,6 @@
 # define PATH_MAX 4096 /*pełna ścieżka do pliku, wliczając w to katalogi i nazwę pliku, w linux*/
 #endif
 
-typedef struct	s_io_fd
-{
-	int	input;
-	int	output;
-	int heredoc;
-}	t_io_fd;
-
-
 typedef enum	s_redir_type
 {
 	STANDARD,
@@ -77,14 +69,19 @@ typedef struct s_simple_cmd
 	char			*delimiter_heredoc;
 	bool			heredoc;
 	bool			parser_done;
+	struct s_simple_cmd	*next;
+	struct s_simple_cmd	*prev;
 	
 }	t_simple_cmd;
 
 typedef struct s_data
 {
+	char		*input;
 	char		*current_dir;
 	char		*old__dir;
-	char		**env;
+	t_token		*tokens;
+	t_simple_cmd	*simple_cmds;
+	char	**envp;
 }	t_data;
 
 int				ft_iswhitespace(char c);
@@ -105,14 +102,9 @@ void			check_quote(t_quote_mode *mode, char c);
 char			**ft_split_quotes(char *str, char c);
 char			*trim_the_value(char *old);
 char			*cut_out_path(char *value);
-<<<<<<< HEAD
 int				pwd_builtin(t_data *data, char **args);
 void			error(void);
 int				env_builtin(t_data *data, char **args);
 int				is_valid_env_var_key(char *var);
-=======
 t_simple_cmd	*parser(t_token *tokens);
-
->>>>>>> main
-
 #endif
