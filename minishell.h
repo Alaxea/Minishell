@@ -10,6 +10,13 @@
 #include <readline/history.h>
 #include <signal.h>
 #include <stdbool.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <stddef.h>
+
+
+# define BUFFER_SIZE 3
 
 typedef enum	s_redir_type
 {
@@ -95,6 +102,8 @@ char			**ft_split_quotes(char *str, char c);
 char			*trim_the_value(char *old);
 char			*cut_out_path(char *value);
 t_simple_cmd	*parser(t_token *tokens);
-
+char			*ft_strdup_gnl(char *str1);
+char			*ft_substr_gnl(char *s, unsigned int start, size_t len);
+char			*ft_strjoin_gnl(char *buffer, char *new_s);
 
 #endif
