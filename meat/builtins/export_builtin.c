@@ -33,7 +33,6 @@ int		export_builtin(t_data *data, char **args)
 
 	ex_code = EXIT_SUCCESS;
 	i = 1;
-
 	if (!args[i])
 		return (env_builtin(data, NULL));
 	while (args[i])
@@ -43,10 +42,10 @@ int		export_builtin(t_data *data, char **args)
 			perror("Error");
 			ex_code = EXIT_FAILURE;
 		}
-		else if (ft_strchr(args[i], '=' != NULL))
+		else if (ft_strchr(args[i], '=') != NULL)
 		{
 			temp = get_key_value(args[i]);
-
+			free(temp);
 		}
 		i++;
 	}

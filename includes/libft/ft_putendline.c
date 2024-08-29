@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   ft_putendline_fd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 13:27:46 by astefans          #+#    #+#             */
-/*   Updated: 2024/08/28 13:29:37 by astefans         ###   ########.fr       */
+/*   Created: 2024/08/29 13:44:06 by astefans          #+#    #+#             */
+/*   Updated: 2024/08/29 13:45:43 by astefans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isspace(int c)
+void	ft_putendline(const char *s, int fd)
 {
-	if ((c == 32) || (c >= 9 && c <= 13))
-		return (c);
-	else
-		return (0);
+	if (s)
+	{
+        while (*s) 
+        {
+            ft_putchar_fd(*s, fd);
+            s++;
+        }
+	}
+    ft_putchar_fd('\n', fd);
 }
