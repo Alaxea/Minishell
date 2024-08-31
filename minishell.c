@@ -1,12 +1,6 @@
 #include "minishell.h"
 /*command to compilation: cc -Wall -Wextra -Werror -o main main.c -lreadline
 I tested it for exit and ls -l and it works*/
-<<<<<<< HEAD
-int	main()
-{
-	char *input;
-=======
->>>>>>> main
 
 int	parsing(t_data *data)
 {

@@ -12,24 +12,14 @@
 
 #include "../../minishell.h"
 
-int	checkout(unsigned long long nbr, int sign)
+static bool	checkout(int sign, unsigned long long num, bool *err)
 {
-	int	i;
-
-	i = 0;
-	while (i < sign)
-	{
-		if ((nbr > LONG_MAX) || (nbr < LONG_MIN))
-		{
-			perror("Error");
-			return (-1);
-		}
-		i++;
-	}
-	return (0);
+	if ((sign == 1 && num > LONG_MAX) || (sign == -1 && num > -(unsigned long)LONG_MIN))
+		*err = true;
+	return(*err);
 }
 
-long long int	ft_atoi_long(const char *str)
+long long int	ft_atoi_long(const char *str, bool *err)
 {
 	char			*nbr;
 	long long		i;
@@ -51,12 +41,14 @@ long long int	ft_atoi_long(const char *str)
 	while (nbr[i] >= '0' && nbr[i] <= '9' )
 	{
 		res = res * 10 + nbr[i] - '0';
+		if (checkout(sign, res, err))
+			break;
 		i++;
 	}
 	return (sign * res);
 }
 
-static int		exit_code(char *arg, bool *error)
+static int		set_exit_code(char *arg, bool *error)
 {
 	unsigned long long 		i;
 
@@ -77,6 +69,42 @@ static int		exit_code(char *arg, bool *error)
 			*error = true;
 		i++;
 	}
-	i = ft_atoi_long(arg);
+	i = ft_atoi_long(arg, error);
 	return (i % 255); /*exit code in linux is only between 0-255*/
+}
+
+static int	is_quiet_mode(t_data *data)
+{
+	t_simple_cmd *cmd;
+
+	cmd = data->cmd;
+	if (!cmd)
+		return (0);
+	if (cmd->next != NULL || cmd->prev != NULL)
+		return (1);
+	return (0);
+}
+
+int		exit_builtin(t_data *data, char **args)
+{
+	int		exit_code;
+	bool		error;
+	bool		mode;
+
+	mode = is_quiet_mode(data);
+	error = false;
+	if (!mode && data->interactive)
+		ft_putendline("exit", 2);
+	if (!args || !args[1])
+		exit_code = data->last_exit_code;
+	else
+	{
+		exit_code = set_exit_code(args[1], &error);
+		if (error)
+			exit_code = error_msg("exit", args[1], "numeric argument required", 2);
+		else if (args[2])
+			return (error_msg("exit", NULL, "too many arguments", 1));
+	}
+	exit_shell(data, exit_code);
+	return (2);
 }

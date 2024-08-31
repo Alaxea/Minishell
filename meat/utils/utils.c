@@ -12,19 +12,6 @@
 
 #include "../../minishell.h"
 
-void	error(void)
-{
-	perror("Error");
-	exit(EXIT_FAILURE);
-}
-
-void	usage(void)
-{
-	ft_putendl_fd("Error: Bad arguments", 1);
-	ft_putendl_fd("Usage: ./minishell <cmd>", 1);
-	exit(EXIT_SUCCESS);
-}
-
 int	is_valid_env_var_key(char *var)
 {
 	int		i;
@@ -40,4 +27,17 @@ int	is_valid_env_var_key(char *var)
 		i++;
 	}
 	return (0);
+}
+
+/*Exits the minishell program by closing all opened
+*	fds and freeing all allocated memory*/
+void	exit_shell(t_data *data, int clean)
+{
+	if (data)
+	{
+		if (data->cmd && data->cmd->io_fds)
+			close_fds(data->cmd);
+		free_data(data, true);
+	}
+	exit(clean);
 }

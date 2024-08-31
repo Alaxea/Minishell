@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-int		pwd_builtin(t_data *data, char **args)
+/*int		pwd_builtin(t_data *data, char **args)
 {
 	char	*current_working_dir;
 	char	buf[PATH_MAX];
@@ -31,4 +31,28 @@ int		pwd_builtin(t_data *data, char **args)
 	}
 	perror("Error");
 	return(EXIT_FAILURE);
+}*/
+
+/*void	ft_pwd(t_data *mini)
+{
+	char	*buf;
+
+	buf = get_cwd_buf();
+	ft_putendl_fd(buf, mini->out_fd);
+	if (buf == NULL)
+		return(1);
+	else
+		return(0);
+	free(buf);
 }
+
+char	*get_cwd_buf(void)
+{
+	size_t	size;
+	char	*buf;
+
+	size = 2000;
+	buf = NULL;
+	buf = getcwd(buf, size);
+	return (buf);
+}*/
