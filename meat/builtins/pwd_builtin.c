@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+<<<<<<< HEAD
 
 /*int		pwd_builtin(t_data *data, char **args)
 {
@@ -63,4 +64,6 @@ char	*get_cwd_buf(void)
 }*/
 =======
 }
+>>>>>>> alicja
+=======
 >>>>>>> alicja

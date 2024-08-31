@@ -24,20 +24,3 @@ void	usage(void)
 	ft_putendl_fd("Usage: ./minishell <cmd>", 1);
 	exit(EXIT_SUCCESS);
 }
-
-int	error_msg(const char *prompt, const char *arg, const char *msg, int exit_code)
-{
-	if (prompt != NULL)
-	{
-		ft_putstring(prompt, 2);
-		ft_putstring(">> ", 2);
-	}
-	if (arg != NULL)
-	{
-		ft_putstring(arg, 2);
-		ft_putstring(">> ", 2);
-	}
-	ft_putstring(msg, 2);
-    ft_putendl_fd("\n", 2);
-	return (exit_code);
-}
