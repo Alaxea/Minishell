@@ -75,5 +75,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_itoa(int nbr);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+void	ft_putstring(const char *s, int fd);
+void	ft_putendline(const char *s, int fd);
 
 #endif

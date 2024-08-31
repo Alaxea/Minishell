@@ -49,11 +49,19 @@ typedef struct s_token
 	t_redir_type	data_type;
 }	t_token;
 
+typedef struct s_io_fds
+{
+	char *infile;
+	char *outfile;
+	int		fd_in;
+	int		fd_out;
+}   t_io_fds;
 
 typedef struct s_simple_cmd
 {
 	char			*name;
 	char			**cmd;
+	char			*command;
 	char			*path;
 	char			*output_path;
 	char			*output_path_append;
@@ -63,18 +71,28 @@ typedef struct s_simple_cmd
 	bool			parser_done;
 	struct s_simple_cmd	*next;
 	struct s_simple_cmd	*prev;
-	
+	t_io_fds		*io_fds;
+	char **argums;
 }	t_simple_cmd;
 
 typedef struct s_data
 {
 	char		*input;
 	char		*current_dir;
-	char		*old__dir;
+	char		*old_dir;
 	t_token		*tokens;
 	t_simple_cmd	*simple_cmds;
 	char	**envp;
-	char	**env;
+	bool	interactive;
+	t_simple_cmd	*cmd;
+	t_token	*token;
+	t_io_fds fd_out;
+	char *comd;
+	char	*command;
+	int argc;
+	char **args;
+	t_simple_cmd	*fullcmd;
+	int exit_code;
 }	t_data;
 
 int				ft_iswhitespace(char c);
@@ -95,11 +113,21 @@ void			check_quote(t_quote_mode *mode, char c);
 char			**ft_split_quotes(char *str, char c);
 char			*trim_the_value(char *old);
 char			*cut_out_path(char *value);
-int				pwd_builtin(t_data *data, char **args);
 void			error(void);
-int				env_builtin(t_data *data, char **args);
-int				is_valid_env_var_key(char *var);
 t_simple_cmd	*parser(t_token *tokens);
 
+
+
+//void			free_data(t_data *data, bool clear_history);
+//void			free_pointer(void *ptr);
+//void			close_fds(t_simple_cmd *command);
+//int				error_msg(const char *prompt, const char *arg, const char *msg, int exit_code);
+//void			exit_shell(t_data *data, int clean);
+//int				export_builtin(t_data *data, char **args);
+//int				exit_builtin(t_data *data, char **args);
+
+//int	echo_builtin(t_data fullcmd, t_data *info);
+int	echo(char **args, int argc, int fd);
+int	is_builtin(t_data *command, int fd);
 
 #endif
