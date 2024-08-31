@@ -112,17 +112,3 @@ char	**ft_split_quotes(char *str, char c)
 	strings[i] = 0;
 	return (strings);
 }
-
-// int main()
-// {
-// 	char **array = ft_split_quotes("my command is \"    letsss   goooo \"    ", ' ');
-// 	int i = 0;
-// 	while (array[i] != NULL)
-// 	{
-// 		printf("%s\n", array[i]);
-// 		free(array[i]);
-// 		i++;
-// 	}
-// 	free(array);
-// 	return (0);
-// }
