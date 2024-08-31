@@ -6,11 +6,11 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 11:11:32 by astefans          #+#    #+#             */
-/*   Updated: 2024/08/20 16:19:51 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/08/31 14:46:52 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int put_ret_num;
 
