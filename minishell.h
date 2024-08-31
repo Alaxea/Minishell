@@ -61,7 +61,7 @@ typedef struct s_simple_cmd
 {
 	char			*name;
 	char			**cmd;
-	//char			*command;
+	char			*command;
 	char			*path;
 	char			*output_path;
 	char			*output_path_append;
@@ -115,10 +115,9 @@ char			*trim_the_value(char *old);
 char			*cut_out_path(char *value);
 void			error(void);
 t_simple_cmd	*parser(t_token *tokens);
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
+
+
 //void			free_data(t_data *data, bool clear_history);
 //void			free_pointer(void *ptr);
 //void			close_fds(t_simple_cmd *command);
@@ -126,11 +125,9 @@ t_simple_cmd	*parser(t_token *tokens);
 //void			exit_shell(t_data *data, int clean);
 //int				export_builtin(t_data *data, char **args);
 //int				exit_builtin(t_data *data, char **args);
->>>>>>> alicja
-=======
+
 //int	echo_builtin(t_data fullcmd, t_data *info);
 int	echo(char **args, int argc, int fd);
 int	is_builtin(t_data *command, int fd);
->>>>>>> alicja
 
 #endif
