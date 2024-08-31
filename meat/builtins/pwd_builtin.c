@@ -33,7 +33,11 @@
 	return(EXIT_FAILURE);
 }*/
 
+<<<<<<< HEAD
 /*void	ft_pwd(t_data *mini)
+=======
+void	ft_pwd(t_data *mini)
+>>>>>>> alicja
 {
 	char	*buf;
 
@@ -55,4 +59,8 @@ char	*get_cwd_buf(void)
 	buf = NULL;
 	buf = getcwd(buf, size);
 	return (buf);
+<<<<<<< HEAD
 }*/
+=======
+}
+>>>>>>> alicja

@@ -116,6 +116,16 @@ void			error(void);
 int				env_builtin(t_data *data, char **args);
 int				is_valid_env_var_key(char *var);
 t_simple_cmd	*parser(t_token *tokens);
+<<<<<<< HEAD
 
+=======
+//void			free_data(t_data *data, bool clear_history);
+//void			free_pointer(void *ptr);
+//void			close_fds(t_simple_cmd *command);
+//int				error_msg(const char *prompt, const char *arg, const char *msg, int exit_code);
+//void			exit_shell(t_data *data, int clean);
+//int				export_builtin(t_data *data, char **args);
+//int				exit_builtin(t_data *data, char **args);
+>>>>>>> alicja
 
 #endif
