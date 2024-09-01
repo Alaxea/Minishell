@@ -116,7 +116,7 @@ char			*cut_out_path(char *value);
 void			error(void);
 t_simple_cmd	*parser(t_token *tokens);
 int	expand(t_simple_cmd **cmds, char **env);
-
+char	*double_quotes_env(char *str, char **env);
 
 //void			free_data(t_data *data, bool clear_history);
 //void			free_pointer(void *ptr);

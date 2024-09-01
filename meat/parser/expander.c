@@ -27,20 +27,91 @@ char	*find_env(char **env, char *var)
 	return (NULL);
 }
 
+// void	check_quote(t_quote_mode *mode, char c)
+// {
+// 	if (*mode == DEFAULT)
+// 	{
+// 		if (c == '\'')
+// 			*mode = SINGLE_Q;
+// 		else if (c == '\"')
+// 			*mode = DOUBLE_Q;
+// 	}
+// 	else if (*mode == SINGLE_Q && c == '\'')
+// 		*mode = DEFAULT;
+// 	else if (*mode == DOUBLE_Q && c == '\"')
+// 		*mode = DEFAULT;
+// }
+
+void	check_quote_str(t_quote_mode *mode, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		check_quote(mode, str[i]);
+		i++;
+	}
+}
+
+char	*double_quotes_env(char *str, char **env)
+{
+	int	start = 0;
+	int	stop;
+	char	*var;
+	char	*env_expanded;
+	char	*b;
+	char	*e;
+	char	*first;
+	char	*sec;
+
+	while (str[start] != '$' && str[start])
+		start++;
+	start++;
+	stop = start;
+	while (str[stop] && str[stop] != ' ' && str[stop] != '"')
+		stop++;
+	var = ft_substr(str, start, stop - start);
+	printf("variable %s\n", var);
+	env_expanded = find_env(env, var);
+	b = ft_substr(str, 0, start - 1);
+	first = ft_strjoin(b, env_expanded);
+	free(var);
+	if (str[ft_strlen(str) - stop])
+	{
+		e = ft_substr(str, stop, ft_strlen(str) - stop);
+		sec = ft_strjoin(first, e);
+	}
+	else
+		return (first);
+	printf("%s\n", sec);
+	return (sec);
+}
+
 char *replace_env(char *str, char **env)
 {
 	int	start;
 	int	stop;
 	char	*var;
 	char	*env_expanded;
+	t_quote_mode	mode;
 
 	start = 0;
 	printf("%s\n", str);
+	check_quote(&mode, str[0]);
+	if (mode == SINGLE_Q)
+		return (str);
+	if (mode == DOUBLE_Q)
+	{
+		printf("double\n");
+		return (double_quotes_env(str, env));
+	}
+	printf("normal\n");
 	while (str[start] != '$' && str[start])
 		start++;
 	start++;
 	stop = start;
-	while (str[stop] != ' ' && str[stop])
+	while (str[stop])
 		stop++;
 	var = ft_substr(str, start, stop);
 	free(str);
@@ -77,7 +148,6 @@ int	expand(t_simple_cmd **cmds, char **env)
 
 	i = 0;
 	buf = *cmds;
-
 	while (buf)
 	{
 		i = 0;
@@ -91,7 +161,7 @@ int	expand(t_simple_cmd **cmds, char **env)
 			}
 			i++;
 		}
-		buf = buf->next;	
+		buf = buf->next;
 	}
 	return (0);
 }
@@ -100,7 +170,7 @@ int	expand(t_simple_cmd **cmds, char **env)
 // int main(int argc, char **argv, char **env)
 // {
 // 	(void)argc;
-// 	// printf("%s\n", replace_env(argv[1], env));
-// 	replace_env(argv[1], env);
+// 	char *str = double_quotes_env(argv[1], env);
+// 	printf("%s\n", str);
 // 	return (0);
 // }

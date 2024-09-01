@@ -9,17 +9,17 @@ there are two major modes of parsing:
 	now we will create structs list based on pipes
 	[simple_cmd] -> [simple_cmd] -> [simple_cmd]
 	one simple_cmd is finished when we encounter pipe
-	
+
 	plan:
 		1. allocate simple_cmd struct
-		2. if next token is an operator 
+		2. if next token is an operator
 			a) check if it's pipe
 				first simple_cmd is ready for final initialization, create next one
 			b) if redirection
 				place the information in the struct
 */
 
-#include "../../minishell.h"
+#include "./../../minishell.h"
 
 void	sc_initializer(t_simple_cmd *sc)
 {
@@ -96,7 +96,7 @@ char	*cut_out_path(char *value)
 	while (i < stop)
 	{
 		ret[i] = value[i];
-		i++; 
+		i++;
 	}
 	ret[i] = '\0';
 	// printf("%s\n", ret);

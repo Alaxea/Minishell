@@ -29,7 +29,6 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/parser/ft_split_quotes.c \
 		meat/lexer/tokenization.c \
 		meat/lexer/validation.c \
-		meat/builtins/pwd_builtin.c \
 		meat/builtins/env_builtin.c \
 		meat/builtins/export_builtin.c \
 		meat/builtins/exit_builtin.c \
@@ -38,6 +37,7 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/utils/error.c \
 		minishell.c \
 		meat/parser/expander.c
+		# meat/builtins/pwd_builtin.c
 
 
 OBJ = $(SRC:.c=.o)
@@ -54,7 +54,7 @@ fclean: clean
 	make -C $(LIBFT_PATH) fclean
 re: fclean $(NAME)
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re
 
 PATHUNITY = unity/src
 
