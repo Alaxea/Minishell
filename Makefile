@@ -6,7 +6,7 @@
 #    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/08/28 16:21:37 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/09/01 13:46:41 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/builtins/echo_builtin.c \
 		meat/utils/clean.c \
 		meat/utils/error.c \
-		minishell.c
+		minishell.c \
+		meat/parser/expander.c
 
 
 OBJ = $(SRC:.c=.o)

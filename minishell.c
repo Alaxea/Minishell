@@ -12,6 +12,8 @@ int	parsing(t_data *data)
 	data->simple_cmds = parser(data->tokens);
 	if (!data->simple_cmds)
 		return (0);
+	expand(&data->simple_cmds, data->envp);
+	printf("after\n");
 	return (1);
 }
 int	minishell(t_data *data)
