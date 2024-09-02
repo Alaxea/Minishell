@@ -11,6 +11,7 @@
 #include <signal.h>
 #include <stdbool.h>
 
+# define BUFFER_SIZE 42
 typedef enum	s_redir_type
 {
 	STANDARD,
@@ -72,7 +73,7 @@ typedef struct s_simple_cmd
 	struct s_simple_cmd	*next;
 	struct s_simple_cmd	*prev;
 	t_io_fds		*io_fds;
-	char **argums;
+	char **full_cmd;
 }	t_simple_cmd;
 
 typedef struct s_data
@@ -91,8 +92,9 @@ typedef struct s_data
 	char	*command;
 	int argc;
 	char **args;
-	t_simple_cmd	*fullcmd;
+	t_simple_cmd	*n;
 	int exit_code;
+	//char *n;
 }	t_data;
 
 int				ft_iswhitespace(char c);

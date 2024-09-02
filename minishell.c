@@ -13,7 +13,7 @@ int	parsing(t_data *data)
 	if (!data->simple_cmds)
 		return (0);
 	expand(&data->simple_cmds, data->envp);
-	printf("after\n");
+	//printf("after\n");
 	return (1);
 }
 int	minishell(t_data *data)
