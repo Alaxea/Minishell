@@ -33,46 +33,20 @@
 	return(EXIT_FAILURE);
 }*/
 
-/*void	ft_pwd(t_data *mini)
+int	pwd_builtin(t_data *env)
 {
-	char	*buf;
+	char	*tmp;
 
-	buf = get_cwd_buf();
-	ft_putendl_fd(buf, mini->out_fd);
-	if (buf == NULL)
-		return(1);
-	else
-		return(0);
-	free(buf);
-}
-
-char	*get_cwd_buf(void)
-{
-	size_t	size;
-	char	*buf;
-
-	size = 2000;
-	buf = NULL;
-	buf = getcwd(buf, size);
-	return (buf);
-}*/
-int	mini_pwd(void)
-{
-	char	*buf;
-
-	buf = getcwd(NULL, 0);
-	ft_putendl_fd(buf, 1);
-	free(buf);
-	return (0);
-}
-int	is_builtin(t_data *n)
-{
-	int		l;
-
-	if (!n->full_cmd)
-		return (0);
-	l = ft_strlen(*n->full_cmd || !n->full_cmd[0]);
-	if (!ft_strncmp(*n->full_cmd[0], "pwd", l) && l == 3)
-		return (1);
+	tmp = get_env_var(env, "PWD");
+	if (!tmp || tmp[0] == '\0')
+	{
+		ft_putstr_fd("PWD variable is unset", 2);
+		if (tmp[0] == '\0')
+			free(tmp);
+		return (2);
+	}
+	ft_putstr_fd(tmp, 1);
+	ft_putstr_fd("\n", 1);
+	free(tmp);
 	return (0);
 }

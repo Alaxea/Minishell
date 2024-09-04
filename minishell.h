@@ -10,6 +10,7 @@
 #include <readline/history.h>
 #include <signal.h>
 #include <stdbool.h>
+#include <limits.h>
 
 # define BUFFER_SIZE 42
 typedef enum	s_redir_type
@@ -63,6 +64,8 @@ typedef struct s_simple_cmd
 	char			*name;
 	char			**cmd;
 	char			*command;
+	char			*flags;
+	char			**arguments;
 	char			*path;
 	char			*output_path;
 	char			*output_path_append;
@@ -73,7 +76,6 @@ typedef struct s_simple_cmd
 	struct s_simple_cmd	*next;
 	struct s_simple_cmd	*prev;
 	t_io_fds		*io_fds;
-	char **full_cmd;
 }	t_simple_cmd;
 
 typedef struct s_data
@@ -84,17 +86,15 @@ typedef struct s_data
 	t_token		*tokens;
 	t_simple_cmd	*simple_cmds;
 	char	**envp;
+	char	**env_var;
 	bool	interactive;
 	t_simple_cmd	*cmd;
 	t_token	*token;
 	t_io_fds fd_out;
-	char *comd;
 	char	*command;
 	int argc;
 	char **args;
-	t_simple_cmd	*n;
 	int exit_code;
-	//char *n;
 }	t_data;
 
 int				ft_iswhitespace(char c);
@@ -120,17 +120,17 @@ t_simple_cmd	*parser(t_token *tokens);
 char *replace_env(char *str, char **env);
 int	expand(t_simple_cmd **cmds, char **env);
 char	*double_quotes_env(char *str, char **env);
-
-//void			free_data(t_data *data, bool clear_history);
-//void			free_pointer(void *ptr);
-//void			close_fds(t_simple_cmd *command);
-//int				error_msg(const char *prompt, const char *arg, const char *msg, int exit_code);
-//void			exit_shell(t_data *data, int clean);
-//int				export_builtin(t_data *data, char **args);
-//int				exit_builtin(t_data *data, char **args);
-
-//int	echo_builtin(t_data fullcmd, t_data *info);
+void	print_tab(char **tab);
+int		env_builtin(t_data *env);
 int	echo(char **args, int argc, int fd);
 int	is_builtin(t_data *command, int fd);
+void	clear_tab(char **tab);
+void	clear_env(t_data *env);
+void	copy_env_var(t_data *env, char **env_var);
+char	*get_env_var(t_data *env, char *name);
+void	add_env_var(t_data *env, char *name, char *value);
+void	delete_env_var(t_data *env, char *name);
+int	pwd_builtin(t_data *env);
+int	echo_builtin(t_simple_cmd com);
 
 #endif

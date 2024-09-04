@@ -1,41 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   ft_strchrn.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 11:09:57 by astefans          #+#    #+#             */
-/*   Updated: 2024/08/29 11:10:16 by astefans         ###   ########.fr       */
+/*   Created: 2024/09/04 15:03:15 by astefans          #+#    #+#             */
+/*   Updated: 2024/09/04 15:03:34 by astefans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-/*frees a pointer and sets NULL*/
-void	free_pointer(void *ptr)
+int	ft_strchrn(char *s, int c)
 {
-	if (ptr != NULL)
-	{
-		free(ptr);
-		ptr = NULL;
-	}
-}
+	int	i;
 
-void	clear_tab(char **tab)
-{
-	int i;
-
+	if (!s)
+		return (-1);
 	i = 0;
-	if (tab)
+	while (s[i])
 	{
-		while (tab[i])
-			free(tab[i]);
-		free(tab);
+		if (s[i] == (char)c)
+			return (i);
+		i++;
 	}
-}
-
-void	clear_env(t_data *env)
-{
-	clear_tab(env->env_var);
+	return (-1);
 }

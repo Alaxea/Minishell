@@ -33,11 +33,12 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/builtins/export_builtin.c \
 		meat/builtins/exit_builtin.c \
 		meat/builtins/echo_builtin.c \
+		meat/builtins/cd_builtin.c \
 		meat/utils/clean.c \
 		meat/utils/error.c \
+		meat/utils/env_helper.c \
 		minishell.c \
 		meat/parser/expander.c \
-		meat/builtins/pwd_builtin.c
 
 
 OBJ = $(SRC:.c=.o)

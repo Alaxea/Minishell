@@ -12,46 +12,7 @@
 
 #include "../../minishell.h"
 
-/*int	echo_builtin(t_data fullcmd, t_data *info)
-{
-	int	i;
-	int	flag;
-
-	flag = 0;
-	info->exit_code = 0;
-	if (fullcmd.fullcmd->argums[1] == NULL)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		return (info->exit_code);
-	}
-	if (fullcmd.fullcmd->argums[1])
-	{
-		if (!ft_strncmp(fullcmd.fullcmd->argums[1], "-n", ft_strlen(fullcmd.fullcmd->argums[1]))
-			&& ft_strlen(fullcmd.fullcmd->argums[1]) == 2)
-			flag = 1;
-		i = 1 + flag;
-		while (fullcmd.fullcmd->argums[i])
-		{
-			write(STDOUT_FILENO, fullcmd.fullcmd->argums[i],
-			ft_strlen(fullcmd.fullcmd->argums[i]));
-			i++;
-			if (fullcmd.fullcmd->argums[i])
-				write(STDOUT_FILENO, " ", 1);
-		}
-	}
-	if (flag == 0)
-		write(STDOUT_FILENO, "\n", 1);
-	return (info->exit_code);
-}
-
-int	ft_choose_builtin(t_data fullcmd, t_data *info)
-{
-	if (!ft_strncmp(fullcmd.fullcmd->argums[1], "echo", ft_strlen(fullcmd.fullcmd->argums[0])))
-		info->exit_code = echo_builtin(fullcmd, info);
-	return (info->exit_code);
-}*/
-
-int	echo(char **args, int argc, int fd)
+/*int	echo(char **args, int argc, int fd)
 {
 	int	i;
 
@@ -84,4 +45,50 @@ int	is_builtin(t_data *command, int fd)
 	if (!ft_strncmp(command->command, "echo", 2))
 		return (echo(command->args + 1, command->argc - 1, fd));
 	return (127);
+}*/
+
+static int	echo_helper(t_simple_cmd *com, int *new_line);
+
+int	echo_builtin(t_simple_cmd com)
+{
+	int	new_line;
+	int	ret_val;
+	int	i;
+
+	i = 0;
+	new_line = 1;
+	ret_val = echo_helper(&com, &new_line);
+	if (com.arguments && com.arguments[0] != NULL)
+	{
+		ft_putstr_fd(com.arguments[i++], 1);
+		while (com.arguments[i])
+		{
+			ft_putstr_fd(" ", 1);
+			ft_putstr_fd(com.arguments[i++], 1);
+		}
+	}
+	if (new_line)
+		ft_putstr_fd("\n", 1);
+	return (ret_val);
+}
+
+static int	echo_helper(t_simple_cmd *com, int *new_line)
+{
+	int	i;
+
+	i = 0;
+	if (com->flags)
+	{
+		while (com->flags[i])
+		{
+			if (com->flags[i++] != 'n')
+			{
+				ft_putstr_fd("Unregognized flag\n", 2);
+				return (-1);
+			}
+		}
+		if (com->flags[0] == 'n')
+			*new_line = 0;
+	}
+	return (0);
 }
