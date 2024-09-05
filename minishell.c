@@ -2,6 +2,16 @@
 /*command to compilation: cc -Wall -Wextra -Werror -o main main.c -lreadline
 I tested it for exit and ls -l and it works*/
 
+int	executing(t_data *data)
+{
+	//bramka na builtins
+	if (check_for_builtin(data->simple_cmds))
+		execute_builtin();
+	else
+		executor();
+	return (0);
+}
+
 int	parsing(t_data *data)
 {
 	data->tokens = token_creator(data->input);
@@ -42,6 +52,7 @@ int	minishell(t_data *data)
             break;
         }
 		parsing(data);
+		executing(data);
 		/* and the WINNER for today is this: execute the command using the system's shell*/
 		// int status = system(data->input);
 		/*to check if the command execution was successful*/
