@@ -5,10 +5,10 @@ I tested it for exit and ls -l and it works*/
 int	executing(t_data *data)
 {
 	//bramka na builtins
-	if (check_for_builtin(data->simple_cmds))
-		execute_builtin();
-	else
-		executor();
+	if (check_for_builtins(data->simple_cmds))
+		execute_builtin(data);
+	// else
+	// 	executor();
 	return (0);
 }
 
@@ -73,5 +73,6 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	data.envp = envp;
+	data.env_var = envp;
 	minishell(&data);
 }

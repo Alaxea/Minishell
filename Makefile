@@ -6,7 +6,7 @@
 #    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/09/01 13:46:41 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/09/05 15:41:41 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/lexer/tokenization.c \
 		meat/lexer/validation.c \
 		meat/builtins/env_builtin.c \
+		meat/builtins/pwd_builtin.c \
 		meat/builtins/export_builtin.c \
 		meat/builtins/exit_builtin.c \
 		meat/builtins/echo_builtin.c \
@@ -39,6 +40,7 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/utils/env_helper.c \
 		minishell.c \
 		meat/parser/expander.c \
+		meat/executor/builtins_gate.c
 
 
 OBJ = $(SRC:.c=.o)

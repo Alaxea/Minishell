@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:34:01 by astefans          #+#    #+#             */
-/*   Updated: 2024/08/23 15:34:32 by astefans         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:49:35 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@
 	return(EXIT_FAILURE);
 }*/
 
-int	pwd_builtin(t_data *env)
+int	pwd_builtin(t_data *data)
 {
 	char	*tmp;
 
-	tmp = get_env_var(env, "PWD");
+	tmp = get_env_var(data, "PWD");
 	if (!tmp || tmp[0] == '\0')
 	{
 		ft_putstr_fd("PWD variable is unset", 2);
