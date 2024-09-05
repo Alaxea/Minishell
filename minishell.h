@@ -122,7 +122,7 @@ int	expand(t_simple_cmd **cmds, char **env);
 char	*double_quotes_env(char *str, char **env);
 void	print_tab(char **tab);
 int		env_builtin(t_data *env);
-int	echo(char **args, int argc, int fd);
+//int	echo(char **args, int argc, int fd);
 int	is_builtin(t_data *command, int fd);
 void	clear_tab(char **tab);
 void	clear_env(t_data *env);
@@ -134,5 +134,8 @@ int	pwd_builtin(t_data *data);
 int	echo_builtin(t_simple_cmd com);
 int	check_for_builtins(t_simple_cmd *sc);
 int	execute_builtin(t_data *data);
+int		cd_builtin(t_data *env, t_simple_cmd com);
+int		exit_builtin(t_data *env, t_simple_cmd com);
+
 
 #endif

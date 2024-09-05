@@ -17,21 +17,19 @@ int	execute_builtin(t_data *data)
 	if (ft_strcmp(data->simple_cmds->name, "pwd") == 0)
 		pwd_builtin(data);
 	else if (ft_strcmp(data->simple_cmds->name, "echo") == 0)
-		return (1);
+		echo_builtin(*data->simple_cmds);
 	else if (ft_strcmp(data->simple_cmds->name, "cd") == 0)
-		return (1);
+		cd_builtin(data, *data->simple_cmds);
 	else if (ft_strcmp(data->simple_cmds->name, "env") == 0)
-		return (1);
+		env_builtin(data);
 	else if (ft_strcmp(data->simple_cmds->name, "export") == 0)
 		return (1);
 	else if (ft_strcmp(data->simple_cmds->name, "exit") == 0)
-		return (1);
+		exit_builtin(data, *data->simple_cmds);
 	else if (ft_strcmp(data->simple_cmds->name, "unset") == 0)
-		return (1);
-
+		 return (1);
 	return (0);
 }
-
 
 int	check_for_builtins(t_simple_cmd *sc)
 {

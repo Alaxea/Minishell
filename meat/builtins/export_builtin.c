@@ -12,3 +12,5 @@
 
 #include "../../minishell.h"
 
+
+int		export_builtin(t_data *env, t_simple_cmd com)

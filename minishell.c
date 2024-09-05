@@ -69,7 +69,7 @@ int	minishell(t_data *data)
 int main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-
+	
 	(void)argv;
 	(void)argc;
 	data.envp = envp;

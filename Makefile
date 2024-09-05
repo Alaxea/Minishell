@@ -31,7 +31,6 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/lexer/validation.c \
 		meat/builtins/env_builtin.c \
 		meat/builtins/pwd_builtin.c \
-		meat/builtins/export_builtin.c \
 		meat/builtins/exit_builtin.c \
 		meat/builtins/echo_builtin.c \
 		meat/builtins/cd_builtin.c \
