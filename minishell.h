@@ -136,6 +136,8 @@ int	check_for_builtins(t_simple_cmd *sc);
 int	execute_builtin(t_data *data);
 int		cd_builtin(t_data *env, t_simple_cmd com);
 int		exit_builtin(t_data *env, t_simple_cmd com);
+int		export_builtin(t_data *env, t_simple_cmd com);
+int		unset_builtin(t_data *env, t_simple_cmd com);
 
 
 #endif

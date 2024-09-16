@@ -23,11 +23,11 @@ int	execute_builtin(t_data *data)
 	else if (ft_strcmp(data->simple_cmds->name, "env") == 0)
 		env_builtin(data);
 	else if (ft_strcmp(data->simple_cmds->name, "export") == 0)
-		return (1);
+		export_builtin(data, *data->simple_cmds);
 	else if (ft_strcmp(data->simple_cmds->name, "exit") == 0)
 		exit_builtin(data, *data->simple_cmds);
 	else if (ft_strcmp(data->simple_cmds->name, "unset") == 0)
-		 return (1);
+		 unset_builtin(data, *data->simple_cmds);
 	return (0);
 }
 
