@@ -15,6 +15,10 @@ printf("\033[1;32mcat file2\033[0m\n");
 t_token         *token = token_creator("cat file2");
 t_simple_cmd    *sc = parser(token);
 TEST_ASSERT_EQUAL_STRING("cat", sc->name);
+TEST_ASSERT_EQUAL_STRING("cat", sc->cmd[0]);
+TEST_ASSERT_EQUAL_STRING("file2", sc->cmd[1]);
+TEST_ASSERT_EQUAL_STRING(NULL, sc->cmd[2]);
+
 }
 
 void test_function2(void) {
@@ -130,6 +134,19 @@ void test_function10(void) {
     TEST_ASSERT_EQUAL_STRING(NULL, sc->next->next->next);
 }
 
+void test_function11(void) {
+printf("\033[0;32mTEST11\033[0m\n");
+printf("\033[1;32mecho zosia\033[0m\n");
+t_token         *token = token_creator("echo zosia");
+t_simple_cmd    *sc = parser(token);
+TEST_ASSERT_EQUAL_STRING("echo", sc->name);
+TEST_ASSERT_EQUAL_STRING("echo", sc->cmd[0]);
+TEST_ASSERT_EQUAL_STRING("zosia", sc->cmd[1]);
+TEST_ASSERT_EQUAL_CHAR('\0', sc->cmd[1][5]);
+TEST_ASSERT_EQUAL_CHAR('a', sc->cmd[1][4]);
+TEST_ASSERT_EQUAL_STRING(NULL, sc->cmd[2]);
+
+}
 
 int main(void) {
     UNITY_BEGIN();
@@ -143,6 +160,7 @@ int main(void) {
     RUN_TEST(test_function8);
     RUN_TEST(test_function9);
     RUN_TEST(test_function10);
+    RUN_TEST(test_function11);
 
     return UNITY_END();
 }

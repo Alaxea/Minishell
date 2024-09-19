@@ -6,7 +6,7 @@
 #    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/09/05 15:41:41 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/09/19 17:50:01 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,8 +65,8 @@ re: fclean $(NAME)
 PATHUNITY = unity/src
 
 # testy
-lexer:
-	cc -Wall -Wextra -Werror -lreadline meat/lexer/lexer.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c
+# lexer:
+	# cc -Wall -Wextra -Werror -lreadline tests/meat/lexer/tokenization.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c
 test_lexer:
 	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/lexer_test.c -lreadline meat/lexer/tokenization.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
 test_validation:

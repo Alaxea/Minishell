@@ -6,7 +6,10 @@ int	executing(t_data *data)
 {
 	//bramka na builtins
 	if (check_for_builtins(data->simple_cmds))
+	{
+		// printf("builtin\n");
 		execute_builtin(data);
+	}
 	// else
 	// 	executor();
 	return (0);
@@ -14,16 +17,20 @@ int	executing(t_data *data)
 
 int	parsing(t_data *data)
 {
-	data->tokens = token_creator(data->input);
-	if (!data->tokens)
+	// printf("przed parsingiem\n");
+	if (data->input)
+	{
+		data->tokens = token_creator(data->input);
+		if (!data->tokens)
+			return (0);
+		if (!validation(&data->tokens))
+			return (0);
+		data->simple_cmds = parser(data->tokens);
+		if (!data->simple_cmds)
 		return (0);
-	if (!validation(&data->tokens))
-		return (0);
-	data->simple_cmds = parser(data->tokens);
-	if (!data->simple_cmds)
-		return (0);
-	expand(&data->simple_cmds, data->envp);
-	//printf("after\n");
+		// expand(&data->simple_cmds, data->envp);
+	}
+	// printf("po parsingu\n");
 	return (1);
 }
 int	minishell(t_data *data)
@@ -61,7 +68,9 @@ int	minishell(t_data *data)
             // perror("system");
         // }
 		/*free the memory allocated by readline*/
-		free(data->input);
+		if (data->input)
+			free(data->input);
+		data->input = NULL;
 	}
 	return (0);
 }

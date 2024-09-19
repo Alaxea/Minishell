@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:18:20 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/09/05 15:43:56 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:50:20 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	execute_builtin(t_data *data)
 	if (ft_strcmp(data->simple_cmds->name, "pwd") == 0)
 		return (pwd_builtin(data));
 	if (ft_strcmp(data->simple_cmds->name, "echo") == 0)
-		return (echo_builtin(*data->simple_cmds));
+		return (echo_builtin(data->simple_cmds));
 	if (ft_strcmp(data->simple_cmds->name, "cd") == 0)
 		return (cd_builtin(data, *data->simple_cmds));
 	if (ft_strcmp(data->simple_cmds->name, "env") == 0)
