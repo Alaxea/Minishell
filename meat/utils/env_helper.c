@@ -30,7 +30,7 @@ void	copy_env_var(t_data *env, char **env_var)
 	env->env_var[i] = 0;
 }
 
-char	*get_env_var(t_data *env, char *name)
+char	*set_env_var(t_data *env, char *name)
 {
 	int i;
 	size_t temp;

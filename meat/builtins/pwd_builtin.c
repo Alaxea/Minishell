@@ -37,7 +37,7 @@ int	pwd_builtin(t_data *data)
 {
 	char	*tmp;
 
-	tmp = get_env_var(data, "PWD");
+	tmp = set_env_var(data, "PWD");
 	if (!tmp || tmp[0] == '\0')
 	{
 		ft_putstr_fd("PWD variable is unset", 2);

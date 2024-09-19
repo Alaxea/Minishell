@@ -11,6 +11,10 @@
 #include <signal.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <fcntl.h>
 
 # define BUFFER_SIZE 42
 typedef enum	s_redir_type
@@ -92,8 +96,6 @@ typedef struct s_data
 	t_token	*token;
 	t_io_fds fd_out;
 	char	*command;
-	int argc;
-	char **args;
 	int exit_code;
 }	t_data;
 
@@ -127,7 +129,7 @@ int				is_builtin(t_data *command, int fd);
 void			clear_tab(char **tab);
 void			clear_env(t_data *env);
 void			copy_env_var(t_data *env, char **env_var);
-char			*get_env_var(t_data *env, char *name);
+char			*set_env_var(t_data *env, char *name);
 void			add_env_var(t_data *env, char *name, char *value);
 void			delete_env_var(t_data *env, char *name);
 int				pwd_builtin(t_data *data);
@@ -138,6 +140,8 @@ int				cd_builtin(t_data *env, t_simple_cmd com);
 int				exit_builtin(t_data *env, t_simple_cmd com);
 int				export_builtin(t_data *env, t_simple_cmd com);
 int				unset_builtin(t_data *env, t_simple_cmd com);
+char *get_full_path(const char *command, char **envp);
+void redir_check(t_simple_cmd *cmd);
 
 
 #endif

@@ -20,7 +20,7 @@ int		cd_builtin(t_data *env, t_simple_cmd com)
 	char buffer[1024];
 	int ret_val;
 
-	home = get_env_var(env, "HOME");
+	home = set_env_var(env, "HOME");
 	ret_val = cd_helper(&com, home);
 	delete_env_var(env, "PWD");
 	add_env_var(env, "PWD", getcwd(buffer, 1024));
