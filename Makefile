@@ -6,7 +6,7 @@
 #    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/09/20 13:53:38 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/09/20 16:03:21 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ $(LIBFT):
 	make -C $(LIBFT_PATH)
 $(NAME) :$(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) -lreadline
+	make clean
 clean:
 	$(RM) $(OBJ)
 	make -C $(LIBFT_PATH) clean

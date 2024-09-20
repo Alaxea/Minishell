@@ -120,7 +120,7 @@ char			*cut_out_path(char *value);
 void			error(void);
 t_simple_cmd	*parser(t_token *tokens);
 char			*replace_env(char *str, char **env);
-int				expand(t_simple_cmd **cmds, char **env);
+int				expand(t_simple_cmd *cmds, char **env);
 char			*double_quotes_env(char *str, char **env);
 void			print_tab(char **tab);
 int				env_builtin(t_data *env);

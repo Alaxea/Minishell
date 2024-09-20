@@ -76,9 +76,7 @@ char	*trim_the_value(char *old)
 		free(old);
 		return (NULL);
 	}
-	// printf("to be trimmed: %s\n", old);
 	new = ft_substr(old, start + 1, len - start);
-	// printf("new trimmed: %s\n", new);
 	free(old);
 	return (new);
 }
@@ -153,6 +151,7 @@ t_simple_cmd	*simple_cmd_creator(t_token *token)
 	}
 	return (simple_cmd);
 }
+
 t_simple_cmd	*parser(t_token *tokens)
 {
 	t_token 		*buf;
@@ -169,7 +168,7 @@ t_simple_cmd	*parser(t_token *tokens)
 			simple_cmd = simple_cmd_creator(buf);
 			ft_lstadd_back_sc(&sc_list, simple_cmd);
 		}
-		buf = buf->next; // Move to the next token
+		buf = buf->next;
 	}
 	return(sc_list);
 }

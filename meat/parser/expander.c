@@ -6,26 +6,12 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/09/20 15:39:36 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:57:19 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_find_char(char *str, int c)
-{
-	char	cc;
-	int		i;
-
-	i = 0;
-	cc = c;
-	while (str[i] != cc && str[i] != '\0')
-		i++;
-	if (str[i] == cc)
-		return (1);
-	else
-		return (0);
-}
 
 char	*find_env(char **env, char *var)
 {
@@ -95,6 +81,7 @@ char *replace_env(char *str, char **env)
 	t_quote_mode	mode;
 
 	start = 0;
+	mode = DEFAULT;
 	check_quote(&mode, str[0]);
 	if (mode == SINGLE_Q)
 		return (str);
@@ -124,13 +111,14 @@ void	expand_cmd(int i, t_simple_cmd *sc_node, char **env)
 	else
 		sc_node->cmd[i] = replace_env(sc_node->cmd[i], env);
 }
-int	expand(t_simple_cmd **cmds, char **env)
+
+int	expand(t_simple_cmd *cmds, char **env)
 {
 	int	i;
 	t_simple_cmd *buf;
 	char 	*found;
-	buf = *cmds;
 
+	buf = cmds;
 	while (buf)
 	{
 		i = 0;
@@ -139,7 +127,11 @@ int	expand(t_simple_cmd **cmds, char **env)
 			found = NULL;
 			found = ft_strchr(buf->cmd[i], '$');
 			if (found)
+			{
 				expand_cmd(i, buf, env);
+				if (buf->cmd[i][0] == '\"')
+					i--;
+			}
 			buf->cmd[i] = trim_quotes(buf->cmd[i]);	
 			i++;
 		}

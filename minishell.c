@@ -17,7 +17,7 @@ int	executing(t_data *data)
 
 int	parsing(t_data *data)
 {
-	printf("przed parsingiem\n");
+	// printf("przed parsingiem\n");
 	if (data->input)
 	{
 		data->tokens = token_creator(data->input);
@@ -28,11 +28,11 @@ int	parsing(t_data *data)
 		data->simple_cmds = parser(data->tokens);
 		if (!data->simple_cmds)
 			return (0);
-		printf("przed expanderem\n");
-		if (expand(&data->simple_cmds, data->envp) == 0)
+		// printf("przed expanderem\n");
+		if (expand(data->simple_cmds, data->envp) == 0)
 			return (0);
 	}
-	printf("po parsingu\n");
+	// printf("po parsingu\n");
 	return (1);
 }
 int	minishell(t_data *data)
