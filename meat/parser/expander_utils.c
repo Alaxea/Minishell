@@ -1,5 +1,16 @@
 #include "../../minishell.h"
 
+char *find_env_var(char *str, int *start, int *stop)
+{
+	*start = 0;
+	while (str[*start] != '$' && str[*start])
+		(*start)++;
+	(*start)++;
+	*stop = *start;
+	while (str[*stop] && str[*stop] != ' ' && str[*stop] != '"')
+		(*stop)++;
+	return (ft_substr(str, *start, *stop - *start));
+}
 char *trim_quotes(char *command)
 {
 	bool	trim;

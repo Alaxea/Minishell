@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/09/20 18:25:14 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:34:31 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	check_quote_str(t_quote_mode *mode, char *str)
 
 char	*double_quotes_env(char *str, char **env)
 {
-	int	start = 0;
-	int	stop;
+	int		stop;
+	int		start;
 	char	*var;
 	char	*env_expanded;
 	char	*b;
@@ -51,13 +51,8 @@ char	*double_quotes_env(char *str, char **env)
 	char	*first;
 	char	*sec;
 
-	while (str[start] != '$' && str[start])
-		start++;
-	start++;
-	stop = start;
-	while (str[stop] && str[stop] != ' ' && str[stop] != '"')
-		stop++;
-	var = ft_substr(str, start, stop - start);
+	start = 0;
+	var = find_env_var(str, &start, &stop);
 	env_expanded = find_env(env, var);
 	b = ft_substr(str, 0, start - 1);
 	first = ft_strjoin(b, env_expanded);
