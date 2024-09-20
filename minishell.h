@@ -142,6 +142,7 @@ int				export_builtin(t_data *env, t_simple_cmd com);
 int				unset_builtin(t_data *env, t_simple_cmd com);
 char *get_full_path(const char *command, char **envp);
 void redir_check(t_simple_cmd *cmd);
+char *trim_quotes(char *command);
 
 
 #endif

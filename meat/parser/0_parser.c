@@ -44,16 +44,20 @@ t_simple_cmd	*ft_lstlast_sc(t_simple_cmd *lst)
 void	ft_lstadd_back_sc(t_simple_cmd **lst, t_simple_cmd *new)
 {
 	t_simple_cmd	*tmp;
+
 	if (new == NULL)
 		return ;
-
 	if (!*lst)
+	{
 		*lst = new;
+		new->next = NULL;
+	}
 	else
 	{
 		tmp = ft_lstlast_sc(*lst);
 		tmp->next = new;
 		new->prev = tmp;
+		new->next = NULL;
 	}
 }
 

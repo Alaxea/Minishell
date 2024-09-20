@@ -6,7 +6,7 @@
 #    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/09/19 17:50:01 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/09/20 13:53:38 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/parser/expander.c \
 		meat/executor/builtins_gate.c \
 		meat/executor/redirections.c \
-		meat/executor/execute.c
+		meat/executor/execute.c \
+		meat/parser/expander_utils.c
 
 
 OBJ = $(SRC:.c=.o)
@@ -75,3 +76,5 @@ test_sc:
 	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/single_sc_test.c -lreadline meat/parser/ft_split_quotes.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
 test_lst:
 	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/sc_list.c -lreadline meat/parser/ft_split_quotes.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
+test_expander:
+	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_expander.c -lreadline meat/parser/ft_split_quotes.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out

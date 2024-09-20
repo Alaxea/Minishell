@@ -7,7 +7,7 @@ int	executing(t_data *data)
 	//bramka na builtins
 	if (check_for_builtins(data->simple_cmds))
 	{
-		// printf("builtin\n");
+		printf("builtin\n");
 		execute_builtin(data);
 	}
 	// else
@@ -17,7 +17,7 @@ int	executing(t_data *data)
 
 int	parsing(t_data *data)
 {
-	// printf("przed parsingiem\n");
+	printf("przed parsingiem\n");
 	if (data->input)
 	{
 		data->tokens = token_creator(data->input);
@@ -27,10 +27,12 @@ int	parsing(t_data *data)
 			return (0);
 		data->simple_cmds = parser(data->tokens);
 		if (!data->simple_cmds)
-		return (0);
-		// expand(&data->simple_cmds, data->envp);
+			return (0);
+		printf("przed expanderem\n");
+		if (expand(&data->simple_cmds, data->envp) == 0)
+			return (0);
 	}
-	// printf("po parsingu\n");
+	printf("po parsingu\n");
 	return (1);
 }
 int	minishell(t_data *data)
@@ -58,8 +60,9 @@ int	minishell(t_data *data)
             free(data->input);
             break;
         }
-		parsing(data);
-		executing(data);
+		int flag = parsing(data);
+		if (flag != 0)
+			executing(data);
 		/* and the WINNER for today is this: execute the command using the system's shell*/
 		// int status = system(data->input);
 		/*to check if the command execution was successful*/
