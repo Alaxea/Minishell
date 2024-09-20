@@ -6,7 +6,7 @@
 #    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/09/20 16:03:21 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/09/20 17:09:12 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,4 +78,4 @@ test_sc:
 test_lst:
 	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/sc_list.c -lreadline meat/parser/ft_split_quotes.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
 test_expander:
-	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_expander.c -lreadline meat/parser/ft_split_quotes.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
+	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_expander.c -lreadline meat/parser/ft_split_quotes.c meat/parser/expander_utils.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out

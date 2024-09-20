@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/09/20 16:57:19 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:25:14 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*find_env(char **env, char *var)
 		else
 			i++;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
 void	check_quote_str(t_quote_mode *mode, char *str)

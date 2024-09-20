@@ -6,10 +6,7 @@ int	executing(t_data *data)
 {
 	//bramka na builtins
 	if (check_for_builtins(data->simple_cmds))
-	{
-		printf("builtin\n");
 		execute_builtin(data);
-	}
 	// else
 	// 	executor();
 	return (0);
