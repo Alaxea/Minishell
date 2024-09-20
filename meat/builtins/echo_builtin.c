@@ -85,7 +85,7 @@ static int	echo_helper(t_simple_cmd *com, int *new_line)
 		{
 			if (com->flags[i++] != 'n')
 			{
-				ft_putstr_fd("Unregognized flag\n", 2);
+				ft_putstr_fd("Invalid flag\n", 2);
 				return (-1);
 			}
 		}
