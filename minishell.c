@@ -6,10 +6,12 @@ int	executing(t_data *data)
 {
 	//bramka na builtins
 	if (check_for_builtins(data->simple_cmds))
+<<<<<<< HEAD
 	{
 		//printf("builtin\n");
+=======
+>>>>>>> 4269b932c8f0b9c172bba8e841dfcc4ba56f6b95
 		execute_builtin(data);
-	}
 	// else
 	// 	executor();
 	return (0);
@@ -17,7 +19,11 @@ int	executing(t_data *data)
 
 int	parsing(t_data *data)
 {
+<<<<<<< HEAD
 	//printf("przed parsingiem\n");
+=======
+	// printf("przed parsingiem\n");
+>>>>>>> 4269b932c8f0b9c172bba8e841dfcc4ba56f6b95
 	if (data->input)
 	{
 		data->tokens = token_creator(data->input);
