@@ -18,7 +18,6 @@ char *trim_quotes(char *command)
 
 	trim = false;
 	copy = NULL;
-	// printf("%lu\n", ft_strlen(command) - 1);
 	if (command[0] == '\'' && command[ft_strlen(command) - 1] == '\'')
 		trim = true;
 	else if (command[0] == '\"' && command[ft_strlen(command) - 1] == '\"')

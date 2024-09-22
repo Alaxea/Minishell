@@ -6,14 +6,13 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/09/20 18:34:31 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:36:27 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
-char	*find_env(char **env, char *var)
+char	*get_env(char **env, char *var)
 {
 	int	i;
 
@@ -51,9 +50,8 @@ char	*double_quotes_env(char *str, char **env)
 	char	*first;
 	char	*sec;
 
-	start = 0;
 	var = find_env_var(str, &start, &stop);
-	env_expanded = find_env(env, var);
+	env_expanded = get_env(env, var);
 	b = ft_substr(str, 0, start - 1);
 	first = ft_strjoin(b, env_expanded);
 	free(var);
@@ -90,7 +88,7 @@ char *replace_env(char *str, char **env)
 		stop++;
 	var = ft_substr(str, start, stop);
 	free(str);
-	env_expanded = find_env(env, var);
+	env_expanded = get_env(env, var);
 	free(var);
 	return (env_expanded);
 }

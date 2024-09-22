@@ -6,11 +6,7 @@ int	executing(t_data *data)
 {
 	//bramka na builtins
 	if (check_for_builtins(data->simple_cmds))
-<<<<<<< HEAD
-	{
 		//printf("builtin\n");
-=======
->>>>>>> 4269b932c8f0b9c172bba8e841dfcc4ba56f6b95
 		execute_builtin(data);
 	// else
 	// 	executor();
@@ -19,11 +15,6 @@ int	executing(t_data *data)
 
 int	parsing(t_data *data)
 {
-<<<<<<< HEAD
-	//printf("przed parsingiem\n");
-=======
-	// printf("przed parsingiem\n");
->>>>>>> 4269b932c8f0b9c172bba8e841dfcc4ba56f6b95
 	if (data->input)
 	{
 		data->tokens = token_creator(data->input);
@@ -34,11 +25,11 @@ int	parsing(t_data *data)
 		data->simple_cmds = parser(data->tokens);
 		if (!data->simple_cmds)
 			return (0);
-		//printf("przed expanderem\n");
-		if (expand(&data->simple_cmds, data->envp) == 0)
+		if (!expand(data->simple_cmds, data->envp))
+			return (0);
+		if (!cmd_validation(data->simple_cmds, data->envp))
 			return (0);
 	}
-	//printf("po parsingu\n");
 	return (1);
 }
 int	minishell(t_data *data)

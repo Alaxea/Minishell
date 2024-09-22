@@ -65,8 +65,8 @@ typedef struct s_io_fds
 
 typedef struct s_simple_cmd
 {
-	char			*name;
-	char			**cmd;
+	char			*name; // basically a pathname for the execve
+	char			**cmd; // argv array for execve
 	char			*command;
 	char			*flags;
 	char			**arguments;
@@ -144,6 +144,8 @@ char *get_full_path(const char *command, char **envp);
 void redir_check(t_simple_cmd *cmd);
 char *trim_quotes(char *command);
 char *find_env_var(char *str, int *start, int *stop);
-
+char	*get_env(char **env, char *var);
+int	cmd_validation(t_simple_cmd *cmds, char **env);
+char	**find_paths(char **envp);
 
 #endif
