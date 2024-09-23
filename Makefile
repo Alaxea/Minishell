@@ -44,7 +44,8 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/executor/builtins_gate.c \
 		meat/executor/redirections.c \
 		meat/executor/execute.c \
-		meat/parser/expander_utils.c
+		meat/parser/expander_utils.c \
+		meat/parser/cmd_valid.c \
 
 
 OBJ = $(SRC:.c=.o)

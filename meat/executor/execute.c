@@ -94,8 +94,10 @@ void execute_command(t_simple_cmd *cmd, char **envp)
 {
     pid_t pid;
     char    *full_path;
+    int status;
 
 	pid = fork();
+    status = 0;
     if (pid == 0)
     {
         // Proces potomny
@@ -116,8 +118,7 @@ void execute_command(t_simple_cmd *cmd, char **envp)
     }
     else if (pid > 0)
     {
-        // Proces rodzicielski
-        int status;
+        
         waitpid(pid, &status, 0);
     }
     else

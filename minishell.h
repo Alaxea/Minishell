@@ -147,5 +147,8 @@ char *find_env_var(char *str, int *start, int *stop);
 char	*get_env(char **env, char *var);
 int	cmd_validation(t_simple_cmd *cmds, char **env);
 char	**find_paths(char **envp);
+int	is_cmd_valid(t_simple_cmd *cmds, char **env);
+void	path_expander(t_simple_cmd *cmds, char **env);
+void execute_command(t_simple_cmd *cmd, char **envp);
 
 #endif
