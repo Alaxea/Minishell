@@ -46,29 +46,30 @@ int		exit_builtin(t_data *env, t_simple_cmd com)
 {
 	int	result;
 
-	write(1, "exit\n", 5);
-	if (com.arguments[0] == NULL)
+	if (!com.arguments[0])
 	{
 		clear_env(env);
 		exit(0);
 	}
+	if (com.arguments[0])
+		write(1, "exit\n", 5);
 	if (com.arguments[0] && com.arguments[1])
 	{
 		ft_putstr_fd("Too many arguments\n", 2);
 		return (1);
 	}
-	if (!ft_isdigit(com.arguments[0] || ft_overflow_int(com.arguments[0])))
+	if (ft_isdigit(com.arguments[0] || ft_overflow_int(com.arguments[0])))
 	{
 		ft_putstr_fd("Numeric argument is required\n", 2);
-		clear_env(env);
-		return (255);
+		//clear_env(env);
+		return (1);
 	}
 	else
 	{
 		clear_env(env);
 		result = ft_atoi(com.arguments[0]);
 		if (result < 0)
-			exit(255 + result);
+			exit(0);
 		exit(result);
 	}
 }
