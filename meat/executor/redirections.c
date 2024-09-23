@@ -65,20 +65,28 @@ static void		append_redir(t_simple_cmd *cmd)
 
 static void		heredoc_redir(t_simple_cmd *cmd)
 {
-	int pipe_fd[2];
+	int	fd;
+	char *input;
 
-    if (pipe(pipe_fd) == -1)
-    {
-        return (ft_putstr_fd("Pipe creation failed\n", 2));
-    }
-
-    // Zapisujemy dane heredoc do potoku
-    write(pipe_fd[1], cmd->delimiter_heredoc, ft_strlen(cmd->delimiter_heredoc));
-    close(pipe_fd[1]);  // Zamykanie końca do zapisu po zapisaniu danych
-
-    // Przekierowujemy stdin na potok
-    dup2(pipe_fd[0], STDIN_FILENO);  // Przekierowanie stdin na dane heredoc
-    close(pipe_fd[0]); 
+	fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	while (1)
+	{
+		input = readline("> ");
+		if (ft_strncmp(input, cmd->delimiter_heredoc, ft_strlen(input)) == 0)
+		{
+			free(input);
+			break ;
+		}
+		ft_putstr_fd(input, fd);
+		ft_putstr_fd("\n", fd);
+		free(input);
+	}
+	close(fd);
+	fd = open(".heredoc", O_RDONLY, 0644);
+	dup2(fd, 0);
+	free(cmd->delimiter_heredoc);
+	cmd->delimiter_heredoc = NULL;
+	close(fd);
 }
 
 void redir_check(t_simple_cmd *cmd)
@@ -89,6 +97,6 @@ void redir_check(t_simple_cmd *cmd)
 		in_redir(cmd);
 	else if (cmd->output_path_append)
 		append_redir(cmd);
-	else if (cmd->heredoc)
+	else if (cmd->delimiter_heredoc)
 		heredoc_redir(cmd);
 }

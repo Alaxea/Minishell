@@ -38,11 +38,11 @@ int	minishell(t_data *data)
 	while(1)
 	{
 		data->input = readline("minishell>> ");
-		if (!data->input)
+		/*if (!data->input)
 		{
-			printf("exit\n");
+			write(1, "exit\n", 5);
 			exit(1);
-		}
+		}*/
 		/*if the line is empty, continue to the next iteration*/
 		if (ft_strcmp(data->input, "") == 0)
 		{
@@ -54,20 +54,18 @@ int	minishell(t_data *data)
 		/*if the user types "exit", break the loop and exit*/
 		if (ft_strcmp(data->input, "exit") == 0) 
 		{
-            free(data->input);
-            break;
+			t_simple_cmd cmd;
+			cmd.arguments = ft_split(data->input, ' ');
+			if (!cmd.arguments)
+				return (1);
+			exit_builtin(data, cmd);
+			//write(1, "exit\n", 5);
+            //free(data->input);
+            //break;
         }
 		int flag = parsing(data);
 		if (flag != 0)
 			executing(data);
-		/* and the WINNER for today is this: execute the command using the system's shell*/
-		// int status = system(data->input);
-		/*to check if the command execution was successful*/
-		// if (status == -1) 
-		// {
-            // perror("system");
-        // }
-		/*free the memory allocated by readline*/
 		if (data->input)
 			free(data->input);
 		data->input = NULL;
