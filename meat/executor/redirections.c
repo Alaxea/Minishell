@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/09/18 14:30:51 by astefans         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:05:43 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void		in_redir(t_simple_cmd *cmd)
 		}
 	}
 	dup2(fd_in, STDIN_FILENO);
-	free(cmd->input_path);
+	// free(cmd->input_path);
 	close(fd_in);
 }
 
@@ -42,7 +42,7 @@ static void		out_redir(t_simple_cmd *cmd)
 		}
 	}
 	dup2(fd_out, STDOUT_FILENO);
-	free(cmd->output_path);
+	// free(cmd->output_path);
 	close(fd_out);
 }
 
@@ -59,7 +59,7 @@ static void		append_redir(t_simple_cmd *cmd)
 		}
 	}
 	dup2(fd_out, STDOUT_FILENO);
-	free(cmd->output_path_append);
+	// free(cmd->output_path_append);
 	close(fd_out);
 }
 
@@ -84,7 +84,7 @@ static void		heredoc_redir(t_simple_cmd *cmd)
 	close(fd);
 	fd = open(".heredoc", O_RDONLY, 0644);
 	dup2(fd, 0);
-	free(cmd->delimiter_heredoc);
+	// free(cmd->delimiter_heredoc);
 	cmd->delimiter_heredoc = NULL;
 	close(fd);
 }

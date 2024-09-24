@@ -34,9 +34,6 @@ int	parsing(t_data *data)
 }
 int	minishell(t_data *data)
 {
-	t_simple_cmd cmd;
-	char **commands;
-
 	while(1)
 	{
 		data->input = readline("minishell>> ");
@@ -50,17 +47,21 @@ int	minishell(t_data *data)
 		}
 		/*to add line to the history*/
 		add_history(data->input);
-		commands = ft_split(data->input, ' ');
-		cmd.commands = commands;
-		/*if the user types "exit", break the loop and exit*/
-		if (!cmd.commands || cmd.commands[0] == 0)
-		{
-			free(data->input);
-			continue;
-		}
-		execute_command(&cmd, data->envp);
-		free(cmd.commands);
-		free(data->input);
+		// commands = ft_split(data->input, ' ');
+		// cmd.commands = commands;
+		// /*if the user types "exit", break the loop and exit*/
+		// if (!cmd.commands || cmd.commands[0] == 0)
+		// {
+		// 	free(data->input);
+		// 	continue;
+		// }
+		int flag = parsing(data);
+		if (flag != 0)
+			executing(data);
+		// if (data->input)
+		// 	free(data->input);
+		execute_command(data->cmd, data->envp);
+		// free(data->input);
 		/*int flag = parsing(data);
 		if (flag != 0)
 			executing(data);
