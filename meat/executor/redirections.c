@@ -91,12 +91,12 @@ static void		heredoc_redir(t_simple_cmd *cmd)
 
 void redir_check(t_simple_cmd *cmd)
 {
-	if (cmd->output_path)
+	if (cmd->output_path && *cmd->output_path)
 		out_redir(cmd);
-	else if  (cmd->input_path)
+	else if  (cmd->input_path && *cmd->input_path)
 		in_redir(cmd);
-	else if (cmd->output_path_append)
+	else if (cmd->output_path_append && *cmd->output_path_append)
 		append_redir(cmd);
-	else if (cmd->delimiter_heredoc)
+	else if (cmd->delimiter_heredoc && *cmd->delimiter_heredoc)
 		heredoc_redir(cmd);
 }

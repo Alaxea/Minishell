@@ -59,7 +59,8 @@
   "files.associations": {
     "libft.h": "c",
     "minishell.h": "c",
-    "stdbool.h": "c"
+    "stdbool.h": "c",
+    "typeinfo": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

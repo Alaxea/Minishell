@@ -34,8 +34,9 @@ int	parsing(t_data *data)
 }
 int	minishell(t_data *data)
 {
+	t_simple_cmd cmd;
 	char **commands;
-	/*to initialize the history*/
+
 	while(1)
 	{
 		data->input = readline("minishell>> ");
@@ -49,15 +50,16 @@ int	minishell(t_data *data)
 		}
 		/*to add line to the history*/
 		add_history(data->input);
-		commands = ft_split(envp, ' ');
+		commands = ft_split(data->input, ' ');
+		cmd.commands = commands;
 		/*if the user types "exit", break the loop and exit*/
-		if (!commands || commands[0].command == 0)
+		if (!cmd.commands || cmd.commands[0] == 0)
 		{
 			free(data->input);
 			continue;
 		}
-		data->exit_code = execute_command(data, commands);
-		free(commands);
+		execute_command(&cmd, data->envp);
+		free(cmd.commands);
 		free(data->input);
 		/*int flag = parsing(data);
 		if (flag != 0)

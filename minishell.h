@@ -68,6 +68,7 @@ typedef struct s_simple_cmd
 	char			*name; // basically a pathname for the execve
 	char			**cmd; // argv array for execve
 	char			*command;
+	char			**commands;
 	char			*flags;
 	char			**arguments;
 	char			*path;
@@ -150,5 +151,5 @@ char	**find_paths(char **envp);
 int	is_cmd_valid(t_simple_cmd *cmds, char **env);
 void	path_expander(t_simple_cmd *cmds, char **env);
 void execute_command(t_simple_cmd *cmd, char **envp);
-
+int     check_permission(struct stat file);
 #endif

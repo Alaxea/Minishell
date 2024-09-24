@@ -125,22 +125,16 @@ void execute_command(t_simple_cmd *cmd, char **envp)
 		return (ft_putstr_fd("Fork failed\n", 2));
 }
 
-//to_do
-/*char	*find_script(char *script, t_data *env)
+int     check_permission(struct stat file)
 {
-	char	*tmp;
-	char	*tmp2;
-	char	*result;
-
-	if (script[0] == '.')
-	{
-		tmp = ft_substr(script, 1, ft_strlen(script) - 1);
-		tmp2 = get_env_var(env, "PWD");
-		result = ft_strjoin(tmp2, tmp);
-		free(tmp);
-		free(tmp2);
-		return (result);
-	}
-	else
-		return (script);
-}*/
+    if ((file.st_mode > 0) && (S_IEXEC & file.st_mode) && S_ISREG(file.st_mode))
+    {
+        if (file.st_mode & S_IXUSR)
+            return (1);
+        else
+            ft_putstr_fd("File is not executable\n", 2);
+    }
+    else
+        ft_putstr_fd("This is not a file\n", 2);
+    return (0);
+}
