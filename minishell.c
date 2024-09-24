@@ -38,12 +38,12 @@ int	minishell(t_data *data)
 	{
 		data->input = readline("minishell>> ");
 		if (!data->input)
-			break;
+			break ;
 		/*if the line is empty, continue to the next iteration*/
 		if (ft_strcmp(data->input, "") == 0)
 		{
 			free(data->input);
-			continue;
+			continue ;
 		}
 		/*to add line to the history*/
 		add_history(data->input);

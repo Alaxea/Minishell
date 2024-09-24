@@ -138,3 +138,22 @@ int     check_permission(struct stat file)
         ft_putstr_fd("This is not a file\n", 2);
     return (0);
 }
+
+char	*pc_find_script(char *script, t_data *env)
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*result;
+
+	if (script[0] == '.')
+	{
+		tmp = ft_substr(script, 1, ft_strlen(script) - 1);
+		tmp2 = set_env_var(env, "PWD");
+		result = ft_strjoin(tmp2, tmp);
+		free(tmp);
+		free(tmp2);
+		return (result);
+	}
+	else
+		return (script);
+}

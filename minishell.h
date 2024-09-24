@@ -98,6 +98,7 @@ typedef struct s_data
 	t_io_fds fd_out;
 	char	*command;
 	int exit_code;
+	int pid;
 }	t_data;
 
 int				ft_iswhitespace(char c);
