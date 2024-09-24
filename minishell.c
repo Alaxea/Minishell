@@ -36,6 +36,7 @@ int	minishell(t_data *data)
 {
 	t_simple_cmd cmd;
 	char **commands;
+	int flag;
 
 	while(1)
 	{
@@ -61,12 +62,12 @@ int	minishell(t_data *data)
 		execute_command(&cmd, data->envp);
 		free(cmd.commands);
 		free(data->input);
-		/*int flag = parsing(data);
+		flag = parsing(data);
 		if (flag != 0)
 			executing(data);
 		if (data->input)
 			free(data->input);
-		data->input = NULL;*/
+		data->input = NULL;
 	}
 	return (0);
 }
