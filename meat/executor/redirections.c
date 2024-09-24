@@ -26,6 +26,7 @@ static void		in_redir(t_simple_cmd *cmd)
 	}
 	dup2(fd_in, STDIN_FILENO);
 	free(cmd->input_path);
+	cmd->input_path = 0;
 	close(fd_in);
 }
 
@@ -43,6 +44,7 @@ static void		out_redir(t_simple_cmd *cmd)
 	}
 	dup2(fd_out, STDOUT_FILENO);
 	free(cmd->output_path);
+	cmd->output_path = 0;
 	close(fd_out);
 }
 
@@ -60,6 +62,7 @@ static void		append_redir(t_simple_cmd *cmd)
 	}
 	dup2(fd_out, STDOUT_FILENO);
 	free(cmd->output_path_append);
+	cmd->output_path_append = 0;
 	close(fd_out);
 }
 
@@ -85,18 +88,37 @@ static void		heredoc_redir(t_simple_cmd *cmd)
 	fd = open(".heredoc", O_RDONLY, 0644);
 	dup2(fd, 0);
 	free(cmd->delimiter_heredoc);
-	cmd->delimiter_heredoc = NULL;
+	cmd->delimiter_heredoc = 0;
 	close(fd);
 }
 
 void redir_check(t_simple_cmd *cmd)
 {
-	if (cmd->output_path && *cmd->output_path)
-		out_redir(cmd);
-	else if  (cmd->input_path && *cmd->input_path)
-		in_redir(cmd);
-	else if (cmd->output_path_append && *cmd->output_path_append)
-		append_redir(cmd);
-	else if (cmd->delimiter_heredoc && *cmd->delimiter_heredoc)
-		heredoc_redir(cmd);
+	int i;
+
+	i = 0;
+	while (cmd->arguments && cmd->arguments[i])
+	{
+		if (ft_strncmp(cmd->arguments[i], ">", 1) == 0)
+		{
+			out_redir(cmd);
+			break ;
+		}
+		else if  (ft_strncmp(cmd->arguments[i], "<", 1) == 0)
+		{
+			in_redir(cmd);
+			break ;
+		}
+		else if (ft_strncmp(cmd->arguments[i], ">>", 2) == 0)
+		{
+			append_redir(cmd);
+			break ;
+		}
+		else if (ft_strncmp(cmd->arguments[i], "<<", 2) == 0)
+		{
+			heredoc_redir(cmd);
+			break ;
+		}
+	}
+	i++;
 }
