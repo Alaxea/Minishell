@@ -62,13 +62,13 @@ int	minishell(t_data *data)
 		// 	free(data->input);
 		execute_command(data->cmd, data->envp);
 		// free(data->input);
-		/*int flag = parsing(data);
-		if (flag != 0)
-			executing(data);
-		if (data->input)
-			free(data->input);
-		data->input = NULL;*/
-	}
+		// int flag = parsing(data);
+		// if (flag != 0)
+			// executing(data);
+		// if (data->input)
+			// free(data->input);
+		// data->input = NULL;
+		}
 	return (0);
 }
 
