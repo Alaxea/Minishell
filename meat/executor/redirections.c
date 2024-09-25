@@ -63,7 +63,7 @@ static void		append_redir(t_simple_cmd *cmd)
 	close(fd_out);
 }
 
-static void		heredoc_redir(t_simple_cmd *cmd)
+/*static void		heredoc_redir(t_simple_cmd *cmd)
 {
 	int	fd;
 	char *input;
@@ -87,6 +87,35 @@ static void		heredoc_redir(t_simple_cmd *cmd)
 	free(cmd->delimiter_heredoc);
 	cmd->delimiter_heredoc = NULL;
 	close(fd);
+}*/
+
+static void	heredoc_redir(t_simple_cmd *cmd, pid_t pid)
+{
+	int		fd;
+	char	*line;
+
+	if (cmd->heredoc)
+	{
+		if (cmd->infile != NULL)
+			free(cmd->infile);
+		cmd->infile = ft_strjoin("/tmp/heredoc_pid.", ft_itoa(pid));
+		fd = open(cmd->infile, O_RDWR | O_CREAT | O_TRUNC, 0600);
+		if (fd == -1)
+		{
+			perror("minishell: open ");
+			exit(EXIT_FAILURE);
+		}
+		line = readline("heredoc> ");
+		while (line != NULL)
+		{
+			if (ft_strcmp(line, cmd->delimiter_heredoc) == 0)
+				break ;
+			ft_putendl_fd(line, fd);
+			free(line);
+			line = readline("heredoc> ");
+		}
+		close(fd);
+	}
 }
 
 void redir_check(t_simple_cmd *cmd)
@@ -113,7 +142,7 @@ void redir_check(t_simple_cmd *cmd)
 		}
 		else if (ft_strncmp(cmd->arguments[i], "<<", 2) == 0)
 		{
-			heredoc_redir(cmd);
+			heredoc_redir(cmd, pid);
 			break ;
 		}
 	}
