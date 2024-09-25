@@ -63,7 +63,7 @@ static void		append_redir(t_simple_cmd *cmd)
 	close(fd_out);
 }
 
-/*static void		heredoc_redir(t_simple_cmd *cmd)
+static void		heredoc_redir(t_simple_cmd *cmd)
 {
 	int	fd;
 	char *input;
@@ -87,9 +87,9 @@ static void		append_redir(t_simple_cmd *cmd)
 	free(cmd->delimiter_heredoc);
 	cmd->delimiter_heredoc = NULL;
 	close(fd);
-}*/
+}
 
-static void	heredoc_redir(t_simple_cmd *cmd, pid_t pid)
+/*static void	heredoc_redir(t_simple_cmd *cmd, pid_t pid)
 {
 	int		fd;
 	char	*line;
@@ -116,7 +116,7 @@ static void	heredoc_redir(t_simple_cmd *cmd, pid_t pid)
 		}
 		close(fd);
 	}
-}
+}*/
 
 void redir_check(t_simple_cmd *cmd)
 {
@@ -142,7 +142,7 @@ void redir_check(t_simple_cmd *cmd)
 		}
 		else if (ft_strncmp(cmd->arguments[i], "<<", 2) == 0)
 		{
-			heredoc_redir(cmd, pid);
+			heredoc_redir(cmd);
 			break ;
 		}
 	}

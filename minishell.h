@@ -57,6 +57,7 @@ typedef struct s_token
 
 typedef struct s_io_fds
 {
+	struct s_simple_cmd *command;
 	char *infile;
 	char *outfile;
 	int		fd_in;
