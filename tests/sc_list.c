@@ -127,6 +127,9 @@ void test_function10(void) {
     t_simple_cmd *sc = parser(tokens);
 
     TEST_ASSERT_EQUAL_STRING("echo", sc->name);
+    TEST_ASSERT_EQUAL_STRING("\"Hello World\"", sc->cmd[1]);
+    TEST_ASSERT_EQUAL_STRING("out", sc->output_path);
+
     TEST_ASSERT_EQUAL_STRING("tr", sc->next->name);
     TEST_ASSERT_EQUAL_STRING("'a-z'", sc->next->cmd[1]);
     TEST_ASSERT_EQUAL_STRING("'A-Z'", sc->next->cmd[2]);
