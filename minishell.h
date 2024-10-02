@@ -154,4 +154,7 @@ int	is_cmd_valid(t_simple_cmd *cmds, char **env);
 void	path_expander(t_simple_cmd *cmds, char **env);
 void execute_command(t_simple_cmd *cmd, char **envp);
 int     check_permission(struct stat file);
+size_t	ft_len_until_eq_sign(char *env);
+char	*get_env(char **env, char *var);
+
 #endif
