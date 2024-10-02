@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/09/22 14:36:27 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:48:56 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_env(char **env, char *var)
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(var, env[i], ft_strlen(var)) == 0)
+		if (ft_strncmp(var, env[i], ft_strlen(env[i])) == 0)
 			return (ft_strjoin("", (env[i] + ft_strlen(var) + 1)));
 		else
 			i++;
