@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:21:26 by astefans          #+#    #+#             */
-/*   Updated: 2024/09/19 18:23:11 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:43:54 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	echo_builtin(t_simple_cmd *com)
 	i = 1;
 	new_line = 1;
 	ret_val = echo_helper(com, &new_line);
-	if (com->cmd && com->cmd[0] != NULL)
+	if (com->cmd && com->cmd[i] != NULL)
 	{
 		ft_putstr_fd(com->cmd[i], 1);
 		i++;
