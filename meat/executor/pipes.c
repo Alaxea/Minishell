@@ -24,3 +24,24 @@ static void	handle_pipe(t_simple_cmd *current)
 	if (current->next == NULL && current->prev != NULL)
 		dup2(current->prev->fd_in, STDIN_FILENO);
 }
+
+int	exec_commands(env, commands)
+{
+	int	i;
+	int	result;
+
+	//stworz pipes
+	i = 0;
+	while (commands istnieją)
+	{
+		result = //exec komendy();
+		pid komendy = 0;
+		if (result == -1)
+			//forkuj dzieci();
+		else
+			waitpid(last_result) = result;
+		i++;
+	}
+	//zamknij fds();
+	return (czekaj na dzieci i zwróc result());
+}

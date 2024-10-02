@@ -145,8 +145,8 @@ TEST_ASSERT_EQUAL_STRING("zosia", sc->cmd[1]);
 TEST_ASSERT_EQUAL_CHAR('\0', sc->cmd[1][5]);
 TEST_ASSERT_EQUAL_CHAR('a', sc->cmd[1][4]);
 TEST_ASSERT_EQUAL_STRING(NULL, sc->cmd[2]);
-
 }
+
 
 int main(void) {
     UNITY_BEGIN();
