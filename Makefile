@@ -46,7 +46,6 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/executor/execute.c \
 		meat/parser/expander_utils.c \
 		meat/parser/cmd_valid.c \
-		meat/executor/pipes.c \
 
 
 OBJ = $(SRC:.c=.o)
@@ -82,4 +81,4 @@ test_lst:
 test_expander:
 	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_expander.c -lreadline meat/parser/ft_split_quotes.c meat/parser/expander_utils.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
 test_exec:
-	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_exec.c -lreadline meat/parser/ft_split_quotes.c meat/parser/expander_utils.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c meat/executor/builtins_gate.c meat/executor/execute.c meat/executor/pipes.c meat/utils/env_helper.c meat/executor/redirections.c && ./a.out
+	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_exec.c -lreadline meat/parser/ft_split_quotes.c meat/parser/expander_utils.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c meat/executor/builtins_gate.c meat/executor/execute.c meat/utils/env_helper.c meat/executor/redirections.c && ./a.out
