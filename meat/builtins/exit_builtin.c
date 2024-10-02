@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:42:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/08/26 16:42:21 by astefans         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:43:36 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,19 @@ int		exit_builtin(t_data *env, t_simple_cmd com)
 {
 	int	result;
 
-	if (!com.arguments[0])
+	if (!com.cmd[0])
 	{
 		clear_env(env);
 		exit(0);
 	}
-	if (com.arguments[0])
+	if (com.cmd[0])
 		write(1, "exit\n", 5);
-	if (com.arguments[0] && com.arguments[1])
+	if (com.cmd[0] && com.cmd[1])
 	{
-		ft_putstr_fd("Too many arguments\n", 2);
+		ft_putstr_fd("Too many cmd\n", 2);
 		return (1);
 	}
-	if (ft_isdigit(com.arguments[0] || ft_overflow_int(com.arguments[0])))
+	if (ft_isdigit(com.cmd[0] || ft_overflow_int(com.cmd[0])))
 	{
 		ft_putstr_fd("Numeric argument is required\n", 2);
 		//clear_env(env);
@@ -66,8 +66,8 @@ int		exit_builtin(t_data *env, t_simple_cmd com)
 	}
 	else
 	{
-		clear_env(env);
-		result = ft_atoi(com.arguments[0]);
+		// clear_env(env);
+		result = ft_atoi(com.cmd[0]);
 		if (result < 0)
 			exit(0);
 		exit(result);

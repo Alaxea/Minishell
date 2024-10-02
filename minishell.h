@@ -156,5 +156,6 @@ void execute_command(t_simple_cmd *cmd, char **envp);
 int     check_permission(struct stat file);
 size_t	ft_len_until_eq_sign(char *env);
 char	*get_env(char **env, char *var);
+int	check_for_builtins(t_simple_cmd *sc);
 
 #endif
