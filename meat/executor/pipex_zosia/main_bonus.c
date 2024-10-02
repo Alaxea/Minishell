@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:10:02 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/07/26 14:41:48 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:10:59 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	pipex_init(t_pipex_data *data)
 	int	i;
 
 	i = 0;
+	data->c_pos = -1;
 	data->paths = find_paths(data->envp);
 	data->num_of_pipes = data->num_of_processes + 1;
 	data->array_of_pipes = (int **)malloc(data->num_of_pipes * sizeof(int *));
@@ -78,16 +79,15 @@ static void	cleanup(t_pipex_data *pipex_d)
 		i++;
 	}
 	free(pipex_d->array_of_pipes);
-}
+}void	handle_pipe(t_simple_cmd *current)
 
-int	pipex(char **argv, t_pipex_data *pipex_d)
+
+int	pipex(t_data *data)
 {
 	int	pid;
+	t_pipex_data *pipex;
 
-	if (pipex_d->heredoc == 0)
-		open_files(pipex_d, argv);
-	else
-		heredoc(argv[2], argv, pipex_d);
+	pipex_init(pipex);
 	while (++(pipex_d->c_pos) < pipex_d->num_of_processes)
 	{
 		pid = fork();
@@ -103,26 +103,6 @@ int	pipex(char **argv, t_pipex_data *pipex_d)
 	return (EXIT_SUCCESS);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_pipex_data	pipex_data;
+// 		pipex_data.num_of_processes = argc - 3 - pipex_data.heredoc; 	OK
+// 		pipex_init(&pipex_data);	OK	
 
-	if (argc < 5)
-		return_error("too few arguments");
-	else
-	{
-		pipex_data.argc = argc;
-		pipex_data.envp = envp;
-		pipex_data.heredoc = 0;
-		pipex_data.c_pos = -1;
-		pipex_data.outfile_fd = -1;
-		pipex_data.infile_fd = -1;
-		pipex_data.paths = NULL;
-		pipex_data.array_of_pipes = NULL;
-		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-			pipex_data.heredoc = 1;
-		pipex_data.num_of_processes = argc - 3 - pipex_data.heredoc;
-		pipex_init(&pipex_data);
-		return (pipex(argv, &pipex_data));
-	}
-}

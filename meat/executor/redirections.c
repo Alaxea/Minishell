@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/09/24 13:39:33 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:13:05 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void		in_redir(t_simple_cmd *cmd)
 			return (ft_putstr_fd("Filed to handle a file\n", 2));
 		}
 	}
-	dup2(fd_in, STDIN_FILENO);
-	free(cmd->input_path);
+	// dup2(fd_in, STDIN_FILENO);
+	// free(cmd->input_path);
 	close(fd_in);
 }
 
@@ -41,8 +41,8 @@ static void		out_redir(t_simple_cmd *cmd)
 			return (ft_putstr_fd("Filed to handle a file\n", 2));
 		}
 	}
-	dup2(fd_out, STDOUT_FILENO);
-	free(cmd->output_path);
+	// dup2(fd_out, STDOUT_FILENO);
+	// free(cmd->output_path);
 	close(fd_out);
 }
 
@@ -58,8 +58,8 @@ static void		append_redir(t_simple_cmd *cmd)
 			return (ft_putstr_fd("Filed to handle a file\n", 2));
 		}
 	}
-	dup2(fd_out, STDOUT_FILENO);
-	free(cmd->output_path_append);
+	// dup2(fd_out, STDOUT_FILENO);
+	// free(cmd->output_path_append);
 	close(fd_out);
 }
 

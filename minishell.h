@@ -16,6 +16,20 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
+typedef struct s_pipex_data
+{
+	int		num_of_processes;
+	int		**array_of_pipes;
+	int		c_pos;
+	int		num_of_pipes;
+	int		heredoc;
+	int		argc;
+	char	**envp;
+	int		infile_fd;
+	int		outfile_fd;
+	char	**paths;
+}	t_pipex_data;
+
 # define BUFFER_SIZE 42
 typedef enum	s_redir_type
 {
@@ -144,7 +158,7 @@ int				exit_builtin(t_data *env, t_simple_cmd com);
 int				export_builtin(t_data *env, t_simple_cmd com);
 int				unset_builtin(t_data *env, t_simple_cmd com);
 char *get_full_path(const char *command, char **envp);
-void redir_check(t_simple_cmd *cmd);
+void 			redir_check(t_simple_cmd *cmd);
 char *trim_quotes(char *command);
 char *find_env_var(char *str, int *start, int *stop);
 char	*get_env(char **env, char *var);
@@ -157,5 +171,6 @@ int     check_permission(struct stat file);
 size_t	ft_len_until_eq_sign(char *env);
 char	*get_env(char **env, char *var);
 int	check_for_builtins(t_simple_cmd *sc);
+void	handle_pipe(t_simple_cmd *current);
 
 #endif
