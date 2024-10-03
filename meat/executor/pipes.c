@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:25:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/09/25 12:25:26 by astefans         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:06:00 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	handle_pipe(t_simple_cmd *current)
+void	handle_pipe(t_simple_cmd *current)
 {
 	if (current->prev == NULL && current->next != NULL)
 		dup2(current->fd_out, STDOUT_FILENO);

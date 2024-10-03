@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:09:40 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/10/02 14:57:48 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:06:00 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	child(char **argv, t_pipex_data *p_data)
 	child_closing_pipes(p_data);
 	dup2(p_data->array_of_pipes[input][0], STDIN_FILENO);
 	dup2(p_data->array_of_pipes[output][1], STDOUT_FILENO);
+	redir_check();
 	close(p_data->array_of_pipes[input][0]);
 	close(p_data->array_of_pipes[output][1]);
 	exec_prep(p_data, argv[p_data->c_pos + 2 + p_data->heredoc], p_data->envp);
