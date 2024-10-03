@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
+/*
 int put_ret_num;
 
 void	restore_prompt(int sig)
@@ -37,51 +37,10 @@ void	backslash(int sig)
 	write(1, "\n", 1);
 	(void)sig;
 }
-void	run_signals(int sig)
-{
-	if (sig == 1)
-	{
-		signal(SIGINT, restore_prompt);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	if (sig == 2)
-	{
-		signal(SIGINT, ctrl_c);
-		signal(SIGQUIT, backslash);
-	}
-	if (sig == 3)
-	{
-		printf("exit\n");
-		exit(0);
-	}
-}
-int main_function()
-{
-	run_signals(1);
+*/
 
-	while(1)
-	{
-		char *input;
-
-		input = readline("minishell>> ");
-		if(!input)
-		{
-			printf("exit\n");
-			break;
-		}
-		if(*input != '\0')
-		{
-			write(1, "exit\n", 5);
-			break;
-		}
-		if (ft_strlen(input) > 0)
-            add_history(input);
-		free(input);
-	}
-	return(0);
-}
 //handle ctrl-d
-/*void	handle_sigquit(int sig)
+void	handle_sigquit(int sig)
 {
 	if (sig == SIGQUIT)
 	{
@@ -105,22 +64,13 @@ void	handle_sigint(int sig)
 		rl_redisplay();
 	}
 }
-
-int main()
+void	run_signals(int sig)
 {
-	signal(SIGINT, handle_sigint);
-    signal(SIGQUIT, SIG_IGN); //sig_ign to do nothing when is backslash
-	while(1)
+	if (sig == 1)
 	{
-		char *input;
-		input = readline("minishell>> ");
-		if(input == NULL)
-		{
-			write(1, "exit\n", 5);
-			break;
-		}
-		free(input);
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
 	}
-	return(0);
+	if (sig == 2)
+		handle_sigquit(sig);
 }
-//to do:handle ctrl-d when user writes something after prompt*/
