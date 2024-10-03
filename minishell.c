@@ -6,6 +6,11 @@ int	executing(t_data *data)
 {
 	if (check_for_builtins(data->simple_cmds))
 		execute_builtin(data);
+<<<<<<< HEAD
+=======
+	else
+		pipex();
+>>>>>>> 4c3329f4f5ee8752e890614e0a3fe01db8cc650c
 	return (0);
 }
 
