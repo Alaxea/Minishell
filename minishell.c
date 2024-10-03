@@ -1,16 +1,13 @@
 #include "minishell.h"
-/*command to compilation: cc -Wall -Wextra -Werror -o main main.c -lreadline
-I tested it for exit and ls -l and it works*/
+/*command to compilation: cc -Wall -Wextra -Werror -o main main.c -lreadline*/
+
 
 int	executing(t_data *data)
 {
 	if (check_for_builtins(data->simple_cmds))
 		execute_builtin(data);
-<<<<<<< HEAD
-=======
 	else
-		pipex();
->>>>>>> 4c3329f4f5ee8752e890614e0a3fe01db8cc650c
+		//pipex();
 	return (0);
 }
 
@@ -54,7 +51,10 @@ int	minishell(t_data *data)
 		add_history(data->input);
 		int flag = parsing(data);
 		if (flag != 0)
+		{
+			redir_check(data->cmd);
 			executing(data);
+		}
 		execute_command(data->cmd, data->envp);
 	}
 	return (0);

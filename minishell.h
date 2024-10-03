@@ -171,13 +171,10 @@ int     check_permission(struct stat file);
 size_t	ft_len_until_eq_sign(char *env);
 char	*get_env(char **env, char *var);
 int	check_for_builtins(t_simple_cmd *sc);
-<<<<<<< HEAD
 void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
 void	run_signals(int sig);
 
-=======
 void	handle_pipe(t_simple_cmd *current);
->>>>>>> 4c3329f4f5ee8752e890614e0a3fe01db8cc650c
 
 #endif
