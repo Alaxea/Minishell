@@ -79,7 +79,8 @@ static void	cleanup(t_pipex_data *pipex_d)
 		i++;
 	}
 	free(pipex_d->array_of_pipes);
-}void	handle_pipe(t_simple_cmd *current)
+}
+void	handle_pipe(t_simple_cmd *current)
 
 
 int	pipex(t_data *data)

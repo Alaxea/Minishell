@@ -11,38 +11,11 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 /*
-int put_ret_num;
-
-void	restore_prompt(int sig)
+void	handle_sigquit(int signal)
 {
-	//exit status code in Linux systems,
-	//indicating that a process was terminated by signal 2(SIGINT-ctrl-c)
-	put_ret_num = 130;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	(void)sig;
-}
-void	ctrl_c(int sig)
-{
-	put_ret_num = 130;
-	write(1, "\n", 1);
-	(void)sig;
-}
-void	backslash(int sig)
-{
-	put_ret_num = 131;
-	write(1, "\n", 1);
-	(void)sig;
-}
-*/
-
-//handle ctrl-d
-void	handle_sigquit(int sig)
-{
-	if (sig == SIGQUIT)
+	if (signal == SIGQUIT)
 	{
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
@@ -54,9 +27,9 @@ void	handle_sigquit(int sig)
 }
 
 //handle ctrl-c
-void	handle_sigint(int sig)
+void	handle_sigint(int signal)
 {
-	if (sig == SIGINT)
+	if (signal == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
@@ -64,13 +37,35 @@ void	handle_sigint(int sig)
 		rl_redisplay();
 	}
 }
-void	run_signals(int sig)
+void	run_signals(int signal)
 {
-	if (sig == 1)
+	if (signal == 1)
 	{
 		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	if (sig == 2)
-		handle_sigquit(sig);
+	if (signal == 2)
+		handle_sigquit(signal);
+}*/
+
+static void handle_sigquit(int signal)
+{
+	if (signal)
+		exit(EXIT_FAILURE);
+}
+
+static void	handle_sigint(int signal)
+{
+	if (signal)
+	{
+		rl_replace_line("", 0);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+void	run_signals(void)
+{
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, handle_sigquit);
 }

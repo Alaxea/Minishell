@@ -89,35 +89,6 @@ static void		heredoc_redir(t_simple_cmd *cmd)
 	close(fd);
 }
 
-/*static void	heredoc_redir(t_simple_cmd *cmd, pid_t pid)
-{
-	int		fd;
-	char	*line;
-
-	if (cmd->heredoc)
-	{
-		if (cmd->infile != NULL)
-			free(cmd->infile);
-		cmd->infile = ft_strjoin("/tmp/heredoc_pid.", ft_itoa(pid));
-		fd = open(cmd->infile, O_RDWR | O_CREAT | O_TRUNC, 0600);
-		if (fd == -1)
-		{
-			perror("minishell: open ");
-			exit(EXIT_FAILURE);
-		}
-		line = readline("heredoc> ");
-		while (line != NULL)
-		{
-			if (ft_strcmp(line, cmd->delimiter_heredoc) == 0)
-				break ;
-			ft_putendl_fd(line, fd);
-			free(line);
-			line = readline("heredoc> ");
-		}
-		close(fd);
-	}
-}*/
-
 void redir_check(t_simple_cmd *cmd)
 {
 	int i;
@@ -125,6 +96,13 @@ void redir_check(t_simple_cmd *cmd)
 	i = 0;
 	while (cmd->arguments && cmd->arguments[i])
 	{
+		if (cmd->arguments == NULL)
+	{
+		ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token `newline'\n", STDERR_FILENO);
+		//last result?
+		return (0);
+	}
 		if (ft_strncmp(cmd->arguments[i], ">", 1) == 0)
 		{
 			out_redir(cmd);
