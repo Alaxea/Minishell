@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:34:01 by astefans          #+#    #+#             */
-/*   Updated: 2024/09/05 15:49:35 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:51:14 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@
 	return(EXIT_FAILURE);
 }*/
 
-int	pwd_builtin(t_data *data)
+int	pwd_builtin(t_data *data, t_simple_cmd *cmd)
 {
 	char	*tmp;
 
+	redir_builtin(cmd);
 	tmp = set_env_var(data, "PWD");
 	if (!tmp || tmp[0] == '\0')
 	{
@@ -45,8 +46,8 @@ int	pwd_builtin(t_data *data)
 			free(tmp);
 		return (2);
 	}
-	ft_putstr_fd(tmp, 1);
-	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(tmp, cmd->fd_out);
+	ft_putstr_fd("\n", cmd->fd_out);
 	free(tmp);
 	return (0);
 }
