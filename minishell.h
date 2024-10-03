@@ -80,6 +80,8 @@ typedef struct s_io_fds
 
 typedef struct s_simple_cmd
 {
+	int				fd_out;
+	int				fd_in;
 	char			*name; // basically a pathname for the execve
 	char			**cmd; // argv array for execve
 	char			*command;
@@ -149,7 +151,7 @@ void			copy_env_var(t_data *env, char **env_var);
 char			*set_env_var(t_data *env, char *name);
 void			add_env_var(t_data *env, char *name, char *value);
 void			delete_env_var(t_data *env, char *name);
-int				pwd_builtin(t_data *data);
+int				pwd_builtin(t_data *data, t_simple_cmd *cmd);
 int				echo_builtin(t_simple_cmd *com);
 int				check_for_builtins(t_simple_cmd *sc);
 int				execute_builtin(t_data *data);
@@ -174,7 +176,7 @@ int	check_for_builtins(t_simple_cmd *sc);
 void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
 void	run_signals(int sig);
-
+void	redir_builtin(t_simple_cmd *cmd);
 void	handle_pipe(t_simple_cmd *current);
 
 #endif
