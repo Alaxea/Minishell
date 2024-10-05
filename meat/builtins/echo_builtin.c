@@ -12,41 +12,6 @@
 
 #include "../../minishell.h"
 
-/*int	echo(char **args, int argc, int fd)
-{
-	int	i;
-
-	i = 0;
-	if (argc > 0 && ft_strncmp(args[0], "-n", 2) == 0 && ft_strlen(args[0]) == 2)
-    {
-        i = 1; // Przesuń indeks, aby pominąć "-n"
-    }
-	if (argc == 0)
-	{
-		write(1, "\n", fd);
-		return (0);
-	}
-	while (args[i] && !ft_strncmp(args[i], "-n", 2))
-		i++;
-	while (i < argc - 1)
-	{
-		write(fd, args[i], ft_strlen(args[i]));
-        write(fd, " ", 1);
-        i++;
-	}
-	if (i != argc)
-		write(fd, args[i], ft_strlen(args[i]));
-	if (ft_strncmp(args[0], "-n", 2))
-		write(1, "\n", fd);
-	return (0);
-}
-int	is_builtin(t_data *command, int fd)
-{
-	if (!ft_strncmp(command->command, "echo", 2))
-		return (echo(command->args + 1, command->argc - 1, fd));
-	return (127);
-}*/
-
 void	redir_builtin(t_simple_cmd *cmd)
 {
 	if (cmd->output_path)

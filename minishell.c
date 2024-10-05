@@ -1,6 +1,6 @@
 #include "minishell.h"
-/*command to compilation: cc -Wall -Wextra -Werror -o main main.c -lreadline
-I tested it for exit and ls -l and it works*/
+/*command to compilation: cc -Wall -Wextra -Werror -o main main.c -lreadline*/
+
 
 int	executing(t_data *data)
 {
@@ -30,43 +30,35 @@ int	parsing(t_data *data)
 	}
 	return (1);
 }
+
 int	minishell(t_data *data)
 {
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, handle_sigquit);
+	
 	while(1)
 	{
 		data->input = readline("minishell>> ");
 		if (!data->input)
-			break ;
-		/*if the line is empty, continue to the next iteration*/
+		{
+			printf("exit\n");
+			break;
+		}
 		if (ft_strcmp(data->input, "") == 0)
 		{
 			free(data->input);
 			continue ;
 		}
-		/*to add line to the history*/
 		add_history(data->input);
-		// commands = ft_split(data->input, ' ');
-		// cmd.commands = commands;
-		// /*if the user types "exit", break the loop and exit*/
-		// if (!cmd.commands || cmd.commands[0] == 0)
-		// {
-		// 	free(data->input);
-		// 	continue;
-		// }
 		int flag = parsing(data);
 		if (flag != 0)
+		{
+			redir_check(data->cmd);
 			executing(data);
-		// if (data->input)
-		// 	free(data->input);
-		// execute_command(data->cmd, data->envp);
-		// free(data->input);
-		// int flag = parsing(data);
-		// if (flag != 0)
-			// executing(data);
-		// if (data->input)
-			// free(data->input);
-		// data->input = NULL;
 		}
+		execute_command(data->cmd, data->envp);
+	}
 	return (0);
 }
 

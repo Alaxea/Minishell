@@ -95,7 +95,7 @@ int	pipex(t_data *data)
 		if (pid == -1)
 			return_error("fork() error");
 		if (pid == 0)
-			child(argv, pipex_d);
+			child(data->argv, pipex_d);
 	}
 	parent_process(pipex_d);
 	cleanup(pipex_d);

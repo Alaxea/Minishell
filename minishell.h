@@ -126,8 +126,6 @@ void			ft_lstdelone(t_token *lst);
 t_token			*ft_lstlast(t_token *lst);
 t_token			*ft_lstnew(void *content, t_redir_type type);
 int				ft_lstsize(t_token *lst);
-void			handle_sigquit(int sig);
-void			handle_sigint(int sig);
 void			token_error(t_token **token, char *message);
 int				validation(t_token **token);
 t_token			*token_creator(char *input);
@@ -173,10 +171,11 @@ int     check_permission(struct stat file);
 size_t	ft_len_until_eq_sign(char *env);
 char	*get_env(char **env, char *var);
 int	check_for_builtins(t_simple_cmd *sc);
-void	handle_sigquit(int sig);
-void	handle_sigint(int sig);
-void	run_signals(int sig);
 void	redir_builtin(t_simple_cmd *cmd);
 void	handle_pipe(t_simple_cmd *current);
+
+/*signals*/
+void handle_sigquit(int signal);
+void handle_sigint(int signal);
 
 #endif

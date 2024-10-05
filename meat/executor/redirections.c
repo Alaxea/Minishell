@@ -96,13 +96,6 @@ void redir_check(t_simple_cmd *cmd)
 	i = 0;
 	while (cmd->arguments && cmd->arguments[i])
 	{
-		if (cmd->arguments == NULL)
-	{
-		ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
-		ft_putstr_fd("near unexpected token `newline'\n", STDERR_FILENO);
-		//last result?
-		return (0);
-	}
 		if (ft_strncmp(cmd->arguments[i], ">", 1) == 0)
 		{
 			out_redir(cmd);

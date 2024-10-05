@@ -66,7 +66,7 @@ int		exit_builtin(t_data *env, t_simple_cmd com)
 	}
 	else
 	{
-		// clear_env(env);
+		//clear_env(env);
 		result = ft_atoi(com.cmd[0]);
 		if (result < 0)
 			exit(0);
