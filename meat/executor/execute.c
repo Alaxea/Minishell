@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/09/19 17:49:53 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:36:13 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char *get_full_path(const char *command, char **envp)
     return (NULL);
 }
 
-void execute_command(t_simple_cmd *cmd, char **envp)
+int execute_command(t_simple_cmd *cmd, char **envp)
 {
     pid_t pid;
     char    *full_path;
@@ -100,20 +100,17 @@ void execute_command(t_simple_cmd *cmd, char **envp)
     status = 0;
     if (pid == 0)
     {
-        // Proces potomny
-        redir_check(cmd);  // Przekierowania stdin/stdout
+        redir_check(cmd);
         full_path = get_full_path(cmd->cmd[0], envp);
-        
         if (full_path == NULL)
         {
-            return (ft_putstr_fd("Command not found\n", 2));
-            //exit(127);  // Standardowy kod błędu, gdy nie znaleziono komendy
+            ft_putstr_fd("Command not found\n", 2);
+            exit(EXIT_FAILURE);
         }
-
-        // Wykonanie komendy z execve
         if (execve(full_path, cmd->cmd, envp) == -1)
         {
-           return (ft_putstr_fd("Execution failed\n", 2));
+           ft_putstr_fd("Execution failed\n", 2);
+           exit(EXIT_FAILURE);
         }
     }
     else if (pid > 0)
@@ -122,7 +119,11 @@ void execute_command(t_simple_cmd *cmd, char **envp)
         waitpid(pid, &status, 0);
     }
     else
-		return (ft_putstr_fd("Fork failed\n", 2));
+    {
+        ft_putstr_fd("Fork failed\n", 2);
+        return (-1);
+    }
+    return (status);
 }
 
 int     check_permission(struct stat file)

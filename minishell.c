@@ -33,10 +33,7 @@ int	parsing(t_data *data)
 
 int	minishell(t_data *data)
 {
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTERM, handle_sigquit);
-	
+	signals();
 	while(1)
 	{
 		data->input = readline("minishell>> ");
@@ -54,7 +51,7 @@ int	minishell(t_data *data)
 		int flag = parsing(data);
 		if (flag != 0)
 		{
-			//redir_check(data->cmd);
+			//redir_check();
 			executing(data);
 		}
 		execute_command(data->cmd, data->envp);
@@ -72,3 +69,45 @@ int main(int argc, char **argv, char **envp)
 	data.env_var = envp;
 	minishell(&data);
 }
+
+
+
+//void	minishell(t_data *env);
+
+/*int main(int argc, char **argv, char **envp)
+{
+	t_data	data;
+	
+	(void)argv;
+	(void)argc;
+	data.envp = envp;
+	data.env_var = envp;
+	copy_env_var(&data, envp);
+	minishell(&data);
+	clear_env(&data);
+	return(0);
+}*/
+
+/*void	minishell(t_data *env)
+{
+	char		*input;
+	t_simple_cmd	*commands;
+
+	while (1)
+	{
+		signals();
+		input = readline("minishell>> ");
+		if (input == NULL)
+			break ;
+		if (!input[0])
+			continue ;
+		add_history(input);
+		env->tokens = token_creator(input);
+		commands = parser(env->tokens);
+		if (!commands || commands[0].command == 0)
+			continue ;
+		env->last_result = execute_command(commands, env->envp);
+		//pc_free_commands_tab(commands);
+		free(input);
+	}
+}*/

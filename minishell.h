@@ -116,6 +116,8 @@ typedef struct s_data
 	char	*command;
 	int exit_code;
 	int pid;
+	int last_result; //do pipes.c
+	int fd[2]; //do pipes.c
 }	t_data;
 
 int				ft_iswhitespace(char c);
@@ -166,16 +168,25 @@ int	cmd_validation(t_simple_cmd *cmds, char **env);
 char	**find_paths(char **envp);
 int	is_cmd_valid(t_simple_cmd *cmds, char **env);
 void	path_expander(t_simple_cmd *cmds, char **env);
-void execute_command(t_simple_cmd *cmd, char **envp);
+int execute_command(t_simple_cmd *cmd, char **envp);
 int     check_permission(struct stat file);
 size_t	ft_len_until_eq_sign(char *env);
 char	*get_env(char **env, char *var);
 int	check_for_builtins(t_simple_cmd *sc);
 void	redir_builtin(t_simple_cmd *cmd);
+void	exit_shell(t_data *env, char *mess, int fail);
+
+/*pipes*/
 void	handle_pipe(t_simple_cmd *current);
+void	create_pipes(t_data *commands, t_data *env);
+void	close_fds_main(t_data *commands);
+void	close_fds_child(t_data *commands, int i);
+int		waiting_and_result(t_data *commands, t_data *env);
+void	fork_child(t_data *env, t_data *commands, int i);
 
 /*signals*/
 void handle_sigquit(int signal);
 void handle_sigint(int signal);
+void	signals(void);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:09:57 by astefans          #+#    #+#             */
-/*   Updated: 2024/08/29 11:10:16 by astefans         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:04:34 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,21 @@ void	clear_tab(char **tab)
 void	clear_env(t_data *env)
 {
 	clear_tab(env->env_var);
+}
+
+void	exit_shell(t_data *env, char *mess, int fail)
+{
+	clear_env(env);
+	if (fail == -1)
+	{
+		printf("Error: %s\n", mess);
+		exit(EXIT_FAILURE);
+	}
+	else if (!fail)
+		exit(EXIT_SUCCESS);
+	else
+	{
+		printf("Error: %s\n", mess);
+		exit(fail);
+	}
 }
