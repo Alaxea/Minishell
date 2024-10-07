@@ -54,7 +54,7 @@ int	minishell(t_data *data)
 		int flag = parsing(data);
 		if (flag != 0)
 		{
-			redir_check(data->cmd);
+			//redir_check(data->cmd);
 			executing(data);
 		}
 		execute_command(data->cmd, data->envp);
