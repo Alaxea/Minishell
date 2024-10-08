@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/07 23:53:36 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/08 22:12:00 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ static void		in_redir(t_simple_cmd *cmd)
 {
 	int fd_in;
 
-	fd_in = open(cmd->input_path, O_RDONLY);
 	if (cmd->input_path)
 	{
+		fd_in = open(cmd->input_path, O_RDONLY);
 		if (fd_in < 0)
 		{
 			return (ft_putstr_fd("Filed to handle a file\n", 2));
 		}
 	}
-	// dup2(fd_in, STDIN_FILENO);
-	// free(cmd->input_path);
+	dup2(fd_in, STDIN_FILENO);
+	free(cmd->input_path);
 	close(fd_in);
 }
 
@@ -33,33 +33,33 @@ static void		out_redir(t_simple_cmd *cmd)
 {
 	int fd_out;
 
-	fd_out = open(cmd->output_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (cmd->output_path)
 	{
-		if (fd_out < 0)
+		fd_out = open(cmd->output_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd_out == -1)
 		{
 			return (ft_putstr_fd("Filed to handle a file\n", 2));
 		}
+		dup2(fd_out, STDOUT_FILENO);
+		free(cmd->output_path);
+		close(fd_out);
 	}
-	// dup2(fd_out, STDOUT_FILENO);
-	// free(cmd->output_path);
-	close(fd_out);
 }
 
 static void		append_redir(t_simple_cmd *cmd)
 {
 	int fd_out;
 
-	fd_out = open(cmd->output_path_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (cmd->output_path_append)
 	{
+		fd_out = open(cmd->output_path_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd_out < 0)
 		{
 			return (ft_putstr_fd("Filed to handle a file\n", 2));
 		}
 	}
-	// dup2(fd_out, STDOUT_FILENO);
-	// free(cmd->output_path_append);
+	dup2(fd_out, STDOUT_FILENO);
+	free(cmd->output_path_append);
 	close(fd_out);
 }
 
@@ -68,9 +68,9 @@ static void		heredoc_redir(t_simple_cmd *cmd)
 	int	fd;
 	char *input;
 
-	fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
+		fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		input = readline("> ");
 		if (ft_strncmp(input, cmd->delimiter_heredoc, ft_strlen(input)) == 0)
 		{
@@ -99,23 +99,23 @@ void redir_check(t_simple_cmd *cmd)
 		if (ft_strncmp(cmd->arguments[i], ">", 1) == 0)
 		{
 			out_redir(cmd);
-			break ;
+			//break ;
 		}
 		else if  (ft_strncmp(cmd->arguments[i], "<", 1) == 0)
 		{
 			in_redir(cmd);
-			break ;
+			//break ;
 		}
 		else if (ft_strncmp(cmd->arguments[i], ">>", 2) == 0)
 		{
 			append_redir(cmd);
-			break ;
+			//break ;
 		}
 		else if (ft_strncmp(cmd->arguments[i], "<<", 2) == 0)
 		{
 			heredoc_redir(cmd);
-			break ;
+			//break ;
 		}
+		i++;
 	}
-	i++;
 }

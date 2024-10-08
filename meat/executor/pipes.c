@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:25:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/07 22:57:29 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/08 22:30:07 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,19 @@ void	create_pipes(t_data *commands, t_data *env)
 	{
 		if (pipe(commands[i].fd) < 0)
 			exit_shell(env, "Filed to create a pipe\n", 2);
+		i++;
+	}
+}
+
+void	close_pipes(t_data *hell)
+{
+	int	i;
+
+	i = 0;
+	while (hell[i].command)
+	{
+		close(hell[i].fd[0]);
+		close(hell[i].fd[1]);
 		i++;
 	}
 }
@@ -98,4 +111,25 @@ void	fork_child(t_data *env, t_data *commands, int i)
 			close(commands[i - 1].fd[0]);
 		exit(env->last_result % 255);
 	}
+}
+
+void	execute(t_simple_cmd *env, t_data *hell)
+{
+	int	i;
+	int	result;
+
+	create_pipes(hell, env);
+	i = 0;
+	while (hell[i].command)
+	{
+		result = execute_command(hell[i], env);
+		hell[i].pid = 0;
+		if (result == -1)
+			fork_child(env, hell, i);
+		else
+			env->last_result = result;
+		i++;
+	}
+	close_pipes(hell);
+	env->last_result = waiting_and_result(hell, env);
 }

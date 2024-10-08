@@ -183,6 +183,8 @@ void	close_fds_main(t_data *commands);
 void	close_fds_child(t_data *commands, int i);
 int		waiting_and_result(t_data *commands, t_data *env);
 void	fork_child(t_data *env, t_data *commands, int i);
+void	close_pipes(t_data *hell);
+void	execute(t_simple_cmd *env, t_data *hell);
 
 /*signals*/
 void handle_sigquit(int signal);
