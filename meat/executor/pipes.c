@@ -113,17 +113,17 @@ void	fork_child(t_data *env, t_data *commands, int i)
 	}
 }
 
-void	execute(t_simple_cmd *env, t_data *hell)
+void	execute(t_data *env, t_data *hell)
 {
 	int	i;
 	int	result;
 
-	create_pipes(hell, data->env_var);
+	create_pipes(hell, env);
 	i = 0;
-	while (hell[i].command)
+	while (hell->simple_cmds[i].command)
 	{
-		result = execute_command(&hell[i], data->env_var);
-		hell[i].pid = 0;
+		result = execute_command(&(hell->simple_cmds[i]), env->env_var);
+		hell->simple_cmds[i].data->pid = 0;
 		if (result == -1)
 			fork_child(env, hell, i);
 		else
