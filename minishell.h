@@ -163,7 +163,6 @@ char *get_full_path(const char *command, char **envp);
 void 			redir_check(t_simple_cmd *cmd);
 char *trim_quotes(char *command);
 char *find_env_var(char *str, int *start, int *stop);
-char	*get_env(char **env, char *var);
 int	cmd_validation(t_simple_cmd *cmds, char **env);
 char	**find_paths(char **envp);
 int	is_cmd_valid(t_simple_cmd *cmds, char **env);
@@ -183,12 +182,23 @@ char *concat_path(const char *dir, const char *command);
 
 
 /*pipes*/
+/*int	child(char **argv, t_pipex_data *p_data);
+void	open_files(t_pipex_data *data, char **argv);
+void	return_error(char *message);
+void	free_array(char **array);
+int	exec_prep(t_pipex_data *data, char *command, char **envp);
+char	**find_paths(char **envp);
+void	pipex_init(t_pipex_data *data);
+int	pipex(t_data *data);*/
+
 void	handle_pipe(t_simple_cmd *current);
 void	create_pipes(t_data *commands, t_data *env);
 void	close_fds_main(t_data *commands);
 void	close_fds_child(t_data *commands, int i);
 int		waiting_and_result(t_data *commands, t_data *env);
 void	fork_child(t_data *env, t_data *commands, int i);
+void	close_pipes(t_data *hell);
+void	execute(t_simple_cmd *env, t_data *hell);
 
 /*signals*/
 void handle_sigquit(int signal);

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/07 23:36:13 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/09 17:27:11 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int execute_command(t_simple_cmd *cmd, char **envp)
         if (full_path == NULL)
         {
             ft_putstr_fd("Command not found\n", 2);
-            exit(EXIT_FAILURE);
+            exit(127);
         }
         if (execve(full_path, cmd->cmd, envp) == -1)
         {

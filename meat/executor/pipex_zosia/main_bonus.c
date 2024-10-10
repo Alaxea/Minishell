@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:10:02 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/10/03 14:06:00 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:36:00 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ int	pipex(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-// 		pipex_data.num_of_processes = argc - 3 - pipex_data.heredoc; 	OK
-// 		pipex_init(&pipex_data);	OK	
+//pipex_data.num_of_processes = argc - 3 - pipex_data.heredoc; 	OK
+//pipex_init(&pipex_data);	OK	
 
