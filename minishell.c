@@ -7,7 +7,7 @@ int	executing(t_data *data)
 	if (check_for_builtins(data->simple_cmds))
 		execute_builtin(data);
 	else
-		pipex(data);
+		execute(data, data);
 	return (0);
 }
 
@@ -39,7 +39,7 @@ int	minishell(t_data *data)
 		data->input = readline("minishell>> ");
 		if (!data->input)
 		{
-			printf("exit\n");
+			write(1, "exit\n", 5);
 			break;
 		}
 		if (ft_strcmp(data->input, "") == 0)
@@ -51,7 +51,6 @@ int	minishell(t_data *data)
 		int flag = parsing(data);
 		if (flag != 0)
 		{
-			//redir_check();
 			executing(data);
 		}
 		execute_command(data->cmd, data->envp);

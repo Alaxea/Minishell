@@ -16,6 +16,7 @@ static void		in_redir(t_simple_cmd *cmd)
 {
 	int fd_in;
 
+	fd_in = 0;
 	if (cmd->input_path)
 	{
 		fd_in = open(cmd->input_path, O_RDONLY);
@@ -33,6 +34,7 @@ static void		out_redir(t_simple_cmd *cmd)
 {
 	int fd_out;
 
+	fd_out = 0;
 	if (cmd->output_path)
 	{
 		fd_out = open(cmd->output_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -50,6 +52,7 @@ static void		append_redir(t_simple_cmd *cmd)
 {
 	int fd_out;
 
+	fd_out = 0;
 	if (cmd->output_path_append)
 	{
 		fd_out = open(cmd->output_path_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
