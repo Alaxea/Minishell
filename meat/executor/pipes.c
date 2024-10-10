@@ -100,20 +100,12 @@ void	fork_child(t_data *env, t_data *commands, int i)
 	if (commands[i].pid == 0)
 	{
 		close_fds_child(commands, i);
-<<<<<<< HEAD
 		redir_check(&(commands[i].simple_cmds[0]));
-=======
-		redir_check(&commands[i]);
->>>>>>> 5b44229763806a65afb2363be4025791a0906fcf
 		if (commands[i + 1].command)
 			dup2(commands[i].fd[1], STDOUT_FILENO);
 		if (i != 0)
 			dup2(commands[i - 1].fd[0], STDIN_FILENO);
-<<<<<<< HEAD
 		env->last_result = execute_builtin(&commands[i]);
-=======
-		env->last_result = execute_builtin(env);
->>>>>>> 5b44229763806a65afb2363be4025791a0906fcf
 		close(commands[i].fd[1]);
 		if (i != 0)
 			close(commands[i - 1].fd[0]);
