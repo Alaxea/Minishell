@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
+#    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/09/20 17:09:12 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/10/09 17:40:57 by alicja           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,9 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/parser/expander_utils.c \
 		meat/parser/cmd_valid.c \
 		meat/signals/handle_ctrl.c \
+		meat/executor/exec_path.c \
+		meat/executor/pipes.c \
+
 		
 
 OBJ = $(SRC:.c=.o)

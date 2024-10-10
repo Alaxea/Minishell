@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/08 20:43:55 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/09 17:27:11 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void free_paths(char **paths)
     free(paths);
 }
 
-static char *concat_path(const char *dir, const char *command) //łączy katalog z nazwą komendy
+char *concat_path(const char *dir, const char *command) //łączy katalog z nazwą komendy
 {
     char *path;
     size_t len_dir;
@@ -140,7 +140,7 @@ int     check_permission(struct stat file)
     return (0);
 }
 
-char	*pc_find_script(char *script, t_data *env)
+char	*find_script(char *script, t_data *env)
 {
 	char	*tmp;
 	char	*tmp2;

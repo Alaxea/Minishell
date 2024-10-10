@@ -163,7 +163,6 @@ char *get_full_path(const char *command, char **envp);
 void 			redir_check(t_simple_cmd *cmd);
 char *trim_quotes(char *command);
 char *find_env_var(char *str, int *start, int *stop);
-char	*get_env(char **env, char *var);
 int	cmd_validation(t_simple_cmd *cmds, char **env);
 char	**find_paths(char **envp);
 int	is_cmd_valid(t_simple_cmd *cmds, char **env);
@@ -175,8 +174,22 @@ char	*get_env(char **env, char *var);
 int	check_for_builtins(t_simple_cmd *sc);
 void	redir_builtin(t_simple_cmd *cmd);
 void	exit_shell(t_data *env, char *mess, int fail);
+int	search_in_path(t_data *env, t_simple_cmd com);
+int	find_binary(t_data *env, t_simple_cmd com, char *bin_path, char **path);
+int	execute_path(char *bin_path, t_data *env, t_simple_cmd com);
+char	*find_script(char *script, t_data *env);
+char *concat_path(const char *dir, const char *command);
 
 /*pipes*/
+/*int	child(char **argv, t_pipex_data *p_data);
+void	open_files(t_pipex_data *data, char **argv);
+void	return_error(char *message);
+void	free_array(char **array);
+int	exec_prep(t_pipex_data *data, char *command, char **envp);
+char	**find_paths(char **envp);
+void	pipex_init(t_pipex_data *data);
+int	pipex(t_data *data);*/
+
 void	handle_pipe(t_simple_cmd *current);
 void	create_pipes(t_data *commands, t_data *env);
 void	close_fds_main(t_data *commands);

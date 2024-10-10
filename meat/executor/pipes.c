@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:25:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/08 22:30:07 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/10 09:58:47 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ void	fork_child(t_data *env, t_data *commands, int i)
 	if (commands[i].pid == 0)
 	{
 		close_fds_child(commands, i);
-		redir_check(&(commands[i]));
+		redir_check(&commands[i]);
 		if (commands[i + 1].command)
 			dup2(commands[i].fd[1], STDOUT_FILENO);
 		if (i != 0)
 			dup2(commands[i - 1].fd[0], STDIN_FILENO);
-		env->last_result = execute_builtin(commands[i]);
+		env->last_result = execute_builtin(env);
 		close(commands[i].fd[1]);
 		if (i != 0)
 			close(commands[i - 1].fd[0]);
@@ -118,11 +118,11 @@ void	execute(t_simple_cmd *env, t_data *hell)
 	int	i;
 	int	result;
 
-	create_pipes(hell, env);
+	create_pipes(hell, data->env_var);
 	i = 0;
 	while (hell[i].command)
 	{
-		result = execute_command(hell[i], env);
+		result = execute_command(&hell[i], data->env_var);
 		hell[i].pid = 0;
 		if (result == -1)
 			fork_child(env, hell, i);

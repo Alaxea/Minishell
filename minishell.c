@@ -7,7 +7,7 @@ int	executing(t_data *data)
 	if (check_for_builtins(data->simple_cmds))
 		execute_builtin(data);
 	else
-		execute(env, data);
+		pipex(data);
 	return (0);
 }
 
