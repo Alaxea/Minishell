@@ -87,12 +87,12 @@ void	fork_child(t_data *env, t_data *commands, int i)
 	if (commands[i].pid == 0)
 	{
 		close_fds_child(commands, i);
-		redir_check(&(commands[i]));
+		redir_check(&(commands[i].simple_cmds[0]));
 		if (commands[i + 1].command)
 			dup2(commands[i].fd[1], STDOUT_FILENO);
 		if (i != 0)
 			dup2(commands[i - 1].fd[0], STDIN_FILENO);
-		env->last_result = execute_builtin(commands[i]);
+		env->last_result = execute_builtin(&commands[i]);
 		close(commands[i].fd[1]);
 		if (i != 0)
 			close(commands[i - 1].fd[0]);

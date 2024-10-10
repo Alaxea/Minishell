@@ -175,6 +175,12 @@ char	*get_env(char **env, char *var);
 int	check_for_builtins(t_simple_cmd *sc);
 void	redir_builtin(t_simple_cmd *cmd);
 void	exit_shell(t_data *env, char *mess, int fail);
+char	*find_script(char *script, t_data *env);
+int	search_in_path(t_data *env, t_simple_cmd com);
+int	find_binary(t_data *env, t_simple_cmd com, char *bin_path, char **path);
+int	execute_path(char *bin_path, t_data *env, t_simple_cmd com);
+char *concat_path(const char *dir, const char *command);
+
 
 /*pipes*/
 void	handle_pipe(t_simple_cmd *current);

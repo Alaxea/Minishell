@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc
+CC = cc
 CFLAGS = -g -Wall -Wextra -Werror -Iincludes
 LIBFT_PATH = includes/libft
 LIBFT = $(LIBFT_PATH)/libft.a
@@ -47,6 +47,8 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/parser/expander_utils.c \
 		meat/parser/cmd_valid.c \
 		meat/signals/handle_ctrl.c \
+		meat/executor/exec_path.c \
+		meat/executor/pipes.c \
 		
 
 OBJ = $(SRC:.c=.o)

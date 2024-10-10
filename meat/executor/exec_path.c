@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-int	pc_search_in_path(t_data *env, t_simple_cmd com)
+int	search_in_path(t_data *env, t_simple_cmd com)
 {
 	char		*bin_path;
 	char		**path;
@@ -24,7 +24,7 @@ int	pc_search_in_path(t_data *env, t_simple_cmd com)
 		bin_path = find_script(com.command, env);
 		return (execute_path(bin_path, env, com));
 	}
-	tmp = get_env_var(env, "PATH");
+	tmp = set_env_var(env, "PATH");
 	if (!tmp)
 		return (127);
 	path = ft_split(tmp, ':');
@@ -39,7 +39,7 @@ int	pc_search_in_path(t_data *env, t_simple_cmd com)
 	return (ret_val);
 }
 
-int	pc_find_binary(t_data *env, t_simple_cmd com, char *bin_path, char **path)
+int	find_binary(t_data *env, t_simple_cmd com, char *bin_path, char **path)
 {
 	struct stat	file;
 	int			i;
@@ -51,7 +51,7 @@ int	pc_find_binary(t_data *env, t_simple_cmd com, char *bin_path, char **path)
 		if (lstat(bin_path, &file) != -1)
 		{
 			free(path);
-			if (check_permision(file))
+			if (check_permission(file))
 				return (execute_path(bin_path, env, com));
 		}
 		else
@@ -60,7 +60,7 @@ int	pc_find_binary(t_data *env, t_simple_cmd com, char *bin_path, char **path)
 	return (127);
 }
 
-int	pc_execute_path(char *bin_path, t_data *env, t_simple_cmd com)
+int	execute_path(char *bin_path, t_data *env, t_simple_cmd com)
 {
 	pid_t	pid;
 	int		result;
@@ -72,7 +72,7 @@ int	pc_execute_path(char *bin_path, t_data *env, t_simple_cmd com)
 	//signal handle
 	if (pid == 0)
 	{
-		argv = change_command_to_argv(com);
+		argv = com.arguments;
 		result = execve(bin_path, argv, env->env_var);
 	}
 	else if (pid < 0)
@@ -88,7 +88,7 @@ int	pc_execute_path(char *bin_path, t_data *env, t_simple_cmd com)
 	return (result);
 }
 
-char	**change_command_to_argv(t_simple_cmd com) //to execve()
+/*char	**change_command_to_argv(t_simple_cmd com) //to execve()
 {
 	char	**argv;
 	int i;
@@ -110,4 +110,4 @@ char	**change_command_to_argv(t_simple_cmd com) //to execve()
 	}
 	argv[++i] = 0;
 	return (argv);
-}
+}*/

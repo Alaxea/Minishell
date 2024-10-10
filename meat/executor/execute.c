@@ -25,7 +25,7 @@ static void free_paths(char **paths)
     free(paths);
 }
 
-static char *concat_path(const char *dir, const char *command) //łączy katalog z nazwą komendy
+char *concat_path(const char *dir, const char *command) //łączy katalog z nazwą komendy
 {
     char *path;
     size_t len_dir;
@@ -140,7 +140,7 @@ int     check_permission(struct stat file)
     return (0);
 }
 
-char	*pc_find_script(char *script, t_data *env)
+char	*find_script(char *script, t_data *env)
 {
 	char	*tmp;
 	char	*tmp2;
