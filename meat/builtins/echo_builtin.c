@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:21:26 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/03 15:48:09 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:50:26 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	redir_builtin(t_simple_cmd *cmd)
 {
 	if (cmd->output_path)
-		cmd->fd_out = open(cmd->output_path, O_WRONLY | O_CREAT | O_TRUNC);
+		cmd->fd_out = open(cmd->output_path, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	else if (cmd->output_path_append)
-		cmd->fd_out = open(cmd->output_path_append, O_WRONLY | O_APPEND | O_CREAT);
+		cmd->fd_out = open(cmd->output_path_append, O_RDWR | O_APPEND | O_CREAT, 0644);
 	else
 		cmd->fd_out = 1;
 }

@@ -33,7 +33,7 @@ int	parsing(t_data *data)
 
 int	minishell(t_data *data)
 {
-	signals();
+	// signals();
 	while(1)
 	{
 		data->input = readline("minishell>> ");
