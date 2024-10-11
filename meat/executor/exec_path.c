@@ -69,7 +69,8 @@ int	execute_path(char *bin_path, t_data *env, t_simple_cmd com)
 	pid = fork();
 	argv = 0;
 	result = 0;
-	//signal handle
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (pid == 0)
 	{
 		argv = com.arguments;

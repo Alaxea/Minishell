@@ -56,3 +56,16 @@ void	exit_shell(t_data *env, char *mess, int fail)
 		exit(fail);
 	}
 }
+
+void    ft_free_envp(char **envp)
+{
+    int i;
+
+	i = 0;
+    while (envp[i])
+    {
+        free(envp[i]);
+        i++;
+    }
+    free(envp);
+}

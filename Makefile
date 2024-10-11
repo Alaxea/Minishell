@@ -49,7 +49,7 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/signals/handle_ctrl.c \
 		meat/executor/exec_path.c \
 		meat/executor/pipes.c \
-		
+		meat/executor/malloc.c \
 
 OBJ = $(SRC:.c=.o)
 all: $(NAME)

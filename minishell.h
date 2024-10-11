@@ -180,6 +180,10 @@ int	search_in_path(t_data *env, t_simple_cmd com);
 int	find_binary(t_data *env, t_simple_cmd com, char *bin_path, char **path);
 int	execute_path(char *bin_path, t_data *env, t_simple_cmd com);
 char *concat_path(const char *dir, const char *command);
+char  **allocate_arguments(int count);
+void free_arguments(char **arguments);
+char    **ft_dup_envp(char **envp);
+void    ft_free_envp(char **envp);
 
 
 /*pipes*/
