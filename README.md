@@ -1,4 +1,12 @@
 # Minishell
+## wstęp
+### struktura t_data
+Jest podstawową strukturą programu. Zbiera informacje na temat działania programu. Zawiera takie elementy jak:
+1) input od użytkownika
+2) tablicę zmiennych środowiskowych
+3) informację o aktualnym folderze
+4) pointer do struktury simple_cmd
+
 ## lexing
 Podczas lexingu input, pobierany od użytkownika poprzez funkcję readline, jest przekształcany w listę dwukierunkową.
 Każdy węzeł w liście oznaczany jest albo jako WORD albo jako OPERATOR. Oznaczenia węzłów są zależne od występowania domkniętych cudzysłowów. 
