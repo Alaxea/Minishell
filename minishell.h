@@ -84,8 +84,6 @@ typedef struct s_simple_cmd
 	int				fd_in;
 	char			*name; // basically a pathname for the execve
 	char			**cmd; // argv array for execve
-	char			*command;
-	char			**commands;
 	char			*flags;
 	char			**arguments;
 	char			*path;
@@ -143,7 +141,7 @@ char			*replace_env(char *str, char **env);
 int				expand(t_simple_cmd *cmds, char **env);
 char			*double_quotes_env(char *str, char **env);
 void			print_tab(char **tab);
-int				env_builtin(t_data *env);
+int				env_builtin(t_data *env, t_simple_cmd *cmd);
 //int	echo(char **args, int argc, int fd);
 int				is_builtin(t_data *command, int fd);
 void			clear_tab(char **tab);
@@ -203,7 +201,7 @@ void	close_fds_child(t_data *commands, int i);
 int		waiting_and_result(t_data *commands, t_data *env);
 void	fork_child(t_data *env, t_data *commands, int i);
 void	close_pipes(t_data *hell);
-void	execute(t_data *env, t_data *hell);
+void	execute(t_data *data);
 
 /*signals*/
 void handle_sigquit(int signal);

@@ -4,10 +4,16 @@
 
 int	executing(t_data *data)
 {
-	if (check_for_builtins(data->simple_cmds))
-		execute_builtin(data);
-	else
-		execute(data, data);
+	int	i;
+
+	i = 0;
+	while (data->simple_cmds[i])
+	{
+		if (check_for_builtins(data->simple_cmds[i]))
+			execute_builtin(data, simple_cmds[i]);
+		else
+			execute(data);
+	}
 	return (0);
 }
 
