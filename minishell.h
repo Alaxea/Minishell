@@ -153,7 +153,7 @@ void			delete_env_var(t_data *env, char *name);
 int				pwd_builtin(t_data *data, t_simple_cmd *cmd);
 int				echo_builtin(t_simple_cmd *com);
 int				check_for_builtins(t_simple_cmd *sc);
-int				execute_builtin(t_data *data);
+int				execute_builtin(t_data *data, t_simple_cmd *cmd);
 int				cd_builtin(t_data *env, t_simple_cmd com);
 int				exit_builtin(t_data *env, t_simple_cmd com);
 int				export_builtin(t_data *env, t_simple_cmd com);
@@ -201,7 +201,7 @@ void	close_fds_child(t_data *commands, int i);
 int		waiting_and_result(t_data *commands, t_data *env);
 void	fork_child(t_data *env, t_data *commands, int i);
 void	close_pipes(t_data *hell);
-void	execute(t_data *data);
+void	execute(t_data *data, t_data *hell);
 
 /*signals*/
 void handle_sigquit(int signal);

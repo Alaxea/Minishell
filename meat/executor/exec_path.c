@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:15:43 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/09 17:10:41 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/14 23:35:20 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	search_in_path(t_data *env, t_simple_cmd com)
 	char		*tmp;
 	int			ret_val;
 
-	if (com.command[0] == '.' || com.command[0] == '/')
+	if (com.cmd && (com.cmd[0][0] == '.' || com.cmd[0][0] == '/'))
 	{
-		bin_path = find_script(com.command, env);
+		bin_path = find_script(com.cmd[0], env);
 		return (execute_path(bin_path, env, com));
 	}
 	tmp = set_env_var(env, "PATH");
@@ -47,7 +47,7 @@ int	find_binary(t_data *env, t_simple_cmd com, char *bin_path, char **path)
 	i = -1;
 	while (path && path[++i])
 	{
-		bin_path = concat_path(path[i], com.command);
+		bin_path = concat_path(path[i], com.cmd[0]);
 		if (lstat(bin_path, &file) != -1)
 		{
 			free(path);

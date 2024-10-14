@@ -7,12 +7,13 @@ int	executing(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->simple_cmds[i])
+	while (data->simple_cmds[i].name)
 	{
-		if (check_for_builtins(data->simple_cmds[i]))
-			execute_builtin(data, simple_cmds[i]);
+		if (check_for_builtins(&data->simple_cmds[i]))
+			execute_builtin(data, &data->simple_cmds[i]);
 		else
 			execute(data);
+		i++;
 	}
 	return (0);
 }

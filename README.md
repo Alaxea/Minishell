@@ -62,3 +62,4 @@ Po parsingu następuje etap expandingu, czyli "obróbki" elementów przed execut
 
 ## executing
 
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:25:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/10 19:21:57 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:42:45 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	close_pipes(t_data *hell)
 	int	i;
 
 	i = 0;
-	while (hell[i].command)
+	while (hell->simple_cmds[i].cmd)
 	{
 		close(hell[i].fd[0]);
 		close(hell[i].fd[1]);
@@ -94,6 +94,8 @@ int		waiting_and_result(t_data *commands, t_data *env)
 
 void	fork_child(t_data *env, t_data *commands, int i)
 {
+	t_simple_cmd *cmd;
+	
 	commands[i].pid = fork();
 	if (commands[i].pid == -1)
 		exit_shell(env, "Filed to create a fork\n", 2);
@@ -105,7 +107,7 @@ void	fork_child(t_data *env, t_data *commands, int i)
 			dup2(commands[i].fd[1], STDOUT_FILENO);
 		if (i != 0)
 			dup2(commands[i - 1].fd[0], STDIN_FILENO);
-		env->last_result = execute_builtin(&commands[i]);
+		env->last_result = execute_builtin(data, &cmd[i]);
 		close(commands[i].fd[1]);
 		if (i != 0)
 			close(commands[i - 1].fd[0]);
@@ -120,7 +122,7 @@ void	execute(t_data *env, t_data *hell)
 
 	create_pipes(hell, env);
 	i = 0;
-	while (hell->simple_cmds[i].command)
+	while (hell->simple_cmds[i].cmd)
 	{
 		result = execute_command(&(hell->simple_cmds[i]), env->env_var);
 		hell->simple_cmds[i].data->pid = 0;
