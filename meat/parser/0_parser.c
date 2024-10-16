@@ -32,6 +32,8 @@ void	sc_initializer(t_simple_cmd *sc)
 	sc->name = NULL;
 	sc->parser_done = false;
 	sc->path = NULL;
+	sc->fd_in = -1;
+	sc->fd_out = -1;
 }
 
 t_simple_cmd	*ft_lstlast_sc(t_simple_cmd *lst)

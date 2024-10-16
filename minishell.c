@@ -12,7 +12,7 @@ int	executing(t_data *data)
 		if (check_for_builtins(&data->simple_cmds[i]))
 			execute_builtin(data, &data->simple_cmds[i]);
 		else
-			execute(data);
+			execute(data->simple_cmds + i, data);
 		i++;
 	}
 	return (0);
@@ -62,7 +62,6 @@ int	minishell(t_data *data)
 			execute_command(data->cmd, data->envp);
 		}
 		free(data->input);
-		//execute_command(data->cmd, data->envp);
 	}
 	return (0);
 }
@@ -79,7 +78,7 @@ int main(int argc, char **argv, char **envp)
 	//data.env_var = envp;
 	data.cmd = NULL;
 	minishell(&data);
-	ft_free_envp(envp);
+	//ft_free_envp(envp);
 	free(data.envp);
     free(data.env_var);
 }

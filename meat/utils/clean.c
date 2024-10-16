@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:09:57 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/07 23:04:34 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/16 23:59:08 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	exit_shell(t_data *env, char *mess, int fail)
 	}
 }
 
-void    ft_free_envp(char **envp)
+/*void    ft_free_envp(char **envp)
 {
     int i;
 
@@ -68,4 +68,4 @@ void    ft_free_envp(char **envp)
         i++;
     }
     free(envp);
-}
+}*/

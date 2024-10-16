@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:18:20 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/10/14 20:36:11 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/16 22:14:22 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	execute_builtin(t_data *data, t_simple_cmd *cmd)
     if (ft_strcmp(cmd->name, "echo") == 0)
         return (echo_builtin(cmd));
     if (ft_strcmp(cmd->name, "cd") == 0)
-        return (cd_builtin(data, *cmd));
+        return (cd_builtin(data, cmd));
     if (ft_strcmp(cmd->name, "env") == 0)
         return (env_builtin(data, cmd));
     if (ft_strcmp(cmd->name, "export") == 0)

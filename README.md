@@ -62,4 +62,114 @@ Po parsingu następuje etap expandingu, czyli "obróbki" elementów przed execut
 
 ## executing
 
+### Działanie poszczególnych funkcji:
+1. search_in_path
+Sprawdzenie, czy komenda jest ścieżką względną lub bezwzględną: Jeśli pierwszym znakiem jest . (bieżący katalog) lub / (katalog główny), wywołuje funkcję find_script, aby znaleźć lokalizację skryptu.
 
+Pobranie zmiennej PATH: Jeśli nie, ustawia zmienną środowiskową PATH przy użyciu set_env_var.
+Rozdzielenie PATH: Rozdziela zmienną PATH na różne katalogi.
+Znajdowanie binarnego pliku: Wywołuje funkcję find_binary, aby spróbować znaleźć odpowiedni plik wykonywalny(komendę).
+Zarządzanie błędami: W przypadku, gdy komenda nie jest rozpoznawana, zwraca kod błędu 127 i wyświetla odpowiedni komunikat.
+2. find_binary
+Funkcja ta ma za zadanie przeszukiwać katalogi podane w zmiennej PATH, aby znaleźć plik wykonywalny odpowiadający podanej komendzie.
+
+Iteracja przez katalogi w PATH: Funkcja przeszukuje każdy katalog w zmiennej PATH.
+Łączenie ścieżek: Używa funkcji concat_path, aby połączyć każdy katalog z nazwą komendy.
+Sprawdzanie istnienia pliku: Używa lstat, aby sprawdzić, czy plik istnieje i czy jest dostępny.
+Sprawdzanie uprawnień: Jeżeli plik istnieje, wywołuje check_permission, aby upewnić się, że użytkownik ma prawo do jego wykonania.
+Zwracanie wyniku: W przypadku znalezienia odpowiedniego pliku, wywołuje funkcję execute_path. Jeśli plik nie zostanie znaleziony w żadnym katalogu, zwraca kod błędu 127.
+3. execute_path
+Funkcja ma na celu wykonanie znalezionego pliku wykonywalnego w nowym procesie.
+
+Tworzenie nowego procesu: Używa fork, aby utworzyć nowy proces.
+Ustawienie sygnałów: Ustawia domyślne zachowanie dla sygnałów SIGINT i SIGQUIT.
+Wykonanie pliku: W dziecku wywołuje execve, aby uruchomić plik wykonywalny z odpowiednimi argumentami i zmiennymi środowiskowymi.
+Zarządzanie błędami: W przypadku niepowodzenia execve, wypisuje komunikat o błędzie i kończy proces.
+Czekanie na zakończenie procesu: W rodzicu używa waitpid, aby czekać na zakończenie wykonania procesu i zapisuje kod wyjścia.
+Zarządzanie pamięcią: Zwolnienie pamięci dla zmiennej bin_path po jej użyciu.
+
+4. free_paths
+Funkcja ma na celu zwolnienie pamięci zajmowanej przez tablicę ścieżek (wskaźników do łańcuchów znakowych).
+
+Iteruje przez wszystkie elementy tablicy paths, zwalniając każdy z nich.
+Na końcu zwalnia pamięć zajmowaną przez samą tablicę.
+5. concat_path
+Funkcja łączy katalog (directory) z nazwą komendy, tworząc pełną ścieżkę do pliku wykonywalnego.
+
+Oblicza długość katalogu i nazwy komendy.
+Alokuje pamięć na nowy łańcuch, który będzie przechowywał połączoną ścieżkę.
+Kopiuje katalog do nowego łańcucha, dodaje znak /, a następnie dodaje nazwę komendy.
+Zwraca połączoną ścieżkę.
+6. get_env_var
+Funkcja wyszukuje wartość zmiennej środowiskowej o podanej nazwie (var_name) w tablicy wskaźników do łańcuchów znakowych (envp).
+
+Iteruje przez wszystkie elementy tablicy envp, sprawdzając, czy dany element zaczyna się od var_name i jest zakończony znakiem =.
+Jeśli znajdzie zmienną, zwraca wskaźnik na jej wartość (część po znaku =).
+W przeciwnym razie zwraca NULL.
+7. get_full_path
+Funkcja znajduje pełną ścieżkę do pliku wykonywalnego na podstawie nazwy komendy i zmiennej PATH.
+
+Używa funkcji get_env_var, aby uzyskać wartość zmiennej PATH.
+Dzieli tę wartość na różne katalogi przy użyciu ft_split.
+Iteruje przez katalogi, łącząc każdy z nich z nazwą komendy za pomocą concat_path.
+Sprawdza, czy utworzona ścieżka jest dostępna do wykonania za pomocą access.
+Jeśli tak, zwraca pełną ścieżkę; w przeciwnym razie zwraca NULL.
+8. execute_command
+Funkcja wykonuje komendę w nowym procesie, wykorzystując fork i execve.
+
+Tworzy nowy proces za pomocą fork.
+W procesie dziecka:
+Sprawdza ewentualne przekierowania przy pomocy redir_check.
+Uzyskuje pełną ścieżkę do komendy przy użyciu get_full_path.
+Wykonuje komendę za pomocą execve. Jeśli nie uda się jej wykonać, wypisuje komunikat o błędzie.
+W procesie rodzica czeka na zakończenie procesu dziecka za pomocą waitpid.
+9. check_permission
+Funkcja sprawdza, czy dany plik jest plikiem wykonywalnym.
+
+Używa bitów w st_mode struktury stat, aby sprawdzić:
+Czy plik jest regularnym plikiem (S_ISREG).
+Czy jest wykonywalny przez użytkownika (S_IXUSR).
+Zwraca 1, jeśli plik ma odpowiednie uprawnienia, a 0 w przeciwnym razie, wypisując stosowne komunikaty.
+10. find_script
+Funkcja przekształca ścieżkę do skryptu względnego na absolutną.
+
+Sprawdza, czy ścieżka zaczyna się od kropki (.), co oznacza, że jest to ścieżka względna.
+Używa ft_substr do uzyskania ścieżki po kropce i łączy ją z aktualnym katalogiem roboczym (pobieranym przez set_env_var).
+Jeśli ścieżka nie jest względna, zwraca ją bez zmian.
+
+11. close_pipes
+Funkcja zamyka wszystkie otwarte deskryptory potoków (fd_in i fd_out) dla wszystkich komend w liście t_simple_cmd.
+
+Iteruje przez wszystkie elementy listy komend.
+Dla każdej komendy zamyka deskryptor fd_in, jeśli jest większy od 0.
+Dla każdej komendy zamyka deskryptor fd_out, jeśli jest większy od 0.
+Przechodzi do następnej komendy, aż do końca listy.
+12. create_pipes
+Funkcja tworzy potoki (pipes) dla wszystkich komend w liście t_simple_cmd, aby umożliwić przekazywanie danych między nimi.
+
+Używa pętli, aby iterować przez wszystkie komendy w liście.
+Dla każdej pary komend tworzy nowy potok za pomocą funkcji pipe.
+Ustawia deskryptor wyjścia (fd_out) bieżącej komendy na env->fd[1].
+Ustawia deskryptor wejścia (fd_in) następnej komendy na env->fd[0].
+Zwraca -1 w przypadku błędu przy tworzeniu potoku, w przeciwnym razie zwraca 0.
+13. fork_and_execute
+Funkcja tworzy procesy potomne dla każdej komendy w liście t_simple_cmd i wykonuje je.
+
+Iteruje przez wszystkie komendy w liście.
+Dla każdej komendy wywołuje fork, aby utworzyć nowy proces.
+W procesie potomnym:
+Ustawia standardowe wejście (STDIN_FILENO) na deskryptor fd_in, jeśli jest otwarty.
+Ustawia standardowe wyjście (STDOUT_FILENO) na deskryptor fd_out, jeśli jest otwarty.
+Zamyka wszystkie potoki, wywołując close_pipes.
+Uruchamia komendę za pomocą execve. Jeśli execve zwróci -1, wypisuje błąd i kończy proces z kodem 127.
+Kontynuuje do następnej komendy.
+14. execute
+Funkcja koordynuje wykonanie wszystkich komend w liście t_simple_cmd, zarządzając potokami i procesami.
+
+Wywołuje create_pipes, aby utworzyć potoki dla wszystkich komend. Jeśli wystąpi błąd, zwraca -1.
+Wywołuje fork_and_execute, aby stworzyć procesy dla komend. Jeśli wystąpi błąd, zwraca -1.
+Zamyka wszystkie potoki w procesie głównym, wywołując close_pipes.
+Czeka na zakończenie wszystkich procesów potomnych za pomocą waitpid i aktualizuje last_result w strukturze t_data, aby zapisać kod wyjścia ostatniego zakończonego procesu.
+Zwraca last_result, czyli kod wyjścia ostatniego procesu.
+
+### do dodania redirection, signals
