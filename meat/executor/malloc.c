@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 11:02:17 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/16 23:58:58 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/17 22:10:48 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void free_arguments(char **arguments)
 }
 
 //funkcja do kopiowania zmiennych środowiskowych
-char    **ft_dup_envp(char **envp)
+/*char    **ft_dup_envp(char **envp)
 {
     char    **new_envp;
     int     i;
@@ -56,5 +56,5 @@ char    **ft_dup_envp(char **envp)
     }
     new_envp[i] = NULL;
     return (new_envp);
-}
+}*/
 

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:15:43 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/16 20:32:51 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/17 23:17:17 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	execute_path(char *bin_path, t_data *env, t_simple_cmd *com)
 	signal(SIGQUIT, SIG_DFL);
 	if (pid == 0)
 	{
-		argv = com->arguments;
+		argv = com->cmd;
 		result = execve(bin_path, argv, env->env_var);
 		if (result == -1)
 		{

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:25:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/17 00:01:00 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/17 21:46:18 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,15 @@ int fork_and_execute(t_simple_cmd *cmd, t_data *env)
                 exit(127);
             }
         }
+		else if (current->fd_in > 0)
+        {
+            close(current->fd_in);  // Rodzic zamyka fd_in, gdy dziecko skończy
+        }
+
+        if (current->fd_out > 0)
+        {
+            close(current->fd_out);  // Rodzic zamyka fd_out po stworzeniu pipe'a
+        }
         current = current->next;
     }
 
@@ -209,6 +218,7 @@ int execute(t_simple_cmd *cmd, t_data *env)
 {
     if (create_pipes(env, cmd) == -1)
         return (-1);
+printf("before execute\n");
     if (fork_and_execute(cmd, env) == -1)
         return (-1);
     close_pipes(cmd);

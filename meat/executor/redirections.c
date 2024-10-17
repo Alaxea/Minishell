@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/16 23:36:47 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/17 23:16:53 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,57 +113,45 @@ void redir_check(t_simple_cmd *cmd)
 	int i = 0;
     int arg_count = 0;
 
-    // Zakładamy, że cmd->arguments jest podawane w inny sposób (np. z innej funkcji)
-
-    // Na początku ustalamy, ile argumentów mamy
-    while (cmd->arguments[arg_count] != NULL)
+    while (cmd->cmd[arg_count] != NULL)
     {
         arg_count++;
     }
 
     // Alokacja pamięci dla argumentów
-    cmd->arguments = malloc((arg_count + 1) * sizeof(char *));
-    if (!cmd->arguments)
+    cmd->cmd = malloc((arg_count + 1) * sizeof(char *));
+    if (!cmd->cmd)
     {
         perror("malloc failed");
-        return; // Zakończ, jeśli alokacja nie powiodła się
+        return;
     }
-
-    // Przykładowe wypełnienie argumentów (tutaj musisz podać swoje argumenty)
-    // cmd->arguments[0] = ft_strdup("ls"); // Dodaj odpowiednie argumenty
-    // cmd->arguments[1] = ft_strdup("-l"); // Przykładowe argumenty
-    // cmd->arguments[2] = NULL; // Zakończ tablicę NULL
-
-    // Iteracja po argumentach
-    while (cmd->arguments[i])
+    while (cmd->cmd[i])
     {
-        // Sprawdzanie, czy jest to przekierowanie
-        if (ft_strncmp(cmd->arguments[i], ">", 1) == 0)
+        if (ft_strncmp(cmd->cmd[i], ">", 1) == 0)
         {
             out_redir(cmd);
         }
-        else if (ft_strncmp(cmd->arguments[i], "<", 1) == 0)
+        else if (ft_strncmp(cmd->cmd[i], "<", 1) == 0)
         {
             in_redir(cmd);
         }
-        else if (ft_strncmp(cmd->arguments[i], ">>", 2) == 0)
+        else if (ft_strncmp(cmd->cmd[i], ">>", 2) == 0)
         {
             append_redir(cmd);
         }
-        else if (ft_strncmp(cmd->arguments[i], "<<", 2) == 0)
+        else if (ft_strncmp(cmd->cmd[i], "<<", 2) == 0)
         {
             heredoc_redir(cmd);
         }
         i++;
     }
-
     // Zwalnianie pamięci
-    i = 0; // resetowanie indeksu do zwolnienia
-    while (cmd->arguments[i])
+    i = 0; 
+    while (cmd->cmd[i])
     {
-        free(cmd->arguments[i]); // Zwalnianie pojedynczego argumentu
+        free(cmd->cmd[i]); // Zwalnianie pojedynczego argumentu
         i++;
     }
-    free(cmd->arguments); // Zwalnianie tablicy wskaźników
-    cmd->arguments = NULL;
+    free(cmd->cmd); // Zwalnianie tablicy wskaźników
+    cmd->cmd = NULL;
 }

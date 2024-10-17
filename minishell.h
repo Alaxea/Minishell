@@ -85,7 +85,7 @@ typedef struct s_simple_cmd
 	char			*name; // basically a pathname for the execve
 	char			**cmd; // argv array for execve
 	char			*flags;
-	char			**arguments;
+	//char			**arguments;
 	char			*path;
 	char			*output_path;
 	char			*output_path_append;

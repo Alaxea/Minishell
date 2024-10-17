@@ -59,7 +59,6 @@ int	minishell(t_data *data)
 		if (flag != 0)
 		{
 			executing(data);
-			execute_command(data->cmd, data->envp);
 		}
 		free(data->input);
 	}
@@ -72,15 +71,11 @@ int main(int argc, char **argv, char **envp)
 	
 	(void)argv;
 	(void)argc;
-	data.envp = ft_dup_envp(envp);
-    data.env_var = ft_dup_envp(envp);
-	//data.envp = envp;
-	//data.env_var = envp;
+	data.envp = envp;
+    data.env_var = envp;
 	data.cmd = NULL;
 	minishell(&data);
-	//ft_free_envp(envp);
-	free(data.envp);
-    free(data.env_var);
+	return(0);
 }
 
 

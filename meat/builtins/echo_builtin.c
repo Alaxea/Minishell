@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:21:26 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/16 21:54:50 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/17 22:42:29 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static int	echo_helper(t_simple_cmd *com, int *new_line)
 
 	i = 0;
 	redir_builtin(com);
+	if (com->flags == NULL)
+        return (0);
 	if (com->flags)
 	{
 		while (com->flags[i])

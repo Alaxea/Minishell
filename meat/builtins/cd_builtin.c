@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:16:20 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/16 21:52:57 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/17 23:07:26 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		cd_builtin(t_data *env, t_simple_cmd *com)
 
 static int		cd_helper(t_simple_cmd *com, char *cwd)
 {
-	if (com->arguments[0] == NULL)
+	if (com->cmd[0] == NULL)
 	{
 		if (cwd == NULL)
 		{
@@ -44,7 +44,7 @@ static int		cd_helper(t_simple_cmd *com, char *cwd)
 	}
 	else
 	{
-		if (chdir(com->arguments[0]) != 0)
+		if (chdir(com->cmd[0]) != 0)
 		{
 			ft_putstr_fd("cd: No such file or directory\n", 2);
 			return (1);
