@@ -12,28 +12,28 @@
 
 #include "../../minishell.h"
 
-int		export_builtin(t_data *env, t_simple_cmd com)
+int		export_builtin(t_data *env, t_simple_cmd *cmd)
 {
 	char	*temp; //do nazwy zmiennej
 	char	*temp2; //do wartości zmiennej
 	int		temp3;
 
 	printf("Before checking args\n");
-	if (!com.cmd[1])
+	if (!cmd->cmd[1])
 	{
 		ft_putstr_fd("export: Invalid arguments\n", 2);
 		return (1);
 	}
 	printf("Before strchrn\n");
-	temp3 = ft_strchrn(com.cmd[1], '=');
+	temp3 = ft_strchrn(cmd->cmd[1], '=');
 	printf("After strchrn: %d\n", temp3);
 	if (temp3 == -1)
 	{
-		 ft_putstr_fd("export: Invalid format\n", 2);
+		ft_putstr_fd("export: Invalid format\n", 2);
 		return (1);
 	}
 	printf("Before extracting variable name\n");
-	temp = ft_substr(com.cmd[1], 0, temp3);
+	temp = ft_substr(cmd->cmd[1], 0, temp3);
 	if (!temp)
     {
         ft_putstr_fd("Memory allocation error\n", 2);
@@ -45,8 +45,8 @@ int		export_builtin(t_data *env, t_simple_cmd com)
         delete_env_var(env, temp);
     }
 	printf("Before extracting variable value\n");
-	temp2 = ft_substr(com.cmd[1], temp3 + 1,
-			ft_strlen(com.cmd[1] - temp3 - 1));
+	temp2 = ft_substr(cmd->cmd[1], temp3 + 1,
+			ft_strlen(cmd->cmd[1]) - temp3 - 1);
 	if (!temp2)
     {
 		free(temp);
@@ -55,8 +55,8 @@ int		export_builtin(t_data *env, t_simple_cmd com)
     }
 	printf("Variable value: %s\n", temp2);
 	add_env_var(env, temp, temp2);
-	free(temp);
-	free(temp2);
+	//free(temp);
+	//free(temp2);
 	printf("Export completed\n");
 	return (0);
 }

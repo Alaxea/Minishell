@@ -42,28 +42,28 @@ int	ft_overflow_int(char *str)
 	return (0);
 }
 
-int		exit_builtin(t_data *env, t_simple_cmd com)
+int		exit_builtin(t_data *env, t_simple_cmd *cmd)
 {
 	int	result;
 
-	if (!com.cmd[0])
+	if (!cmd->cmd[0])
 	{
 		clear_env(env);
 		exit(0);
 	}
-	if (com.cmd[0])
+	if (cmd->cmd[0])
 		write(1, "exit\n", 5);
-	if (com.cmd[1])
+	if (cmd->cmd[1])
 	{
 		ft_putstr_fd("Too many cmd\n", 2);
 		return (1);
 	}
-	if (!ft_isdigit(com.cmd[0][0] || ft_overflow_int(com.cmd[0])))
+	if (!ft_isdigit(cmd->cmd[0][0] || ft_overflow_int(cmd->cmd[0])))
 	{
 		ft_putstr_fd("Numeric argument is required\n", 2);
 		return (1);
 	}
-	result = ft_atoi(com.cmd[0]);
+	result = ft_atoi(cmd->cmd[0]);
 	clear_env(env);
 	exit(result);
 }

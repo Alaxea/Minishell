@@ -51,25 +51,60 @@ void	add_env_var(t_data *env, char *name, char *value)
 {
 	int i;
 	int size;
-	char **res;
+	char **new_env;
 	char *temp;
 
 	size = 0;
 	while (env->env_var[size])
 		size++;
-	res = (char **)malloc(sizeof(char *) * (size + 2));
-	i = 0;
-	while (env->env_var[i])
+	new_env = (char **)malloc(sizeof(char *) * (size + 2));
+	if (!new_env)
 	{
-		res[i] = ft_strdup(env->env_var[i]);
+		ft_putstr_fd("Memory allocation error\n", 2);
+		return;
+	}
+	i = 0;
+	while (i < size)
+	{
+		new_env[i] = ft_strdup(env->env_var[i]);
+		if (!new_env[i])
+		{
+			ft_putstr_fd("Memory allocation error\n", 2);
+			while (i > 0)
+			{
+				free(new_env[--i]);
+			}
+			free(new_env);
+			return;
+		}
 		i++;
 	}
 	temp = ft_strjoin(name, "=");
-	res[i] = ft_strjoin(temp, value);
+	if (!temp)
+	{
+		ft_putstr_fd("Memory allocation error\n", 2);
+		while (i > 0)
+		{
+			free(new_env[--i]);
+		}
+		free(new_env);
+		return;
+	}
+	new_env[i] = ft_strjoin(temp, value);
 	free(temp);
-	res[++i] = 0;
+	if (!new_env[i])
+	{
+		ft_putstr_fd("Memory allocation error\n", 2);
+		while (i > 0)
+		{
+			free(new_env[--i]);
+		}
+		free(new_env);
+		return;
+	}
+	new_env[++i] = 0;
 	clear_tab(env->env_var);
-	env->env_var = res;
+	env->env_var = new_env;
 }
 
 void	delete_env_var(t_data *env, char *name)

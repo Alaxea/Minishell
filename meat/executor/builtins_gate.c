@@ -42,12 +42,12 @@ int	execute_builtin(t_data *data, t_simple_cmd *cmd)
     if (ft_strcmp(cmd->name, "env") == 0)
         return (env_builtin(data, cmd));
     if (ft_strcmp(cmd->name, "export") == 0)
-        return (export_builtin(data, *cmd));
+        return (export_builtin(data, cmd));
     if (ft_strcmp(cmd->name, "exit") == 0)
-        return (exit_builtin(data, *cmd));
+        return (exit_builtin(data, cmd));
     if (ft_strcmp(cmd->name, "unset") == 0)
 	{
-        return (unset_builtin(data, *cmd));
+        return (unset_builtin(data, cmd));
 	}
 	return (0);
 }

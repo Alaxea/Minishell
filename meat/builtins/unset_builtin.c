@@ -12,18 +12,24 @@
 
 #include "../../minishell.h"
 
-int		unset_builtin(t_data *env, t_simple_cmd com)
+int		unset_builtin(t_data *env, t_simple_cmd *cmd)
 {
-	char	*temp;
-	int		temp2;
-
-	if (!com.cmd[0])
+	char *temp;
+	
+	if (!cmd->cmd[1]) 
+	{
+		ft_putstr_fd("unset: not enough arguments\n", 2);
 		return (1);
-	temp2 = ft_strchrn(com.cmd[1], '=');
-	if (!temp2)
+	}
+	if (ft_strchr(cmd->cmd[1], '='))
+	{
+		ft_putstr_fd("unset: invalid argument\n", 2);
 		return (1);
-	temp = ft_substr(com.cmd[1], 0, temp2);
+	}
+	temp = ft_strdup(cmd->cmd[1]);
+	if (!temp)
+		return (1); 
 	delete_env_var(env, temp);
-	free (temp);
+	free(temp);
 	return (0);
 }

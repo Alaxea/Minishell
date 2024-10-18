@@ -22,9 +22,9 @@ void	redir_builtin(t_simple_cmd *cmd)
 		cmd->fd_out = 1;
 }
 
-static int	echo_helper(t_simple_cmd *com, int *new_line);
+static int	echo_helper(t_simple_cmd *cmd, int *new_line);
 
-int	echo_builtin(t_simple_cmd *com)
+int	echo_builtin(t_simple_cmd *cmd)
 {
 	int	new_line;
 	int	ret_val;
@@ -32,43 +32,42 @@ int	echo_builtin(t_simple_cmd *com)
 
 	i = 1;
 	new_line = 1;
-	ret_val = echo_helper(com, &new_line);
-	if (com->cmd && com->cmd[i] != NULL)
+	ret_val = echo_helper(cmd, &new_line);
+	if (ret_val != 0)
+		return (ret_val);
+	if (cmd->cmd && cmd->cmd[i] != NULL)
 	{
-		ft_putstr_fd(com->cmd[i], com->fd_out);
+		ft_putstr_fd(cmd->cmd[i], cmd->fd_out);
 		i++;
-		while (com->cmd[i] != NULL)
+		while (cmd->cmd[i] != NULL)
 		{
-			ft_putstr_fd(" ", com->fd_out);
-			ft_putstr_fd(com->cmd[i], com->fd_out);
+			ft_putstr_fd(" ", cmd->fd_out);
+			ft_putstr_fd(cmd->cmd[i], cmd->fd_out);
 			i++;
 		}
 	}
 	if (new_line)
-		ft_putstr_fd("\n", com->fd_out);
+		ft_putstr_fd("\n", cmd->fd_out);
 	return (ret_val);
 }
 
-static int	echo_helper(t_simple_cmd *com, int *new_line)
+static int	echo_helper(t_simple_cmd *cmd, int *new_line)
 {
 	int	i;
 
 	i = 0;
-	redir_builtin(com);
-	if (com->flags == NULL)
+	redir_builtin(cmd);
+	if (cmd->flags == NULL)
         return (0);
-	if (com->flags)
+	while (cmd->flags[i])
 	{
-		while (com->flags[i])
+		if (cmd->flags[i++] != 'n')
 		{
-			if (com->flags[i++] != 'n')
-			{
-				ft_putstr_fd("Invalid flag\n", 2);
-				return (-1);
-			}
+			ft_putstr_fd("Invalid flag\n", 2);
+			return (-1);
 		}
-		if (com->flags[0] == 'n')
-			*new_line = 0;
 	}
+	if (cmd->flags[0] == 'n')
+		*new_line = 0;
 	return (0);
 }

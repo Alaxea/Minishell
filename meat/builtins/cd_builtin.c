@@ -12,24 +12,24 @@
 
 #include "../../minishell.h"
 
-static int		cd_helper(t_simple_cmd *com, char *cwd);
+static int		cd_helper(t_simple_cmd *cmd, char *cwd);
 
-int		cd_builtin(t_data *env, t_simple_cmd *com)
+int		cd_builtin(t_data *env, t_simple_cmd *cmd)
 {
 	char *home;
 	char buffer[1024];
 	int ret_val;
 
 	home = set_env_var(env, "HOME");
-	ret_val = cd_helper(com, home);
+	ret_val = cd_helper(cmd, home);
 	delete_env_var(env, "PWD");
 	add_env_var(env, "PWD", getcwd(buffer, 1024));
 	return (ret_val);
 }
 
-static int		cd_helper(t_simple_cmd *com, char *cwd)
+static int		cd_helper(t_simple_cmd *cmd, char *cwd)
 {
-	if (com->cmd[0] == NULL)
+	if (cmd->cmd[0] == NULL)
 	{
 		if (cwd == NULL)
 		{
@@ -44,7 +44,7 @@ static int		cd_helper(t_simple_cmd *com, char *cwd)
 	}
 	else
 	{
-		if (chdir(com->cmd[0]) != 0)
+		if (chdir(cmd->cmd[0]) != 0)
 		{
 			ft_putstr_fd("cd: No such file or directory\n", 2);
 			return (1);
