@@ -128,7 +128,9 @@ void	execute(t_data *env, t_data *hell)
 			fork_child(env, hell, i);
 		else
 			env->last_result = result;
+		printf("%d\n", i);
 		i++;
+
 	}
 	close_pipes(hell);
 	env->last_result = waiting_and_result(hell, env);
