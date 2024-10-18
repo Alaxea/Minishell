@@ -84,10 +84,8 @@ typedef struct s_simple_cmd
 	int				fd_in;
 	char			*name; // basically a pathname for the execve
 	char			**cmd; // argv array for execve
-	char			*command;
-	char			**commands;
 	char			*flags;
-	char			**arguments;
+	//char			**arguments;
 	char			*path;
 	char			*output_path;
 	char			*output_path_append;
@@ -95,6 +93,8 @@ typedef struct s_simple_cmd
 	char			*delimiter_heredoc;
 	bool			heredoc;
 	bool			parser_done;
+	pid_t pid;
+	char	*command;
 	struct s_simple_cmd	*next;
 	struct s_simple_cmd	*prev;
 	struct s_data *data;
@@ -114,11 +114,9 @@ typedef struct s_data
 	t_simple_cmd	*cmd;
 	t_token	*token;
 	t_io_fds fd_out;
-	char	*command;
 	int exit_code;
-	int pid;
 	int last_result; //do pipes.c
-	int fd[2]; //do pipes.c
+	int fd[2]; //do pipes.c;
 }	t_data;
 
 int				ft_iswhitespace(char c);
@@ -142,8 +140,8 @@ t_simple_cmd	*parser(t_token *tokens);
 char			*replace_env(char *str, char **env);
 int				expand(t_simple_cmd *cmds, char **env);
 char			*double_quotes_env(char *str, char **env);
-void			print_tab(char **tab);
-int				env_builtin(t_data *env);
+void			print_tab(char **tab, int fd_out);
+int				env_builtin(t_data *env, t_simple_cmd *cmd);
 //int	echo(char **args, int argc, int fd);
 int				is_builtin(t_data *command, int fd);
 void			clear_tab(char **tab);
@@ -155,8 +153,8 @@ void			delete_env_var(t_data *env, char *name);
 int				pwd_builtin(t_data *data, t_simple_cmd *cmd);
 int				echo_builtin(t_simple_cmd *com);
 int				check_for_builtins(t_simple_cmd *sc);
-int				execute_builtin(t_data *data);
-int				cd_builtin(t_data *env, t_simple_cmd com);
+int				execute_builtin(t_data *data, t_simple_cmd *cmd);
+int				cd_builtin(t_data *env, t_simple_cmd *com);
 int				exit_builtin(t_data *env, t_simple_cmd com);
 int				export_builtin(t_data *env, t_simple_cmd com);
 int				unset_builtin(t_data *env, t_simple_cmd com);
@@ -178,32 +176,29 @@ void	exit_shell(t_data *env, char *mess, int fail);
 char	*find_script(char *script, t_data *env);
 int	search_in_path(t_data *env, t_simple_cmd com);
 int	find_binary(t_data *env, t_simple_cmd com, char *bin_path, char **path);
-int	execute_path(char *bin_path, t_data *env, t_simple_cmd com);
+int	execute_path(char *bin_path, t_data *env, t_simple_cmd *com);
 char *concat_path(const char *dir, const char *command);
-char  **allocate_arguments(int count);
+char  **allocate_arguments(t_simple_cmd *cmd, int count);
 void free_arguments(char **arguments);
 char    **ft_dup_envp(char **envp);
 void    ft_free_envp(char **envp);
 
 
 /*pipes*/
-/*int	child(char **argv, t_pipex_data *p_data);
-void	open_files(t_pipex_data *data, char **argv);
-void	return_error(char *message);
-void	free_array(char **array);
-int	exec_prep(t_pipex_data *data, char *command, char **envp);
-char	**find_paths(char **envp);
-void	pipex_init(t_pipex_data *data);
-int	pipex(t_data *data);*/
 
-void	handle_pipe(t_simple_cmd *current);
-void	create_pipes(t_data *commands, t_data *env);
-void	close_fds_main(t_data *commands);
-void	close_fds_child(t_data *commands, int i);
-int		waiting_and_result(t_data *commands, t_data *env);
-void	fork_child(t_data *env, t_data *commands, int i);
-void	close_pipes(t_data *hell);
-void	execute(t_data *env, t_data *hell);
+/*void	handle_pipe(t_simple_cmd *current);
+void	create_pipes(t_simple_cmd *commands, t_data *env);
+void	close_fds_main(t_simple_cmd *commands);
+void	close_fds_child(t_simple_cmd *commands, int i);
+int		waiting_and_result(t_simple_cmd *commands, t_data *env);
+void	fork_child(t_data *env, t_simple_cmd *commands, int i);
+void	close_pipes(t_simple_cmd *hell);
+void	execute(t_data *data, t_simple_cmd *cmd);*/
+
+void close_pipes(t_simple_cmd *cmd);
+int create_pipes(t_data *env, t_simple_cmd *cmd);
+int fork_and_execute(t_simple_cmd *cmd, t_data *env);
+int execute(t_simple_cmd *cmd, t_data *env);
 
 /*signals*/
 void handle_sigquit(int signal);

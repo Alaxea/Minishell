@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:06:17 by astefans          #+#    #+#             */
-/*   Updated: 2024/09/05 15:42:46 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/17 23:47:27 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*set_env_var(t_data *env, char *name)
 				return (ft_strdup(env->env_var[i] + temp + 1));
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
 
 void	add_env_var(t_data *env, char *name, char *value)

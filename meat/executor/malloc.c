@@ -3,51 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 11:02:17 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/11 11:02:20 by astefans         ###   ########.fr       */
+/*   Updated: 2024/10/17 22:10:48 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-char  **allocate_arguments(int count) 
-{
-    char **arguments;
-    int i;
-	t_simple_cmd *cmd = NULL;
-
-    // Zaalokowanie pamięci na tablicę wskaźników
-	i = 0;
-    arguments = malloc((count + 1) * sizeof(char *));
-    if (!arguments)
-        return NULL;
-    while (i < count) 
-	{
-        arguments[i] = ft_strdup(cmd->arguments[i]);
-		i++;
-    }
-    arguments[count] = NULL;
-    return (arguments);
-}
 
 void free_arguments(char **arguments) 
 {
     int i;
 
 	i = 0;
-    // Zwalnianie zaalokowanej pamięci
-    while (arguments[i]) 
-	{
-        free(arguments[i]);
-        i++;
+    if (arguments)
+    {
+        while (arguments[i]) 
+	    {
+            free(arguments[i]);
+            i++;
+        }
+        free(arguments);
     }
-    free(arguments);
 }
 
 //funkcja do kopiowania zmiennych środowiskowych
-char    **ft_dup_envp(char **envp)
+/*char    **ft_dup_envp(char **envp)
 {
     char    **new_envp;
     int     i;
@@ -74,5 +56,5 @@ char    **ft_dup_envp(char **envp)
     }
     new_envp[i] = NULL;
     return (new_envp);
-}
+}*/
 

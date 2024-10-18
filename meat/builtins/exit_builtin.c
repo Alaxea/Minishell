@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:42:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/02 14:43:36 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/10/16 22:11:14 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,17 @@ int		exit_builtin(t_data *env, t_simple_cmd com)
 	}
 	if (com.cmd[0])
 		write(1, "exit\n", 5);
-	if (com.cmd[0] && com.cmd[1])
+	if (com.cmd[1])
 	{
 		ft_putstr_fd("Too many cmd\n", 2);
 		return (1);
 	}
-	if (ft_isdigit(com.cmd[0] || ft_overflow_int(com.cmd[0])))
+	if (!ft_isdigit(com.cmd[0][0] || ft_overflow_int(com.cmd[0])))
 	{
 		ft_putstr_fd("Numeric argument is required\n", 2);
-		//clear_env(env);
 		return (1);
 	}
-	else
-	{
-		//clear_env(env);
-		result = ft_atoi(com.cmd[0]);
-		if (result < 0)
-			exit(0);
-		exit(result);
-	}
+	result = ft_atoi(com.cmd[0]);
+	clear_env(env);
+	exit(result);
 }

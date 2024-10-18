@@ -4,10 +4,17 @@
 
 int	executing(t_data *data)
 {
-	if (check_for_builtins(data->simple_cmds))
-		execute_builtin(data);
-	else
-		execute(data, data);
+	int	i;
+
+	i = 0;
+	while (data->simple_cmds[i].name)
+	{
+		if (check_for_builtins(&data->simple_cmds[i]))
+			execute_builtin(data, &data->simple_cmds[i]);
+		else
+			execute(data->simple_cmds + i, data);
+		i++;
+	}
 	return (0);
 }
 
@@ -33,7 +40,7 @@ int	parsing(t_data *data)
 
 int	minishell(t_data *data)
 {
-	signals();
+	// signals();
 	while(1)
 	{
 		data->input = readline("minishell>> ");
@@ -52,10 +59,8 @@ int	minishell(t_data *data)
 		if (flag != 0)
 		{
 			executing(data);
-			execute_command(data->cmd, data->envp);
 		}
 		free(data->input);
-		//execute_command(data->cmd, data->envp);
 	}
 	return (0);
 }
@@ -66,15 +71,11 @@ int main(int argc, char **argv, char **envp)
 	
 	(void)argv;
 	(void)argc;
-	data.envp = ft_dup_envp(envp);
-    data.env_var = ft_dup_envp(envp);
-	//data.envp = envp;
-	//data.env_var = envp;
+	data.envp = envp;
+    data.env_var = envp;
 	data.cmd = NULL;
 	minishell(&data);
-	ft_free_envp(envp);
-	free(data.envp);
-    free(data.env_var);
+	return(0);
 }
 
 
