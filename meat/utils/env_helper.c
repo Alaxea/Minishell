@@ -70,10 +70,8 @@ void	add_env_var(t_data *env, char *name, char *value)
 		if (!new_env[i])
 		{
 			ft_putstr_fd("Memory allocation error\n", 2);
-			while (i > 0)
-			{
-				free(new_env[--i]);
-			}
+			while (--i >= 0)
+				free(new_env[i]);
 			free(new_env);
 			return;
 		}
@@ -83,10 +81,8 @@ void	add_env_var(t_data *env, char *name, char *value)
 	if (!temp)
 	{
 		ft_putstr_fd("Memory allocation error\n", 2);
-		while (i > 0)
-		{
-			free(new_env[--i]);
-		}
+		while (--i >= 0)
+			free(new_env[i]);
 		free(new_env);
 		return;
 	}
@@ -95,14 +91,12 @@ void	add_env_var(t_data *env, char *name, char *value)
 	if (!new_env[i])
 	{
 		ft_putstr_fd("Memory allocation error\n", 2);
-		while (i > 0)
-		{
-			free(new_env[--i]);
-		}
+		while (--i >= 0)
+			free(new_env[i]);
 		free(new_env);
 		return;
 	}
-	new_env[++i] = 0;
+	new_env[++i] = NULL;
 	clear_tab(env->env_var);
 	env->env_var = new_env;
 }

@@ -51,19 +51,19 @@ int		exit_builtin(t_data *env, t_simple_cmd *cmd)
 		clear_env(env);
 		exit(0);
 	}
-	if (cmd->cmd[0])
-		write(1, "exit\n", 5);
-	if (cmd->cmd[1])
+	write (1, "exit\n", 5);
+	if (cmd->cmd[1] && cmd->cmd[2])
 	{
-		ft_putstr_fd("Too many cmd\n", 2);
+		ft_putstr_fd("Too many arguments\n", 2);
 		return (1);
 	}
-	if (!ft_isdigit(cmd->cmd[0][0] || ft_overflow_int(cmd->cmd[0])))
+	if (!ft_isdigit(cmd->cmd[1][0] || ft_overflow_int(cmd->cmd[1])))
 	{
 		ft_putstr_fd("Numeric argument is required\n", 2);
-		return (1);
+		clear_env(env);
+		return (2);
 	}
-	result = ft_atoi(cmd->cmd[0]);
+	result = ft_atoi(cmd->cmd[1]);
 	clear_env(env);
 	exit(result);
 }
