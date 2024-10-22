@@ -218,14 +218,15 @@ int fork_and_execute(t_simple_cmd *cmd, t_data *env)
 
 int execute(t_simple_cmd *cmd, t_data *env)
 {
+	t_simple_cmd *current;
+	int status;
+
+	current = cmd;
     if (create_pipes(env, cmd) == -1)
         return (-1);
-printf("before execute\n");
     if (fork_and_execute(cmd, env) == -1)
         return (-1);
     close_pipes(cmd);
-    t_simple_cmd *current = cmd;
-    int status;
     while (current)
     {
         waitpid(current->pid, &status, 0);
@@ -233,7 +234,6 @@ printf("before execute\n");
             env->last_result = WEXITSTATUS(status);
         current = current->next;
     }
-
     return (env->last_result);
 }
 
