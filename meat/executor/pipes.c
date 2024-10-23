@@ -202,17 +202,11 @@ int fork_and_execute(t_simple_cmd *cmd, t_data *env)
             }
         }
 		else if (current->fd_in > 0)
-        {
             close(current->fd_in);  // Rodzic zamyka fd_in, gdy dziecko skończy
-        }
-
         if (current->fd_out > 0)
-        {
             close(current->fd_out);  // Rodzic zamyka fd_out po stworzeniu pipe'a
-        }
         current = current->next;
     }
-
     return (0);
 }
 

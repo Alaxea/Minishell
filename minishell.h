@@ -181,6 +181,7 @@ char  **allocate_arguments(t_simple_cmd *cmd, int count);
 void free_arguments(char **arguments);
 char    **ft_dup_envp(char **envp);
 void    ft_free_envp(char **envp);
+int	is_valid_env_var(const char *key_value);
 
 
 /*pipes*/
