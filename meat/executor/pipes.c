@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:25:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/17 21:46:18 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/28 19:56:42 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,4 +230,3 @@ int execute(t_simple_cmd *cmd, t_data *env)
     }
     return (env->last_result);
 }
-

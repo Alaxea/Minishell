@@ -31,6 +31,7 @@ typedef struct s_pipex_data
 }	t_pipex_data;
 
 # define BUFFER_SIZE 42
+# define ENV_INCREMENT 10
 typedef enum	s_redir_type
 {
 	STANDARD,
@@ -155,7 +156,12 @@ int				check_for_builtins(t_simple_cmd *sc);
 int				execute_builtin(t_data *data, t_simple_cmd *cmd);
 int				cd_builtin(t_data *env, t_simple_cmd *cmd);
 int				exit_builtin(t_data *env, t_simple_cmd *cmd);
-int				export_builtin(t_data *env, t_simple_cmd *cmd);
+//int				export_builtin(t_data *env, t_simple_cmd *cmd);
+int	export_builtin(t_data *data, t_simple_cmd *cmd);
+char	*ft_strjoin_free(char *s1, const char *s2, int free_s1, int free_s2);
+int	ft_add_var(t_data *data, char *var, int overwrite);
+void	ft_error(t_data *data, const char *msg, int exit_code);
+void	ft_free_env(char **env);
 int				unset_builtin(t_data *env, t_simple_cmd *cmd);
 char *get_full_path(const char *command, char **envp);
 void 			redir_check(t_simple_cmd *cmd);
@@ -182,6 +188,7 @@ void free_arguments(char **arguments);
 char    **ft_dup_envp(char **envp);
 void    ft_free_envp(char **envp);
 int	is_valid_env_var(const char *key_value);
+int initialize_data(t_data *data, int num_cmds); //minishell.c test
 
 
 /*pipes*/
