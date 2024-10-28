@@ -85,7 +85,6 @@ typedef struct s_simple_cmd
 	char			*name; // basically a pathname for the execve
 	char			**cmd; // argv array for execve
 	char			*flags;
-	//char			**arguments;
 	char			*path;
 	char			*output_path;
 	char			*output_path_append;
@@ -104,8 +103,8 @@ typedef struct s_simple_cmd
 typedef struct s_data
 {
 	char		*input;
-	char		*current_dir;
-	char		*old_dir;
+	//char		*current_dir;
+	//char		*old_dir;
 	t_token		*tokens;
 	t_simple_cmd	*simple_cmds;
 	char	**envp;
@@ -182,6 +181,7 @@ char  **allocate_arguments(t_simple_cmd *cmd, int count);
 void free_arguments(char **arguments);
 char    **ft_dup_envp(char **envp);
 void    ft_free_envp(char **envp);
+int	is_valid_env_var(const char *key_value);
 
 
 /*pipes*/

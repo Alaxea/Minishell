@@ -30,8 +30,13 @@ void	clear_tab(char **tab)
 	if (tab)
 	{
 		while (tab[i])
+		{
 			free(tab[i]);
+			tab[i] = NULL;
+			i++;
+		}
 		free(tab);
+		tab = NULL;
 	}
 }
 
