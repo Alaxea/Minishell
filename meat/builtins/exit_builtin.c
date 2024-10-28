@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:42:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/16 22:11:14 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/18 13:33:02 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		exit_builtin(t_data *env, t_simple_cmd *cmd)
 	}
 	if (cmd->cmd[0])
 		write(1, "exit\n", 5);
-	if (cmd->cmd[1])
+	if (cmd->cmd[2])
 	{
 		ft_putstr_fd("Too many cmd\n", 2);
 		return (1);
