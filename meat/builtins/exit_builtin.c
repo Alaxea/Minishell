@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:42:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/18 13:33:02 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/28 15:54:15 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,9 @@ int		exit_builtin(t_data *env, t_simple_cmd *cmd)
 		clear_env(env);
 		exit(0);
 	}
-<<<<<<< HEAD
 	if (cmd->cmd[0])
 		write(1, "exit\n", 5);
 	if (cmd->cmd[2])
-=======
-	write (1, "exit\n", 5);
-	if (cmd->cmd[1] && cmd->cmd[2])
->>>>>>> main
 	{
 		ft_putstr_fd("Too many arguments\n", 2);
 		return (1);
