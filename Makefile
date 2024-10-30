@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
+#    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/10/09 17:40:57 by alicja           ###   ########.fr        #
+#    Updated: 2024/10/30 13:52:06 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,10 +46,11 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/executor/execute.c \
 		meat/parser/expander_utils.c \
 		meat/parser/cmd_valid.c \
-		meat/signals/handle_ctrl.c \
 		meat/executor/exec_path.c \
 		meat/executor/pipes.c \
 		meat/executor/malloc.c \
+		# meat/signals/handle_ctrl.c \
+
 
 OBJ = $(SRC:.c=.o)
 all: $(NAME)
@@ -57,7 +58,6 @@ $(LIBFT):
 	make -C $(LIBFT_PATH)
 $(NAME) :$(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) -lreadline
-	make clean
 clean:
 	$(RM) $(OBJ)
 	make -C $(LIBFT_PATH) clean

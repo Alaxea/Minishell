@@ -5,15 +5,17 @@
 int	executing(t_data *data)
 {
 	int	i;
+	t_simple_cmd	*sc;
 
 	i = 0;
-	while (data->simple_cmds[i].name)
+	sc = data->simple_cmds;
+	while (sc)
 	{
-		if (check_for_builtins(&data->simple_cmds[i]))
-			execute_builtin(data, &data->simple_cmds[i]);
+		if (check_for_builtins(sc))
+			execute_builtin(data, sc);
 		else
-			execute(data->simple_cmds + i, data);
-		i++;
+			execute(sc, data);
+		sc = sc->next;
 	}
 	return (0);
 }

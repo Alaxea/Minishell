@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:17:08 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/17 23:44:01 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/30 14:22:51 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int export_builtin(t_data *env, t_simple_cmd *cmd)
     char *name;
     char *value;
     int equal_pos;
+    (void)env;
 
     if (!cmd->cmd[1])
     {
@@ -64,7 +65,7 @@ int export_builtin(t_data *env, t_simple_cmd *cmd)
         ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
         return (EXIT_FAILURE);
     }
-    add_env_var(env, name, value);
+    // add_env_var(env, name, value);
     free(name);
     free(value);
     ft_putstr_fd("Export completed\n", STDOUT_FILENO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:25:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/17 21:46:18 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/30 14:37:42 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,9 @@ int fork_and_execute(t_simple_cmd *cmd, t_data *env)
                 dup2(current->fd_out, STDOUT_FILENO);
                 close(current->fd_out);
             }
-            close_pipes(cmd);
-            if (execve(current->cmd[0], current->cmd, env->envp) == -1)
+            close_pipes(current);
+			char *path = get_full_path(current->name, env->envp);
+            if (execve(path, current->cmd, env->envp) == -1)
             {
                 perror("execve");
                 exit(127);

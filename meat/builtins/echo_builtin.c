@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:21:26 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/17 22:42:29 by alicja           ###   ########.fr       */
+/*   Updated: 2024/10/30 14:33:28 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,52 +22,44 @@ void	redir_builtin(t_simple_cmd *cmd)
 		cmd->fd_out = 1;
 }
 
-static int	echo_helper(t_simple_cmd *cmd, int *new_line);
+static int	echo_helper(t_simple_cmd *sc, int *new_line);
 
 int	echo_builtin(t_simple_cmd *cmd)
 {
 	int	new_line;
 	int	ret_val;
-	int	i;
 
-	i = 1;
 	new_line = 1;
 	ret_val = echo_helper(cmd, &new_line);
-	if (ret_val != 0)
-		return (ret_val);
-	if (cmd->cmd && cmd->cmd[i] != NULL)
+	if (cmd->cmd && cmd->cmd[new_line])
 	{
-		ft_putstr_fd(cmd->cmd[i], cmd->fd_out);
-		i++;
-		while (cmd->cmd[i] != NULL)
+		ft_putstr_fd(cmd->cmd[new_line], cmd->fd_out);
+		new_line++;
+		while (cmd->cmd[new_line] != NULL)
 		{
 			ft_putstr_fd(" ", cmd->fd_out);
-			ft_putstr_fd(cmd->cmd[i], cmd->fd_out);
-			i++;
+			ft_putstr_fd(cmd->cmd[new_line], cmd->fd_out);
+			new_line++;
 		}
 	}
-	if (new_line)
+	if (ret_val)
 		ft_putstr_fd("\n", cmd->fd_out);
-	return (ret_val);
+	return (1);
 }
 
-static int	echo_helper(t_simple_cmd *cmd, int *new_line)
+static int	echo_helper(t_simple_cmd *sc, int *new_start)
 {
+	int	ret_value;
 	int	i;
-
-	i = 0;
-	redir_builtin(cmd);
-	if (cmd->flags == NULL)
-        return (0);
-	while (cmd->flags[i])
+	
+	i = 1;
+	ret_value = 1;
+	redir_builtin(sc);
+	while (sc->cmd[i][0] == '-' && sc->cmd[i][1] == 'n')
 	{
-		if (cmd->flags[i++] != 'n')
-		{
-			ft_putstr_fd("Invalid flag\n", 2);
-			return (-1);
-		}
+		ret_value = 0;
+		(*new_start)++;
+		i++;
 	}
-	if (cmd->flags[0] == 'n')
-		*new_line = 0;
-	return (0);
+	return (ret_value);
 }
