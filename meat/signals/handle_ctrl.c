@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 11:11:32 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/04 19:01:06 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/05 18:01:09 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	handle_sigquit(int signal)
 {
 	if (signal == SIGQUIT)
-    {
+	{
 		//do nothing
-    }
+	}
 }
 
 void	handle_sigint(int signal)

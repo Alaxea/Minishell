@@ -6,152 +6,160 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/17 23:16:53 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/05 17:46:14 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void		in_redir(t_simple_cmd *cmd)
+static void in_redir(t_simple_cmd *cmd)
 {
-	int fd_in;
-
-	fd_in = 0;
-	if (cmd->input_path)
+    if (!cmd->input_path)
+        return;
+    int fd_in = open(cmd->input_path, O_RDONLY);
+    if (fd_in < 0) {
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(cmd->input_path, 2);
+        ft_putstr_fd(": No such file or directory\n", 2);
+        exit(1);
+    }
+    // Save original stdin
+    cmd->saved_stdin = dup(STDIN_FILENO);
+    if (cmd->saved_stdin == -1) 
 	{
-		fd_in = open(cmd->input_path, O_RDONLY);
-		if (fd_in < 0)
-		{
-			(ft_putstr_fd("Filed to handle a file\n", 2));
-			return;
-		}
-	}
-	dup2(fd_in, STDIN_FILENO);
-	free(cmd->input_path);
-	close(fd_in);
+        close(fd_in);
+        exit(1);
+    }
+    if (dup2(fd_in, STDIN_FILENO) == -1) 
+	{
+        close(fd_in);
+        close(cmd->saved_stdin);
+        exit(1);
+    }
+    close(fd_in);
 }
 
-static void		out_redir(t_simple_cmd *cmd)
+static void append_redir(t_simple_cmd *cmd)
 {
-	int fd_out;
-
-	fd_out = 0;
-	if (cmd->output_path)
+    if (!cmd->output_path_append)
+        return;
+    int fd_out = open(cmd->output_path_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    if (fd_out < 0) 
 	{
-		fd_out = open(cmd->output_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd_out < -1)
-		{
-			(ft_putstr_fd("Filed to handle a file\n", 2));
-			return;
-		}
-		dup2(fd_out, STDOUT_FILENO);
-		free(cmd->output_path);
-		close(fd_out);
-	}
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(cmd->output_path_append, 2);
+        ft_putstr_fd(": Permission denied\n", 2);
+        exit(1);
+    }
+    // Save original stdout
+    cmd->saved_stdout = dup(STDOUT_FILENO);
+    if (cmd->saved_stdout == -1) 
+	{
+        close(fd_out);
+        exit(1);
+    }
+    if (dup2(fd_out, STDOUT_FILENO) == -1) 
+	{
+        close(fd_out);
+        close(cmd->saved_stdout);
+        exit(1);
+    }
+    close(fd_out);
 }
 
-static void		append_redir(t_simple_cmd *cmd)
+static void out_redir(t_simple_cmd *cmd)
 {
-	int fd_out;
-
-	fd_out = 0;
-	if (cmd->output_path_append)
+    if (!cmd->output_path)
+        return;
+    int fd_out = open(cmd->output_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd_out < 0) 
 	{
-		fd_out = open(cmd->output_path_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd_out < 0)
-		{
-			(ft_putstr_fd("Filed to handle a file\n", 2));
-			return;
-		}
-	}
-	dup2(fd_out, STDOUT_FILENO);
-	free(cmd->output_path_append);
-	close(fd_out);
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(cmd->output_path, 2);
+        ft_putstr_fd(": Permission denied\n", 2);
+        exit(1);
+    }
+    // Save original stdout
+    cmd->saved_stdout = dup(STDOUT_FILENO);
+    if (cmd->saved_stdout == -1) 
+	{
+        close(fd_out);
+        exit(1);
+    }
+    if (dup2(fd_out, STDOUT_FILENO) == -1) 
+	{
+        close(fd_out);
+        close(cmd->saved_stdout);
+        exit(1);
+    }
+    close(fd_out);
 }
 
-static void		heredoc_redir(t_simple_cmd *cmd)
+void heredoc_redir(t_simple_cmd *cmd)
 {
-	int	fd;
-	char *input;
+    int fd;
+    char *input;
 
-	fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd < 0)
     {
         ft_putstr_fd("Error: failed to open heredoc file\n", 2);
-        return;
+        exit(1);
     }
-	while (1)
-	{
-		input = readline("> ");
-		if (!input)
+    while (1)
+    {
+        input = readline("> ");
+        if (!input)
         {
             ft_putstr_fd("Error: readline failed\n", 2);
+            close(fd);
+            exit(1);
+        }
+        if (ft_strncmp(input, cmd->delimiter_heredoc, ft_strlen(cmd->delimiter_heredoc)) == 0)
+        {
+            free(input);
             break;
         }
-		if (ft_strncmp(input, cmd->delimiter_heredoc, ft_strlen(input)) == 0)
-		{
-			free(input);
-			break ;
-		}
-		ft_putstr_fd(input, fd);
-		ft_putstr_fd("\n", fd);
-		free(input);
-	}
-	close(fd);
+        ft_putstr_fd(input, fd);
+        ft_putstr_fd("\n", fd);
+        free(input);
+    }
+    close(fd);
     fd = open(".heredoc", O_RDONLY);
     if (fd < 0)
     {
         ft_putstr_fd("Error: failed to open heredoc file for reading\n", 2);
-        return;
+        exit(1);
     }
-    dup2(fd, STDIN_FILENO);
-	close(fd);
+    if (dup2(fd, STDIN_FILENO) == -1)
+    {
+        ft_putstr_fd("Error: failed to duplicate file descriptor\n", 2);
+        close(fd);
+        exit(1);
+    }
+    close(fd);
+    unlink(".heredoc");  // Usuń plik tymczasowy
 }
 
-void redir_check(t_simple_cmd *cmd)
+int redir_check(t_simple_cmd *cmd) 
 {
-	int i = 0;
-    int arg_count = 0;
+    if (!cmd) 
+        return (-1);
+    // Initialize saved file descriptors to -1
+    cmd->saved_stdin = -1;
+    cmd->saved_stdout = -1;
 
-    while (cmd->cmd[arg_count] != NULL)
-    {
-        arg_count++;
-    }
-
-    // Alokacja pamięci dla argumentów
-    cmd->cmd = malloc((arg_count + 1) * sizeof(char *));
-    if (!cmd->cmd)
-    {
-        perror("malloc failed");
-        return;
-    }
-    while (cmd->cmd[i])
-    {
-        if (ft_strncmp(cmd->cmd[i], ">", 1) == 0)
-        {
-            out_redir(cmd);
-        }
-        else if (ft_strncmp(cmd->cmd[i], "<", 1) == 0)
-        {
-            in_redir(cmd);
-        }
-        else if (ft_strncmp(cmd->cmd[i], ">>", 2) == 0)
-        {
-            append_redir(cmd);
-        }
-        else if (ft_strncmp(cmd->cmd[i], "<<", 2) == 0)
-        {
-            heredoc_redir(cmd);
-        }
-        i++;
-    }
-    // Zwalnianie pamięci
-    i = 0; 
-    while (cmd->cmd[i])
-    {
-        free(cmd->cmd[i]); // Zwalnianie pojedynczego argumentu
-        i++;
-    }
-    free(cmd->cmd); // Zwalnianie tablicy wskaźników
-    cmd->cmd = NULL;
+    // Handle input redirection first
+    if (cmd->input_path)
+        in_redir(cmd);
+    // Handle output redirection
+    if (cmd->output_path)
+        out_redir(cmd);
+    // Handle append redirection
+    if (cmd->output_path_append)
+        append_redir(cmd);
+    // Handle heredoc
+    if (cmd->heredoc)
+        heredoc_redir(cmd);
+    return 0;
 }

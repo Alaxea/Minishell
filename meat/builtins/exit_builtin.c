@@ -6,13 +6,13 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:42:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/28 15:54:15 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/05 17:33:33 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*function checks if parameter passed is a number accept 
+/*function checks if parameter passed is a number accept
  * one '-' or '+' on the beggining.*/
 int	ft_overflow_int(char *str)
 {
@@ -42,29 +42,22 @@ int	ft_overflow_int(char *str)
 	return (0);
 }
 
-int		exit_builtin(t_data *env, t_simple_cmd *cmd)
+int exit_builtin(t_data *env, t_simple_cmd *cmd)
 {
-	int	result;
+    write(1, "exit\n", 5);
 
-	if (!cmd->cmd[0])
-	{
-		clear_env(env);
-		exit(0);
-	}
-	if (cmd->cmd[0])
-		write(1, "exit\n", 5);
-	if (cmd->cmd[2])
-	{
-		ft_putstr_fd("Too many arguments\n", 2);
-		return (1);
-	}
-	if (!ft_isdigit(cmd->cmd[1][0] || ft_overflow_int(cmd->cmd[1])))
-	{
-		ft_putstr_fd("Numeric argument is required\n", 2);
-		clear_env(env);
-		return (2);
-	}
-	result = ft_atoi(cmd->cmd[1]);
-	clear_env(env);
-	exit(result);
+    if (!cmd->cmd[1])
+        exit_shell(env, NULL, 0);
+    if (cmd->cmd[2])
+    {
+        ft_putstr_fd("Too many cmd\n", 2);
+        return (1);
+    }
+    if (!ft_isdigit(cmd->cmd[1][0]) || ft_overflow_int(cmd->cmd[1]))
+    {
+        ft_putstr_fd("Numeric argument is required\n", 2);
+        return (1);
+    }
+    exit_shell(env, NULL, ft_atoi(cmd->cmd[1]));
+    return (0);  // Nigdy tu nie dojdzie
 }

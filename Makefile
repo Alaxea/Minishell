@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
+#    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/10/30 13:52:06 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/11/05 17:43:41 by alicja           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/utils/ft_lstmap.c \
 		meat/utils/ft_lstnew.c \
 		meat/utils/ft_lstsize.c \
-		meat/utils/utils.c \
 		meat/parser/0_parser.c \
 		meat/parser/ft_split_quotes.c \
 		meat/lexer/tokenization.c \
@@ -46,12 +45,11 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/executor/execute.c \
 		meat/parser/expander_utils.c \
 		meat/parser/cmd_valid.c \
+		meat/signals/handle_ctrl.c \
 		meat/executor/exec_path.c \
 		meat/executor/pipes.c \
 		meat/executor/malloc.c \
-		# meat/signals/handle_ctrl.c \
-
-
+		
 OBJ = $(SRC:.c=.o)
 all: $(NAME)
 $(LIBFT):

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/09 17:27:11 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/05 17:57:10 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,87 +56,89 @@ char *get_env_var(const char *var_name, char **envp)
     return (NULL);
 }
 
-char *get_full_path(const char *command, char **envp)
-{
-    char *path_env;
-    char **paths;
-    char *full_path;
-    int i;
-
-    path_env = get_env_var("PATH", envp);
-    if (!path_env)
-        return (NULL);
-    paths = ft_split(path_env, ':');
-    if (!paths)
-        return (NULL);
-    i = 0;
-    while (paths[i])
+char *get_full_path(const char *command, char **envp) {
+    // If command starts with '/' or '.', it's a path
+    if (command[0] == '/' || command[0] == '.') 
     {
-        full_path = concat_path(paths[i], command);
-        if (!full_path)
+        if (access(command, X_OK) == 0) 
         {
-            free_paths(paths);
-            return (NULL);
+            return ft_strdup(command);
         }
-        if (access(full_path, X_OK) == 0)
+        return NULL;
+    }
+
+    char *path_env = get_env_var("PATH", envp);
+    if (!path_env) 
+    {
+        fprintf(stderr, "PATH variable not found\n");
+        return NULL;
+    }
+    char **paths = ft_split(path_env, ':');
+    if (!paths) 
+        return NULL;
+    for (int i = 0; paths[i]; i++) 
+    {
+        char *full_path = concat_path(paths[i], command);
+        if (access(full_path, X_OK) == 0) 
         {
             free_paths(paths);
-            return (full_path);
+            return full_path;
         }
         free(full_path);
-        i++;
     }
     free_paths(paths);
-    return (NULL);
+    return NULL;
 }
 
-int execute_command(t_simple_cmd *cmd, char **envp)
+int execute_command(t_simple_cmd *cmd, char **envp) 
 {
     pid_t pid;
-    char    *full_path;
+    char *full_path;
     int status;
 
-	pid = fork();
-    status = 0;
-    if (pid == 0)
-    {
+    // First check if the command exists and is executable
+    full_path = get_full_path(cmd->cmd[0], envp);
+    if (full_path == NULL) {
+        ft_putstr_fd("Command not found\n", 2);
+        return 127;
+    }
+
+    pid = fork();
+    if (pid == 0) 
+    { // Child process
+        // Handle redirections before executing
         redir_check(cmd);
-        full_path = get_full_path(cmd->cmd[0], envp);
-        if (full_path == NULL)
+        if (execve(full_path, cmd->cmd, envp) == -1) 
         {
-            ft_putstr_fd("Command not found\n", 2);
-            exit(127);
+            perror("execve");
+            free(full_path);
+            exit(EXIT_FAILURE);
         }
-        if (execve(full_path, cmd->cmd, envp) == -1)
-        {
-           ft_putstr_fd("Execution failed\n", 2);
-           exit(EXIT_FAILURE);
-        }
-    }
-    else if (pid > 0)
-    {
-        
+    } 
+    else if (pid > 0) 
+    { // Parent process
+        free(full_path);
         waitpid(pid, &status, 0);
+        return WEXITSTATUS(status);
     }
-    else
+    else 
     {
+        free(full_path);
         ft_putstr_fd("Fork failed\n", 2);
-        return (-1);
+        return -1;
     }
-    return (status);
+    return status;
 }
+
+
 
 int     check_permission(struct stat file)
 {
-    if ((file.st_mode > 0) && (S_IEXEC & file.st_mode) && S_ISREG(file.st_mode))
-    {
-        if (file.st_mode & S_IXUSR)
-            return (1);
-        else
-            ft_putstr_fd("File is not executable\n", 2);
-    }
+    if (file.st_mode & S_IXUSR)
+        return (1);
     else
-        ft_putstr_fd("This is not a file\n", 2);
+        ft_putstr_fd("File is not executable\n", 2);
+    ft_putstr_fd("This is not a file\n", 2);
     return (0);
 }
 

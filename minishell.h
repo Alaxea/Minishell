@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <errno.h>
 
 typedef struct s_pipex_data
 {
@@ -31,7 +32,6 @@ typedef struct s_pipex_data
 }	t_pipex_data;
 
 # define BUFFER_SIZE 42
-# define ENV_INCREMENT 10
 typedef enum	s_redir_type
 {
 	STANDARD,
@@ -93,6 +93,8 @@ typedef struct s_simple_cmd
 	char			*delimiter_heredoc;
 	bool			heredoc;
 	bool			parser_done;
+	int saved_stdin; // To save the original stdin
+    int saved_stdout; // To save the original stdout
 	pid_t pid;
 	char	*command;
 	struct s_simple_cmd	*next;
@@ -104,8 +106,8 @@ typedef struct s_simple_cmd
 typedef struct s_data
 {
 	char		*input;
-	//char		*current_dir;
-	//char		*old_dir;
+	char		*current_dir;
+	char		*old_dir;
 	t_token		*tokens;
 	t_simple_cmd	*simple_cmds;
 	char	**envp;
@@ -117,6 +119,7 @@ typedef struct s_data
 	int exit_code;
 	int last_result; //do pipes.c
 	int fd[2]; //do pipes.c;
+	int last_exit_status;
 }	t_data;
 
 int				ft_iswhitespace(char c);
@@ -142,7 +145,6 @@ int				expand(t_simple_cmd *cmds, char **env);
 char			*double_quotes_env(char *str, char **env);
 void			print_tab(char **tab, int fd_out);
 int				env_builtin(t_data *env, t_simple_cmd *cmd);
-//int	echo(char **args, int argc, int fd);
 int				is_builtin(t_data *command, int fd);
 void			clear_tab(char **tab);
 void			clear_env(t_data *env);
@@ -156,15 +158,10 @@ int				check_for_builtins(t_simple_cmd *sc);
 int				execute_builtin(t_data *data, t_simple_cmd *cmd);
 int				cd_builtin(t_data *env, t_simple_cmd *cmd);
 int				exit_builtin(t_data *env, t_simple_cmd *cmd);
-//int				export_builtin(t_data *env, t_simple_cmd *cmd);
-int	export_builtin(t_data *data, t_simple_cmd *cmd);
-char	*ft_strjoin_free(char *s1, const char *s2, int free_s1, int free_s2);
-int	ft_add_var(t_data *data, char *var, int overwrite);
-void	ft_error(t_data *data, const char *msg, int exit_code);
-void	ft_free_env(char **env);
+int				export_builtin(t_data *env, t_simple_cmd *cmd);
 int				unset_builtin(t_data *env, t_simple_cmd *cmd);
 char *get_full_path(const char *command, char **envp);
-void 			redir_check(t_simple_cmd *cmd);
+int 			redir_check(t_simple_cmd *cmd);
 char *trim_quotes(char *command);
 char *find_env_var(char *str, int *start, int *stop);
 int	cmd_validation(t_simple_cmd *cmds, char **env);
@@ -187,26 +184,12 @@ char  **allocate_arguments(t_simple_cmd *cmd, int count);
 void free_arguments(char **arguments);
 char    **ft_dup_envp(char **envp);
 void    ft_free_envp(char **envp);
-int	is_valid_env_var(const char *key_value);
-int initialize_data(t_data *data, int num_cmds); //minishell.c test
-
-
-/*pipes*/
-
-/*void	handle_pipe(t_simple_cmd *current);
-void	create_pipes(t_simple_cmd *commands, t_data *env);
-void	close_fds_main(t_simple_cmd *commands);
-void	close_fds_child(t_simple_cmd *commands, int i);
-int		waiting_and_result(t_simple_cmd *commands, t_data *env);
-void	fork_child(t_data *env, t_simple_cmd *commands, int i);
-void	close_pipes(t_simple_cmd *hell);
-void	execute(t_data *data, t_simple_cmd *cmd);*/
-
+void free_simple_cmd(t_simple_cmd *cmd);
 void close_pipes(t_simple_cmd *cmd);
 int create_pipes(t_data *env, t_simple_cmd *cmd);
 int fork_and_execute(t_simple_cmd *cmd, t_data *env);
 int execute(t_simple_cmd *cmd, t_data *env);
-
+int is_valid_identifier(const char *str);
 /*signals*/
 void handle_sigquit(int signal);
 void handle_sigint(int signal);

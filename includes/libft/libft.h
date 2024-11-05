@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:27:47 by astefans          #+#    #+#             */
-/*   Updated: 2024/08/20 15:38:51 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:00:44 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-//# include <stdbool.h> /*tylko do splita, ale zmienilam*/
 # include <stddef.h>
 # include "./../../minishell.h"
-
-// typedef enum	s_type
-// {
-// 	WORD,
-// 	OPERATOR
-// }	t_type;
-
-
-// typedef struct s_token 
-// {
-// 	struct s_token	*next;
-// 	struct s_token	*prev;
-// 	char	*value;
-// 	int		data_type;
-// }	t_token;
-
 
 //LIBC FUNCTIONS//
 int		ft_isalpha(int c);
@@ -76,7 +59,4 @@ char	**ft_split(char const *s, char c);
 char	*ft_itoa(int nbr);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-void	ft_putstring(const char *s, int fd);
-void	ft_putendline(const char *s, int fd);
-
 #endif

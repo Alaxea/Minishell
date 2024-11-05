@@ -3,51 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:34:01 by astefans          #+#    #+#             */
-/*   Updated: 2024/10/03 15:51:14 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:32:47 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*int		pwd_builtin(t_data *data, char **args)
+int pwd_builtin(t_data *data, t_simple_cmd *cmd)
 {
-	char	*current_working_dir;
-	char	buf[PATH_MAX];
+    char *pwd;
 
-	(void)args;
-	if (data->current_dir)
-	{
-		ft_putendl_fd(data->current_dir, STDOUT_FILENO);
-		return (EXIT_SUCCESS);
-	}
-	current_working_dir = getcwd(buf, PATH_MAX);
-	if (current_working_dir)
-	{
-		ft_putendl_fd(current_working_dir, STDOUT_FILENO);
-		return (EXIT_SUCCESS);
-	}
-	perror("Error");
-	return(EXIT_FAILURE);
-}*/
+    (void)data; // Silence unused parameter warning
+    (void)cmd;  // We don't need cmd->fd_out anymore
 
-int	pwd_builtin(t_data *data, t_simple_cmd *cmd)
-{
-	char	*tmp;
-
-	redir_builtin(cmd);
-	tmp = set_env_var(data, "PWD");
-	if (!tmp || tmp[0] == '\0')
-	{
-		ft_putstr_fd("PWD variable is unset", 2);
-		if (tmp[0] == '\0')
-			free(tmp);
-		return (2);
-	}
-	ft_putstr_fd(tmp, cmd->fd_out);
-	ft_putstr_fd("\n", cmd->fd_out);
-	free(tmp);
-	return (0);
+    pwd = getcwd(NULL, 0);
+    if (!pwd)
+    {
+        ft_putstr_fd("pwd: error retrieving current directory\n", 2);
+        return (1);
+    }
+    ft_putstr_fd(pwd, STDOUT_FILENO);
+    ft_putstr_fd("\n", STDOUT_FILENO);
+    free(pwd);
+    return (0);
 }
