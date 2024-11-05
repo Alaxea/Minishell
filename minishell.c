@@ -42,9 +42,9 @@ int	parsing(t_data *data)
 
 int	minishell(t_data *data)
 {
-	// signals();
 	while(1)
 	{
+		signals();
 		data->input = readline("minishell>> ");
 		if (!data->input)
 		{
