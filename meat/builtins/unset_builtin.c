@@ -6,18 +6,18 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:17:34 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/05 17:32:44 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/06 11:32:51 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int is_valid_identifier(const char *str)
+static int is_valid_identifier(const char *str)
 {
     if (!str || !*str || ft_isdigit(*str))
         return 0;
 
-    while (*str) 
+    while (*str)
 	{
         if (!ft_isalnum(*str) && *str != '_')
             return 0;

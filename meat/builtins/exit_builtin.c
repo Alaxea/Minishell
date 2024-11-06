@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:42:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/05 17:33:33 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/06 11:32:56 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*function checks if parameter passed is a number accept
  * one '-' or '+' on the beggining.*/
-int	ft_overflow_int(char *str)
+static int	ft_overflow_int(char *str)
 {
 	int	value;
 	int	i;

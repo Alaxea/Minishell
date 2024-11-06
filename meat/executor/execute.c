@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/06 10:57:10 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/06 11:40:58 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char *get_full_path(const char *command, char **envp) {
     char *path_env = get_env_var("PATH", envp);
     if (!path_env) 
     {
-        fprintf(stderr, "PATH variable not found\n");
+        write(STDERR_FILENO, "PATH variable not found\n", 24);
         return NULL;
     }
     char **paths = ft_split(path_env, ':');

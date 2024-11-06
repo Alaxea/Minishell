@@ -45,7 +45,8 @@ int execute(t_simple_cmd *cmd, t_data *env) {
     // Handle single command without pipes
     if (!cmd->next) {
         current->pid = fork();
-        if (current->pid == 0) {
+        if (current->pid == 0) 
+        {
             // Child process
             if (redir_check(current) == -1)
                 exit(1);
@@ -143,8 +144,8 @@ int fork_and_execute(t_simple_cmd *cmd, t_data *env)
     {
         if (check_for_builtins(current)) 
         {
-            fflush(stdout);
-            fflush(stderr);
+            write(STDOUT_FILENO, "", 0);  // Nic nie wypisuje, ale opróżnia bufor stdout
+            write(STDERR_FILENO, "", 0);  // Nic nie wypisuje, ale opróżnia bufor stderr
 
             current->pid = fork();
             if (current->pid == 0) 

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:15:43 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/05 17:57:28 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/06 11:41:01 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int search_in_path(t_data *env, t_simple_cmd *cmd)
         ft_putstr_fd("PATH not found\n", 2);
         return (127);
     }
-
     // Debug: wyświetl PATH
     ft_putstr_fd("PATH: ", 2);
     ft_putstr_fd(tmp, 2);
