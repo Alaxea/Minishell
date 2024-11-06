@@ -64,14 +64,7 @@ Po parsingu następuje etap expandingu, czyli "obróbki" elementów przed execut
 
 ### Działanie poszczególnych funkcji:
 
-### search_in_path
-Sprawdzenie, czy komenda jest ścieżką względną lub bezwzględną: Jeśli pierwszym znakiem jest . (bieżący katalog) lub / (katalog główny), wywołuje funkcję find_script, aby znaleźć lokalizację skryptu.
 
-Pobranie zmiennej PATH: Jeśli nie, ustawia zmienną środowiskową PATH przy użyciu set_env_var.
-Rozdzielenie PATH: Rozdziela zmienną PATH na różne katalogi.
-Znajdowanie binarnego pliku: Wywołuje funkcję find_binary, aby spróbować znaleźć odpowiedni plik wykonywalny(komendę).
-Zarządzanie błędami: W przypadku, gdy komenda nie jest rozpoznawana, zwraca kod błędu 127 i wyświetla odpowiedni komunikat.
-### find_binary
 Funkcja ta ma za zadanie przeszukiwać katalogi podane w zmiennej PATH, aby znaleźć plik wykonywalny odpowiadający podanej komendzie.
 
 Iteracja przez katalogi w PATH: Funkcja przeszukuje każdy katalog w zmiennej PATH.

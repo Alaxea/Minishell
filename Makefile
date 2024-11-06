@@ -6,7 +6,7 @@
 #    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/11/05 17:43:41 by alicja           ###   ########.fr        #
+#    Updated: 2024/11/06 11:23:07 by alicja           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,13 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/utils/ft_lstmap.c \
 		meat/utils/ft_lstnew.c \
 		meat/utils/ft_lstsize.c \
+		meat/utils/clean.c \
+		meat/utils/env_helper.c \
 		meat/parser/0_parser.c \
 		meat/parser/ft_split_quotes.c \
+		meat/parser/expander.c \
+		meat/parser/expander_utils.c \
+		meat/parser/cmd_valid.c \
 		meat/lexer/tokenization.c \
 		meat/lexer/validation.c \
 		meat/builtins/env_builtin.c \
@@ -35,20 +40,13 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/builtins/cd_builtin.c \
 		meat/builtins/export_builtin.c \
 		meat/builtins/unset_builtin.c \
-		meat/utils/clean.c \
-		meat/utils/error.c \
-		meat/utils/env_helper.c \
-		minishell.c \
-		meat/parser/expander.c \
 		meat/executor/builtins_gate.c \
 		meat/executor/redirections.c \
 		meat/executor/execute.c \
-		meat/parser/expander_utils.c \
-		meat/parser/cmd_valid.c \
-		meat/signals/handle_ctrl.c \
 		meat/executor/exec_path.c \
 		meat/executor/pipes.c \
-		meat/executor/malloc.c \
+		meat/signals/handle_ctrl.c \
+		minishell.c \
 		
 OBJ = $(SRC:.c=.o)
 all: $(NAME)

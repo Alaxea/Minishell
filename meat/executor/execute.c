@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/05 17:57:10 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/06 10:57:10 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ int execute_command(t_simple_cmd *cmd, char **envp)
     }
     return status;
 }
-
-
 
 int     check_permission(struct stat file)
 {

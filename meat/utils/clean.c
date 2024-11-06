@@ -6,21 +6,11 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:09:57 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/05 17:22:48 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/06 10:46:10 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-/*frees a pointer and sets NULL*/
-void    free_pointer(void *ptr)
-{
-	if (ptr != NULL)
-	{
-		free(ptr);
-		ptr = NULL;
-	}
-}
 
 void    clear_tab(char **tab)
 {

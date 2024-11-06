@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/05 17:46:14 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/06 11:03:29 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void out_redir(t_simple_cmd *cmd)
     close(fd_out);
 }
 
-void heredoc_redir(t_simple_cmd *cmd)
+static void heredoc_redir(t_simple_cmd *cmd)
 {
     int fd;
     char *input;
