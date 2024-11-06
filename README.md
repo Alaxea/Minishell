@@ -62,108 +62,80 @@ Po parsingu następuje etap expandingu, czyli "obróbki" elementów przed execut
 
 ## executing
 
-### Działanie poszczególnych funkcji:
-
-
-Funkcja ta ma za zadanie przeszukiwać katalogi podane w zmiennej PATH, aby znaleźć plik wykonywalny odpowiadający podanej komendzie.
-
-Iteracja przez katalogi w PATH: Funkcja przeszukuje każdy katalog w zmiennej PATH.
-Łączenie ścieżek: Używa funkcji concat_path, aby połączyć każdy katalog z nazwą komendy.
-Sprawdzanie istnienia pliku: Używa lstat, aby sprawdzić, czy plik istnieje i czy jest dostępny.
-Sprawdzanie uprawnień: Jeżeli plik istnieje, wywołuje check_permission, aby upewnić się, że użytkownik ma prawo do jego wykonania.
-Zwracanie wyniku: W przypadku znalezienia odpowiedniego pliku, wywołuje funkcję execute_path. Jeśli plik nie zostanie znaleziony w żadnym katalogu, zwraca kod błędu 127.
+### search_in_path
+Wyszukuje wykonywalną komendę w zmiennej środowiskowej PATH i uruchamia ją, jeśli została znaleziona. Sprawdza, czy komenda zawiera pełną ścieżkę, i wywołuje odpowiednią funkcję w zależności od wyniku.
+### find_binary
+Szuka pliku wykonywalnego w katalogach zawartych w zmiennej PATH. Sprawdza, czy plik istnieje i ma odpowiednie uprawnienia, a następnie uruchamia go, jeśli jest dostępny.
 ### execute_path
-Funkcja ma na celu wykonanie znalezionego pliku wykonywalnego w nowym procesie.
-
-Tworzenie nowego procesu: Używa fork, aby utworzyć nowy proces.
-Ustawienie sygnałów: Ustawia domyślne zachowanie dla sygnałów SIGINT i SIGQUIT.
-Wykonanie pliku: W dziecku wywołuje execve, aby uruchomić plik wykonywalny z odpowiednimi argumentami i zmiennymi środowiskowymi.
-Zarządzanie błędami: W przypadku niepowodzenia execve, wypisuje komunikat o błędzie i kończy proces.
-Czekanie na zakończenie procesu: W rodzicu używa waitpid, aby czekać na zakończenie wykonania procesu i zapisuje kod wyjścia.
-Zarządzanie pamięcią: Zwolnienie pamięci dla zmiennej bin_path po jej użyciu.
-
+Uruchamia plik wykonywalny w nowym procesie za pomocą execve. Obsługuje błędy związane z procesami oraz wykonaniem komendy.
 ### free_paths
-Funkcja ma na celu zwolnienie pamięci zajmowanej przez tablicę ścieżek (wskaźników do łańcuchów znakowych).
-
-Iteruje przez wszystkie elementy tablicy paths, zwalniając każdy z nich.
-Na końcu zwalnia pamięć zajmowaną przez samą tablicę.
+Funkcja ta odpowiada za zwalnianie pamięci dla tablicy łańcuchów znakowych (paths).
+Przechodzi przez każdy element tablicy paths i zwalnia pamięć związaną z każdym z tych elementów.
+Po zwolnieniu pamięci dla wszystkich elementów, zwalnia także samą tablicę.
 ### concat_path
-Funkcja łączy katalog (directory) z nazwą komendy, tworząc pełną ścieżkę do pliku wykonywalnego.
-
-Oblicza długość katalogu i nazwy komendy.
-Alokuje pamięć na nowy łańcuch, który będzie przechowywał połączoną ścieżkę.
-Kopiuje katalog do nowego łańcucha, dodaje znak /, a następnie dodaje nazwę komendy.
-Zwraca połączoną ścieżkę.
+Funkcja ta tworzy pełną ścieżkę do pliku wykonywalnego, łącząc katalog (dir) z nazwą pliku wykonywalnego (command).
 ### get_env_var
-Funkcja wyszukuje wartość zmiennej środowiskowej o podanej nazwie (var_name) w tablicy wskaźników do łańcuchów znakowych (envp).
-
-Iteruje przez wszystkie elementy tablicy envp, sprawdzając, czy dany element zaczyna się od var_name i jest zakończony znakiem =.
-Jeśli znajdzie zmienną, zwraca wskaźnik na jej wartość (część po znaku =).
-W przeciwnym razie zwraca NULL.
+Funkcja ta wyszukuje zmienną środowiskową o nazwie var_name w tablicy zmiennych środowiskowych envp.
 ### get_full_path
-Funkcja znajduje pełną ścieżkę do pliku wykonywalnego na podstawie nazwy komendy i zmiennej PATH.
-
-Używa funkcji get_env_var, aby uzyskać wartość zmiennej PATH.
-Dzieli tę wartość na różne katalogi przy użyciu ft_split.
-Iteruje przez katalogi, łącząc każdy z nich z nazwą komendy za pomocą concat_path.
-Sprawdza, czy utworzona ścieżka jest dostępna do wykonania za pomocą access.
-Jeśli tak, zwraca pełną ścieżkę; w przeciwnym razie zwraca NULL.
+Funkcja ta zwraca pełną ścieżkę do komendy, jeśli jest ona dostępna w systemie. Sprawdza, czy komenda jest absolutną ścieżką (rozpoczyna się od / lub .), czy jest to komenda, którą trzeba szukać w katalogach określonych w zmiennej środowiskowej PATH.
 ### execute_command
-Funkcja wykonuje komendę w nowym procesie, wykorzystując fork i execve.
-
-Tworzy nowy proces za pomocą fork.
-W procesie dziecka:
-Sprawdza ewentualne przekierowania przy pomocy redir_check.
-Uzyskuje pełną ścieżkę do komendy przy użyciu get_full_path.
-Wykonuje komendę za pomocą execve. Jeśli nie uda się jej wykonać, wypisuje komunikat o błędzie.
-W procesie rodzica czeka na zakończenie procesu dziecka za pomocą waitpid.
+Funkcja ta wykonuje daną komendę w nowym procesie.
 ### check_permission
-Funkcja sprawdza, czy dany plik jest plikiem wykonywalnym.
-
-Używa bitów w st_mode struktury stat, aby sprawdzić:
-Czy plik jest regularnym plikiem (S_ISREG).
-Czy jest wykonywalny przez użytkownika (S_IXUSR).
-Zwraca 1, jeśli plik ma odpowiednie uprawnienia, a 0 w przeciwnym razie, wypisując stosowne komunikaty.
+Funkcja ta sprawdza, czy plik jest wykonywalny.
+Jeśli plik jest wykonywalny, funkcja zwraca 1, w przeciwnym razie wypisuje komunikat o błędzie i zwraca 0.
 ### find_script
-Funkcja przekształca ścieżkę do skryptu względnego na absolutną.
-
-Sprawdza, czy ścieżka zaczyna się od kropki (.), co oznacza, że jest to ścieżka względna.
-Używa ft_substr do uzyskania ścieżki po kropce i łączy ją z aktualnym katalogiem roboczym (pobieranym przez set_env_var).
-Jeśli ścieżka nie jest względna, zwraca ją bez zmian.
-
+Znajduje pełną ścieżkę do skryptu, jeśli jest to ścieżka względna. Jeśli skrypt nie jest ścieżką względną, funkcja zwraca po prostu nazwę skryptu.
 ### close_pipes
-Funkcja zamyka wszystkie otwarte deskryptory potoków (fd_in i fd_out) dla wszystkich komend w liście t_simple_cmd.
-
-Iteruje przez wszystkie elementy listy komend.
-Dla każdej komendy zamyka deskryptor fd_in, jeśli jest większy od 0.
-Dla każdej komendy zamyka deskryptor fd_out, jeśli jest większy od 0.
-Przechodzi do następnej komendy, aż do końca listy.
+Funkcja jest używana do zamknięcia wszelkich otwartych deskryptorów plików, które są używane do przekierowań wejścia/wyjścia, po zakończeniu wykonywania komend.
 ### create_pipes
-Funkcja tworzy potoki (pipes) dla wszystkich komend w liście t_simple_cmd, aby umożliwić przekazywanie danych między nimi.
-
-Używa pętli, aby iterować przez wszystkie komendy w liście.
-Dla każdej pary komend tworzy nowy potok za pomocą funkcji pipe.
-Ustawia deskryptor wyjścia (fd_out) bieżącej komendy na env->fd[1].
-Ustawia deskryptor wejścia (fd_in) następnej komendy na env->fd[0].
-Zwraca -1 w przypadku błędu przy tworzeniu potoku, w przeciwnym razie zwraca 0.
+Funkcja ta tworzy pipes między kolejnymi poleceniami w przypadku, gdy są one powiązane operatorem (|).
+Dla każdego polecenia w łańcuchu tworzy parę deskryptorów (pipe(env->fd)), ustawia odpowiednie deskryptory fd_in i fd_out dla każdego polecenia w łańcuchu, aby połączyć wyjście jednego polecenia z wejściem następnego.
 ### fork_and_execute
-Funkcja tworzy procesy potomne dla każdej komendy w liście t_simple_cmd i wykonuje je.
-
-Iteruje przez wszystkie komendy w liście.
-Dla każdej komendy wywołuje fork, aby utworzyć nowy proces.
-W procesie potomnym:
-Ustawia standardowe wejście (STDIN_FILENO) na deskryptor fd_in, jeśli jest otwarty.
-Ustawia standardowe wyjście (STDOUT_FILENO) na deskryptor fd_out, jeśli jest otwarty.
-Zamyka wszystkie potoki, wywołując close_pipes.
-Uruchamia komendę za pomocą execve. Jeśli execve zwróci -1, wypisuje błąd i kończy proces z kodem 127.
-Kontynuuje do następnej komendy.
+Tworzy procesy potomne, które wykonują komendy z przekierowaniami. Wykonuje komendy wbudowane lub z execve, jeśli są to komendy zewnętrzne.
 ### execute
-Funkcja koordynuje wykonanie wszystkich komend w liście t_simple_cmd, zarządzając potokami i procesami.
-
-Wywołuje create_pipes, aby utworzyć potoki dla wszystkich komend. Jeśli wystąpi błąd, zwraca -1.
-Wywołuje fork_and_execute, aby stworzyć procesy dla komend. Jeśli wystąpi błąd, zwraca -1.
-Zamyka wszystkie potoki w procesie głównym, wywołując close_pipes.
-Czeka na zakończenie wszystkich procesów potomnych za pomocą waitpid i aktualizuje last_result w strukturze t_data, aby zapisać kod wyjścia ostatniego zakończonego procesu.
-Zwraca last_result, czyli kod wyjścia ostatniego procesu.
-
-### do dodania redirection, signals
+Funkcja ta wykonuje procesy związane z uruchamianiem poleceń z możliwymi przekierowaniami i potokami.
+Jeśli w łańcuchu jest tylko jedno polecenie (brak potoków), tworzony jest jeden proces potomny, który wykonuje odpowiednią komendę po ewentualnym skonfigurowaniu redirekcji wejścia/wyjścia.
+Jeśli jest więcej niż jedno polecenie (z potokami), tworzone są pipes za pomocą create_pipes(), a następnie dla każdego polecenia tworzony jest proces potomny, który ustawia odpowiednie przekierowanie dla stdin i stdout i wykonuje komendę.
+Po zakończeniu procesów potomnych, funkcja czeka na ich zakończenie za pomocą waitpid.
+### exit_shell
+Funkcja jest odpowiedzialna za zakończenie działania programu shell, czyszcząc zasoby tylko wtedy, gdy to konieczne i kończąc proces z odpowiednim kodem zakończenia (sukcesu lub błędu) w zależności od wartości parametru fail.
+### copy_env_var
+Kopiuje zmienne środowiskowe z tablicy env_var do struktury env. Alokuje pamięć na nowe zmienne środowiskowe, a następnie kopiuje każdą z nich, kończąc tablicę NULL-em.
+### set_env_var
+Zwraca wartość zmiennej środowiskowej o nazwie name z tablicy env_var. Jeśli zmienna jest obecna, funkcja zwraca jej wartość, w przeciwnym przypadku zwraca NULL.
+### add_env_var
+Dodaje lub aktualizuje zmienną środowiskową o nazwie name i wartości value w strukturze env. Jeśli zmienna już istnieje, zostaje usunięta przed dodaniem nowej wartości.
+### delete_env_var
+Usuwa zmienną środowiskową o nazwie name z tablicy env_var w strukturze env. Tworzy nową tablicę zmiennych środowiskowych, kopiując do niej wszystkie zmienne z wyjątkiem usuwanej.
+### signals
+Funkcja ta ustawia obsługę sygnałów:
+1) SIGQUIT jest ignorowany (SIG_IGN), co oznacza, że nie będzie powodował żadnej akcji (ctrl + \).
+2) SIGINT jest obsługiwany przez funkcję handle_sigint, co powoduje, że po naciśnięciu (ctrl + C) zostanie wykonane czyszczenie w terminalu.
+3) SIGTERM (sygnał zakończenia procesu) jest obsługiwany przez funkcję handle_sigquit, która nie wykonuje żadnych działań, więc sygnał nie ma żadnego efektu.
+### redirection
+1) in_redir(t_simple_cmd *cmd):
+Obsługuje przekierowanie wejścia (<). Otwiera plik wskazany w cmd->input_path w trybie tylko do odczytu (O_RDONLY).
+Jeśli plik nie istnieje, wyświetla błąd i kończy program.
+Zapisuje oryginalny deskryptor stdin za pomocą dup(STDIN_FILENO) w cmd->saved_stdin.
+Zastępuje stdin deskryptorem pliku (przekierowuje wejście z pliku).
+Jeśli operacje na deskryptorach nie powiodą się, zamyka pliki i kończy program.
+2) append_redir(t_simple_cmd *cmd):
+Obsługuje przekierowanie wyjścia z dopisaniem do pliku (>>). Otwiera plik w trybie dopisywania (O_APPEND).
+Jeśli plik nie istnieje lub nie ma uprawnień, wyświetla błąd i kończy program.
+Zapisuje oryginalny deskryptor stdout w cmd->saved_stdout.
+Zastępuje stdout deskryptorem pliku (przekierowuje wyjście do pliku).
+Po zakończeniu zamyka deskryptory.
+3) out_redir(t_simple_cmd *cmd):
+Obsługuje przekierowanie wyjścia do pliku (>). Otwiera plik w trybie zapisu, nadpisując go (O_TRUNC).
+Jeśli plik nie istnieje lub nie ma odpowiednich uprawnień, wyświetla błąd i kończy program.
+Zapisuje oryginalny deskryptor stdout w cmd->saved_stdout.
+Zastępuje stdout deskryptorem pliku (przekierowuje wyjście do pliku).
+Po zakończeniu zamyka deskryptory.
+4) heredoc_redir(t_simple_cmd *cmd):
+Obsługuje przekierowanie wejścia za pomocą heredoc (<<). Tworzy plik tymczasowy .heredoc, do którego zapisuje dane wprowadzone przez użytkownika.
+Użytkownik wprowadza dane, aż wpisze delimiter (określony w cmd->delimiter_heredoc), po czym plik jest zamykany.
+Plik .heredoc jest otwierany ponownie do odczytu i zawartość jest przekierowywana na stdin za pomocą dup2().
+Na końcu plik tymczasowy jest usuwany przy pomocy unlink().
+5) redir_check(t_simple_cmd *cmd):
+Funkcja ta sprawdza, czy istnieją jakiekolwiek ścieżki wejścia (input_path), wyjścia (output_path), dopisywania (output_path_append) lub heredoc (heredoc).
+Funkcja ustawia również zmienne do przechowywania oryginalnych deskryptorów (stdin, stdout), aby po zakończeniu przekierowań móc je przywrócić, jeśli to konieczne.
