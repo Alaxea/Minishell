@@ -1,21 +1,21 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "includes/libft/libft.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <signal.h>
-#include <stdbool.h>
-#include <limits.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <errno.h>
+# include "includes/libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <limits.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <errno.h>
 
 typedef struct s_pipex_data
 {
@@ -171,7 +171,8 @@ int				is_builtin(t_data *command, int fd);
 char			*concat_path(const char *dir, const char *command);
 char			*get_full_path(const char *command, char **envp);
 int				check_permission(struct stat file);
-int				find_binary(t_data *env, t_simple_cmd *cmd, char *bin_path, char **path);
+int				find_binary(t_data *env, t_simple_cmd *cmd,
+					char *bin_path, char **path);
 int				execute_path(char *bin_path, t_data *env, t_simple_cmd *cmd);
 char			*get_env_var(const char *var_name, char **envp);
 int				execute_command(t_simple_cmd *cmd, char **envp);
@@ -184,7 +185,7 @@ int				create_pipes(t_data *env, t_simple_cmd *cmd);
 int				fork_and_execute(t_simple_cmd *cmd, t_data *env);
 int				execute(t_simple_cmd *cmd, t_data *env);
 /*redirection*/
-int 			redir_check(t_simple_cmd *cmd);
+int				redir_check(t_simple_cmd *cmd);
 /*signals*/
 void			handle_sigquit(int signal);
 void			handle_sigint(int signal);

@@ -6,8 +6,8 @@ int executing(t_data *data)
     if (!data || !data->simple_cmds) 
         return (1);
     t_simple_cmd *current = data->simple_cmds;  // Zmiana z tablicy na listę
-    int ret = 0;
-
+    int ret;
+    ret = 0;
     while (current && current->name)  // Iterujemy po liście
     {
         if (check_for_builtins(current) && !current->next)
@@ -33,7 +33,7 @@ int executing(t_data *data)
                 close(saved_stdin);
             }
             if (ret != 0)
-                return ret;
+                return (ret);
         } 
 		else 
 		{
@@ -43,7 +43,7 @@ int executing(t_data *data)
         }
         break;
     }
-    return ret;
+    return (ret);
 }
 
 int	parsing(t_data *data)
