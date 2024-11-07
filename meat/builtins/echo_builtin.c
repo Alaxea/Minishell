@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:21:26 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/05 17:34:28 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/07 14:03:38 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,24 @@
 
 int echo_builtin(t_simple_cmd *cmd)
 {
-    int i = 1;
+    int i;
+    int flag;
+
+    flag = 0;
+    i = 1;
     while (cmd->cmd[i])
     {
+        if (ft_strcmp(cmd->cmd[i], "-n") == 0)
+        {
+            flag = 1;
+            i++;
+        }
         write(STDOUT_FILENO, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
         if (cmd->cmd[i + 1])
             write(STDOUT_FILENO, " ", 1);
         i++;
     }
-    write(STDOUT_FILENO, "\n", 1);
-    return 0;
+    if (!flag)
+        write(STDOUT_FILENO, "\n", 1);
+    return (0);
 }
