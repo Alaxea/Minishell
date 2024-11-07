@@ -1,49 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
+/*   Updated: 2024/11/07 15:02:21 by astefans         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-/*command to compilation: cc -Wall -Wextra -Werror -o main main.c -lreadline*/
 
-int executing(t_data *data)
+int	executing(t_data *data)
 {
-    if (!data || !data->simple_cmds) 
-        return (1);
-    t_simple_cmd *current = data->simple_cmds;  // Zmiana z tablicy na listę
-    int ret;
-    ret = 0;
-    while (current && current->name)  // Iterujemy po liście
-    {
-        if (check_for_builtins(current) && !current->next)
-		{
-            int saved_stdout = dup(STDOUT_FILENO);
-            int saved_stdin = dup(STDIN_FILENO);
+	t_simple_cmd	*current;
+	int				ret;
+	int				saved_stdout;
+	int				saved_stdin;
 
-            // Apply redirections before executing builtin
-            if (redir_check(current) == -1) 
-                return (1);
-            // Execute the builtin command
-            ret = execute_builtin(data, current);
-
-            // Restore original file descriptors
-            if (saved_stdout != -1) 
-			{
-                dup2(saved_stdout, STDOUT_FILENO);
-                close(saved_stdout);
-            }
-            if (saved_stdin != -1) 
-			{
-                dup2(saved_stdin, STDIN_FILENO);
-                close(saved_stdin);
-            }
-            if (ret != 0)
-                return (ret);
-        } 
-		else 
+	if (!data || !data->simple_cmds)
+		return (1);
+	current = data->simple_cmds;
+	ret = 0;
+	while (current && current->name)
+	{
+		if (check_for_builtins(current) && !current->next)
 		{
-            ret = execute(current, data);
-            if (ret != 0)
-                return ret;
-        }
-        break;
-    }
-    return (ret);
+			saved_stdout = dup(STDOUT_FILENO);
+			saved_stdin = dup(STDIN_FILENO);
+			if (redir_check(current) == -1)
+				return (1);
+			ret = execute_builtin(data, current);
+			if (saved_stdout != -1)
+			{
+				dup2(saved_stdout, STDOUT_FILENO);
+				close(saved_stdout);
+			}
+			if (saved_stdin != -1)
+			{
+				dup2(saved_stdin, STDIN_FILENO);
+				close(saved_stdin);
+			}
+			if (ret != 0)
+				return (ret);
+		}
+		else
+		{
+			ret = execute(current, data);
+			if (ret != 0)
+				return (ret);
+		}
+		break ;
+	}
+	return (ret);
 }
 
 int	parsing(t_data *data)
@@ -66,64 +76,67 @@ int	parsing(t_data *data)
 	return (1);
 }
 
-int minishell(t_data *data)
+int	minishell(t_data *data)
 {
-    while(1)
-    {
-        signals();
-        data->input = readline("minishell>> ");
-        if (!data->input)
-        {
-            write(1, "exit\n", 5);
-            break;
-        }
-        if (ft_strcmp(data->input, "") == 0)
-        {
-            free(data->input);
-            continue;
-        }
-        add_history(data->input);
-        if (parsing(data))
-        {
-			int ret = executing(data);
+	while (1)
+	{
+		signals();
+		data->input = readline("minishell>> ");
+		if (!data->input)
+		{
+			write(1, "exit\n", 5);
+			break ;
+		}
+		if (ft_strcmp(data->input, "") == 0)
+		{
+			free(data->input);
+			continue ;
+		}
+		add_history(data->input);
+		if (parsing(data))
+		{
+			int	ret;
+
+			ret = executing(data);
 			if (ret != 0)
 				printf("Executing returned with error: %d\n", ret);
-            if (data->tokens)
-                ft_lstclear(&data->tokens);
-            if (data->simple_cmds)
-            {
-                t_simple_cmd *current = data->simple_cmds;
-                while (current)
-                {
-                    t_simple_cmd *next = current->next;
-                    free_simple_cmd(current);
-                    current = next;
-                }
-                data->simple_cmds = NULL;
-            }
-        }
-        free(data->input);
-        data->input = NULL;
-    }
-    return (0);
+			if (data->tokens)
+				ft_lstclear(&data->tokens);
+			if (data->simple_cmds)
+			{
+				t_simple_cmd	*current;
+
+				current = data->simple_cmds;
+				while (current)
+				{
+					t_simple_cmd	*next;
+
+					next = current->next;
+					free_simple_cmd(current);
+					current = next;
+				}
+				data->simple_cmds = NULL;
+			}
+		}
+		free(data->input);
+		data->input = NULL;
+	}
+	return (0);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-    t_data data;
+	t_data	data;
 
-    (void)argv;
-    (void)argc;
-
-    ft_memset(&data, 0, sizeof(t_data));
-    copy_env_var(&data, envp);
-
-    if (!data.env_var)
-        return (1);
-
-    data.envp = data.env_var;  // Ważne: envp wskazuje na tę samą tablicę co env_var
-    minishell(&data);
-    if (data.env_var)
-        clear_tab(data.env_var);
-    return(0);
+	(void)argv;
+	(void)argc;
+	ft_memset(&data, 0, sizeof(t_data));
+	copy_env_var(&data, envp);
+	if (!data.env_var)
+		return (1);
+	data.envp = data.env_var;
+	minishell(&data);
+	if (data.env_var)
+		clear_tab(data.env_var);
+	return (0);
 }

@@ -12,50 +12,47 @@
 
 #include "../../minishell.h"
 
-static int is_valid_identifier(const char *str)
+static int	is_valid_identifier(const char *str)
 {
-    if (!str || !*str || ft_isdigit(*str))
-        return 0;
-
-    while (*str)
+	if (!str || !*str || ft_isdigit(*str))
+		return (0);
+	while (*str)
 	{
-        if (!ft_isalnum(*str) && *str != '_')
-            return 0;
-        str++;
-    }
-    return 1;
+		if (!ft_isalnum(*str) && *str != '_')
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
-int unset_builtin(t_data *env, t_simple_cmd *cmd)
+int	unset_builtin(t_data *env, t_simple_cmd *cmd)
 {
-    if (!cmd->cmd[1]) 
+	int		i;
+	int		status;
+	char	*var_name;
+
+	if (!cmd->cmd[1])
 	{
-        ft_putstr_fd("unset: not enough arguments\n", 2);
-        return 1;
-    }
-
-    int i = 1;
-    int status = 0;
-
-    while (cmd->cmd[i]) 
+		ft_putstr_fd("unset: not enough arguments\n", 2);
+		return (1);
+	}
+	i = 1;
+	status = 0;
+	while (cmd->cmd[i])
 	{
-        char *var_name = cmd->cmd[i];
-
-        // Skip if variable name starts with $
-        if (var_name[0] == '$')
-            var_name++;
-
-        if (!is_valid_identifier(var_name)) 
+		var_name = cmd->cmd[i];
+		if (var_name[0] == '$')
+			var_name++;
+		if (!is_valid_identifier(var_name))
 		{
-            ft_putstr_fd("unset: `", 2);
-            ft_putstr_fd(var_name, 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
-            status = 1;
-            i++;
-            continue;
-        }
-        delete_env_var(env, var_name);
-        i++;
-    }
-    return status;
+			ft_putstr_fd("unset: `", 2);
+			ft_putstr_fd(var_name, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			status = 1;
+		}
+		else
+			delete_env_var(env, var_name);
+		i++;
+	}
+	return (status);
 }

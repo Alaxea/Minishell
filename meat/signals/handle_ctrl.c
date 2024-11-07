@@ -16,7 +16,6 @@ void	handle_sigquit(int signal)
 {
 	if (signal == SIGQUIT)
 	{
-		//do nothing
 	}
 }
 

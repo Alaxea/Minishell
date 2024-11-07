@@ -12,40 +12,41 @@
 
 #include "../../minishell.h"
 
-int	execute_builtin(t_data *data, t_simple_cmd *cmd)
+int execute_builtin(t_data *data, t_simple_cmd *cmd)
 {
 	if (ft_strcmp(cmd->name, "pwd") == 0)
 		return (pwd_builtin(data, cmd));
-    if (ft_strcmp(cmd->name, "echo") == 0) 
+	if (ft_strcmp(cmd->name, "echo") == 0)
 	{
-        int ret = echo_builtin(cmd);
-        return ret;
-    }
-    if (ft_strcmp(cmd->name, "cd") == 0)
-        return (cd_builtin(data, cmd));
-    if (ft_strcmp(cmd->name, "env") == 0)
-        return (env_builtin(data, cmd));
-    if (ft_strcmp(cmd->name, "export") == 0)
-        return (export_builtin(data, cmd));
-    if (ft_strcmp(cmd->name, "exit") == 0)
-        return (exit_builtin(data, cmd));
-    if (ft_strcmp(cmd->name, "unset") == 0)
-	{
-        return (unset_builtin(data, cmd));
+		int ret = echo_builtin(cmd);
+		return (ret);
 	}
+	if (ft_strcmp(cmd->name, "cd") == 0)
+		return (cd_builtin(data, cmd));
+	if (ft_strcmp(cmd->name, "env") == 0)
+		return (env_builtin(data, cmd));
+	if (ft_strcmp(cmd->name, "export") == 0)
+		return (export_builtin(data, cmd));
+	if (ft_strcmp(cmd->name, "exit") == 0)
+		return (exit_builtin(data, cmd));
+	if (ft_strcmp(cmd->name, "unset") == 0)
+		return (unset_builtin(data, cmd));
 	return (0);
 }
 
 int check_for_builtins(t_simple_cmd *sc)
 {
-    if (!sc->name) 
-        return (0);
-    int is_builtin = ((ft_strcmp(sc->name, "pwd") == 0)
-        || (ft_strcmp(sc->name, "echo") == 0)
-        || (ft_strcmp(sc->name, "cd") == 0)
-        || (ft_strcmp(sc->name, "env") == 0)
-        || (ft_strcmp(sc->name, "export") == 0)
-        || (ft_strcmp(sc->name, "exit") == 0)
-        || (ft_strcmp(sc->name, "unset") == 0));
-    return (is_builtin);
+    int is_builtin;
+
+	if (!sc->name)
+		return (0);
+
+	is_builtin = (ft_strcmp(sc->name, "pwd") == 0
+	    || ft_strcmp(sc->name, "echo") == 0
+		|| ft_strcmp(sc->name, "cd") == 0
+		|| ft_strcmp(sc->name, "env") == 0
+		|| ft_strcmp(sc->name, "export") == 0
+		|| ft_strcmp(sc->name, "exit") == 0
+		|| ft_strcmp(sc->name, "unset") == 0);
+	return (is_builtin);
 }

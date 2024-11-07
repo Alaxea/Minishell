@@ -12,21 +12,20 @@
 
 #include "../../minishell.h"
 
-int pwd_builtin(t_data *data, t_simple_cmd *cmd)
+int	pwd_builtin(t_data *data, t_simple_cmd *cmd)
 {
-    char *pwd;
+	char	*pwd;
 
-    (void)data; // Silence unused parameter warning
-    (void)cmd;  // We don't need cmd->fd_out anymore
-
-    pwd = getcwd(NULL, 0);
-    if (!pwd)
-    {
-        ft_putstr_fd("pwd: error retrieving current directory\n", 2);
-        return (1);
-    }
-    ft_putstr_fd(pwd, STDOUT_FILENO);
-    ft_putstr_fd("\n", STDOUT_FILENO);
-    free(pwd);
-    return (0);
+	(void)data;
+	(void)cmd;
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		ft_putstr_fd("pwd: error retrieving current directory\n", 2);
+		return (1);
+	}
+	ft_putstr_fd(pwd, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	free(pwd);
+	return (0);
 }

@@ -42,22 +42,21 @@ static int	ft_overflow_int(char *str)
 	return (0);
 }
 
-int exit_builtin(t_data *env, t_simple_cmd *cmd)
+int	exit_builtin(t_data *env, t_simple_cmd *cmd)
 {
-    write(1, "exit\n", 5);
-
-    if (!cmd->cmd[1])
-        exit_shell(env, NULL, 0);
-    if (cmd->cmd[2])
-    {
-        ft_putstr_fd("Too many cmd\n", 2);
-        return (1);
-    }
-    if (!ft_isdigit(cmd->cmd[1][0]) || ft_overflow_int(cmd->cmd[1]))
-    {
-        ft_putstr_fd("Numeric argument is required\n", 2);
-        return (1);
-    }
-    exit_shell(env, NULL, ft_atoi(cmd->cmd[1]));
-    return (0);  // Nigdy tu nie dojdzie
+	write(1, "exit\n", 5);
+	if (!cmd->cmd[1])
+		exit_shell(env, NULL, 0);
+	if (cmd->cmd[2])
+	{
+		ft_putstr_fd("Too many cmd\n", 2);
+		return (1);
+	}
+	if (!ft_isdigit(cmd->cmd[1][0]) || ft_overflow_int(cmd->cmd[1]))
+	{
+		ft_putstr_fd("Numeric argument is required\n", 2);
+		return (1);
+	}
+	exit_shell(env, NULL, ft_atoi(cmd->cmd[1]));
+	return (0);
 }

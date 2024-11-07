@@ -12,13 +12,13 @@
 
 #include "../../minishell.h"
 
-static int		cd_helper(t_simple_cmd *cmd, char *cwd);
+static int	cd_helper(t_simple_cmd *cmd, char *cwd);
 
-int		cd_builtin(t_data *env, t_simple_cmd *cmd)
+int	cd_builtin(t_data *env, t_simple_cmd *cmd)
 {
-	char *home;
-	char buffer[1024];
-	int ret_val;
+	char	*home;
+	char	buffer[1024];
+	int		ret_val;
 
 	home = set_env_var(env, "HOME");
 	ret_val = cd_helper(cmd, home);
@@ -27,7 +27,7 @@ int		cd_builtin(t_data *env, t_simple_cmd *cmd)
 	return (ret_val);
 }
 
-static int		cd_helper(t_simple_cmd *cmd, char *cwd)
+static int	cd_helper(t_simple_cmd *cmd, char *cwd)
 {
 	if (cmd->cmd[0] == NULL)
 	{

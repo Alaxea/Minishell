@@ -12,26 +12,26 @@
 
 #include "../../minishell.h"
 
-int echo_builtin(t_simple_cmd *cmd)
+int	echo_builtin(t_simple_cmd *cmd)
 {
-    int i;
-    int flag;
+	int	i;
+	int	flag;
 
-    flag = 0;
-    i = 1;
-    while (cmd->cmd[i])
-    {
-        if (ft_strcmp(cmd->cmd[i], "-n") == 0)
-        {
-            flag = 1;
-            i++;
-        }
-        write(STDOUT_FILENO, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
-        if (cmd->cmd[i + 1])
-            write(STDOUT_FILENO, " ", 1);
-        i++;
-    }
-    if (!flag)
-        write(STDOUT_FILENO, "\n", 1);
-    return (0);
+	flag = 0;
+	i = 1;
+	while (cmd->cmd[i])
+	{
+		if (ft_strcmp(cmd->cmd[i], "-n") == 0)
+		{
+			flag = 1;
+			i++;
+		}
+		write(STDOUT_FILENO, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
+		if (cmd->cmd[i + 1])
+			write(STDOUT_FILENO, " ", 1);
+		i++;
+	}
+	if (!flag)
+		write(STDOUT_FILENO, "\n", 1);
+	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
+/*   Updated: 2024/11/07 15:02:32 by astefans         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -17,21 +29,8 @@
 # include <fcntl.h>
 # include <errno.h>
 
-typedef struct s_pipex_data
-{
-	int		num_of_processes;
-	int		**array_of_pipes;
-	int		c_pos;
-	int		num_of_pipes;
-	int		heredoc;
-	int		argc;
-	char	**envp;
-	int		infile_fd;
-	int		outfile_fd;
-	char	**paths;
-}	t_pipex_data;
-
 # define BUFFER_SIZE 42
+
 typedef enum	s_redir_type
 {
 	STANDARD,
@@ -81,40 +80,40 @@ typedef struct s_io_fds
 
 typedef struct s_simple_cmd
 {
-	int				fd_out;
-	int				fd_in;
-	char			*name; // basically a pathname for the execve
-	char			**cmd; // argv array for execve
-	char			*flags;
-	char			*path;
-	char			*output_path;
-	char			*output_path_append;
-	char			*input_path;
-	char			*delimiter_heredoc;
-	bool			heredoc;
-	bool			parser_done;
-	int saved_stdin; // To save the original stdin
-    int saved_stdout; // To save the original stdout
-	pid_t pid;
-	char	*command;
+	int					fd_out;
+	int					fd_in;
+	char				*name;
+	char				**cmd;
+	char				*flags;
+	char				*path;
+	char				*output_path;
+	char				*output_path_append;
+	char				*input_path;
+	char				*delimiter_heredoc;
+	bool				heredoc;
+	bool				parser_done;
+	int					saved_stdin;
+	int					saved_stdout;
+	pid_t				pid;
+	char				*command;
 	struct s_simple_cmd	*next;
 	struct s_simple_cmd	*prev;
-	struct s_data *data;
-	t_io_fds		*io_fds;
+	struct s_data		*data;
+	t_io_fds			*io_fds;
 }	t_simple_cmd;
 
 typedef struct s_data
 {
-	char		*input;
-	t_token		*tokens;
+	char			*input;
+	t_token			*tokens;
 	t_simple_cmd	*simple_cmds;
-	char	**envp;
-	char	**env_var;
+	char			**envp;
+	char			**env_var;
 	t_simple_cmd	*cmd;
-	t_token	*token;
-	t_io_fds fd_out;
-	int last_result;
-	int fd[2];
+	t_token			*token;
+	t_io_fds		fd_out;
+	int				last_result;
+	int				fd[2];
 }	t_data;
 
 int				ft_iswhitespace(char c);
