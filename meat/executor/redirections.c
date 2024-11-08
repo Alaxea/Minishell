@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/08 09:30:16 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/08 23:17:06 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,51 @@ static void	out_redir(t_simple_cmd *cmd)
 	}
 	close(fd_out);
 }
+/*static int open_heredoc(void)
+{
+    int fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd < 0)
+        ft_putstr_fd("Error: failed to open heredoc file\n", 2);
+    return (fd);
+}
 
+// Zapisuje dane wejściowe do pliku heredoc
+static void write_to_heredoc(int fd, char *input)
+{
+    if (write(fd, input, ft_strlen(input)) < 0 || write(fd, "\n", 1) < 0)
+        ft_putstr_fd("Error: failed to write to heredoc file\n", 2);
+}
+
+// Główna funkcja heredoc
+static void heredoc_redir(t_simple_cmd *cmd)
+{
+    int     fd;
+    char    *input;
+
+    fd = open_heredoc_file();
+    if (fd < 0)
+        exit(1);
+    // Pobieranie danych od użytkownika aż do napotkania delimitera
+    while (1)
+    {
+        input = readline("> ");
+        if (!input)
+        {
+            ft_putstr_fd("Error: readline failed\n", 2);
+            close(fd);
+            exit(1);
+        }
+        // Sprawdzanie, czy wpisany tekst to delimiter
+        if (ft_strncmp(input, cmd->delimiter_heredoc, ft_strlen(cmd->delimiter_heredoc)) == 0)
+        {
+            free(input);
+            break;
+        }
+        write_to_heredoc_file(fd, input);
+        free(input);
+    }
+    close(fd);
+}*/
 static void	heredoc_redir(t_simple_cmd *cmd)
 {
 	int		fd;
