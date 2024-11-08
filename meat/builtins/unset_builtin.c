@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:17:34 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/06 11:32:51 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/08 08:54:56 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,30 @@ static int	is_valid_identifier(const char *str)
 	return (1);
 }
 
+static void	print_unset_error(char *var_name)
+{
+	ft_putstr_fd("unset: `", 2);
+	ft_putstr_fd(var_name, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
+
+static int	unset_variable(t_data *env, char *var_name)
+{
+	if (var_name[0] == '$')
+		var_name++;
+	if (!is_valid_identifier(var_name))
+	{
+		print_unset_error(var_name);
+		return (1);
+	}
+	delete_env_var(env, var_name);
+	return (0);
+}
+
 int	unset_builtin(t_data *env, t_simple_cmd *cmd)
 {
 	int		i;
 	int		status;
-	char	*var_name;
 
 	if (!cmd->cmd[1])
 	{
@@ -40,18 +59,8 @@ int	unset_builtin(t_data *env, t_simple_cmd *cmd)
 	status = 0;
 	while (cmd->cmd[i])
 	{
-		var_name = cmd->cmd[i];
-		if (var_name[0] == '$')
-			var_name++;
-		if (!is_valid_identifier(var_name))
-		{
-			ft_putstr_fd("unset: `", 2);
-			ft_putstr_fd(var_name, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+		if (unset_variable(env, cmd->cmd[i]) == 1)
 			status = 1;
-		}
-		else
-			delete_env_var(env, var_name);
 		i++;
 	}
 	return (status);
