@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astefans <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/07 15:02:21 by astefans         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:07:21 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ int	parsing(t_data *data)
 
 int	minishell(t_data *data)
 {
+	int				ret;
+	t_simple_cmd	*current;
+	t_simple_cmd	*next;
+
 	while (1)
 	{
 		signals();
@@ -95,8 +99,6 @@ int	minishell(t_data *data)
 		add_history(data->input);
 		if (parsing(data))
 		{
-			int	ret;
-
 			ret = executing(data);
 			if (ret != 0)
 				printf("Executing returned with error: %d\n", ret);
@@ -104,13 +106,9 @@ int	minishell(t_data *data)
 				ft_lstclear(&data->tokens);
 			if (data->simple_cmds)
 			{
-				t_simple_cmd	*current;
-
 				current = data->simple_cmds;
 				while (current)
 				{
-					t_simple_cmd	*next;
-
 					next = current->next;
 					free_simple_cmd(current);
 					current = next;
