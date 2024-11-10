@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/09 22:20:52 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/10 11:20:03 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,8 @@ static void	heredoc_redir(t_simple_cmd *cmd)
 			close(fd);
 			exit(1);
 		}
-		if (ft_strncmp(input, cmd->delimiter_heredoc, ft_strlen(cmd->delimiter_heredoc)) == 0)
+		if (ft_strncmp(input, cmd->delimiter_heredoc,
+				ft_strlen(cmd->delimiter_heredoc)) == 0)
 		{
 			free(input);
 			break ;

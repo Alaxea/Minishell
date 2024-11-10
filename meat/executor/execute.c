@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/09 22:19:51 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/10 11:31:29 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ char	*get_full_path(const char *command, char **envp)
 	free_paths(paths);
 	return (NULL);
 }
-
 int	execute_command(t_simple_cmd *cmd, char **envp)
 {
 	pid_t		pid;
