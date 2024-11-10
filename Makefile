@@ -6,7 +6,7 @@
 #    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/11/06 11:23:07 by alicja           ###   ########.fr        #
+#    Updated: 2024/11/10 16:19:44 by alicja           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,6 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/utils/ft_lstmap.c \
 		meat/utils/ft_lstnew.c \
 		meat/utils/ft_lstsize.c \
-		meat/utils/clean.c \
-		meat/utils/env_helper.c \
 		meat/parser/0_parser.c \
 		meat/parser/ft_split_quotes.c \
 		meat/parser/expander.c \
@@ -40,6 +38,8 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/builtins/cd_builtin.c \
 		meat/builtins/export_builtin.c \
 		meat/builtins/unset_builtin.c \
+		meat/executor/clean.c \
+		meat/executor/env_helper.c \
 		meat/executor/builtins_gate.c \
 		meat/executor/redirections.c \
 		meat/executor/execute.c \
