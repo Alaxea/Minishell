@@ -6,7 +6,7 @@
 #    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/11/10 16:19:44 by alicja           ###   ########.fr        #
+#    Updated: 2024/11/12 16:43:57 by alicja           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,9 +42,13 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/executor/env_helper.c \
 		meat/executor/builtins_gate.c \
 		meat/executor/redirections.c \
+		meat/executor/heredoc.c \
 		meat/executor/execute.c \
 		meat/executor/exec_path.c \
 		meat/executor/pipes.c \
+		meat/executor/pipes_2.c \
+		meat/executor/pipes_3.c \
+		meat/executor/utils.c \
 		meat/signals/handle_ctrl.c \
 		minishell.c \
 		

@@ -6,13 +6,13 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 10:51:33 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/12 20:42:48 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	free_paths(char **paths)
+void	free_paths(char **paths)
 {
 	int		i;
 
@@ -65,12 +65,21 @@ char	*get_full_path(const char *command, char **envp)
 	char		*full_path;
 	int			i;
 
-	if (command[0] == '/' || command[0] == '.')
-	{
-		if (access(command, X_OK) == 0)
-			return (ft_strdup(command));
-		return (NULL);
-	}
+	//printf("get_full_path: received command = %s\n", command);
+	if (ft_strchr(command, '/') != NULL)
+    {
+        if (access(command, X_OK) == 0)
+            return (ft_strdup(command));
+        return (NULL);
+    }
+    // Sprawdzenie w bieżącym katalogu, jeśli command nie zawiera ścieżki
+    if (access(command, X_OK) == 0)
+    {
+        full_path = ft_strjoin("./", command);
+        if (access(full_path, X_OK) == 0)
+            return (full_path);
+        free(full_path);
+    }
 	path_env = get_env_var("PATH", envp);
 	if (!path_env)
 	{
@@ -147,32 +156,28 @@ int	check_permission(struct stat file)
 	return (0);
 }
 
-
-/*char	*find_script(char *script, t_data *env)
+char	*find_script(char *script, t_data *env)
 {
 	char	*cwd;
 	char	*result;
 
 	if (script[0] == '.' && script[1] == '/')
 	{
-		// Pobierz bieżący katalog roboczy z env
 		cwd = set_env_var(env, "PWD");
 		if (!cwd)
 		{
-            ft_putstr_fd("PWD not found\n", 2);
-            return (NULL);
-        }
-		// Dodaj `/` i nazwę skryptu pomijając `./`
+			ft_putstr_fd("PWD not found\n", 2);
+			return (NULL);
+		}
 		result = ft_strjoin(cwd, script + 1);
 		free(cwd);
 		return (result);
 	}
 	else
-		return (ft_strdup(script)); // Zwróć kopię nazwy skryptu
-}*/
+		return (ft_strdup(script));
+}
 
-
-char	*find_script(char *script, t_data *env)
+/*char	*find_script(char *script, t_data *env)
 {
 	char	*tmp;
 	char	*cwd;
@@ -184,13 +189,13 @@ char	*find_script(char *script, t_data *env)
 		// Pobierz bieżący katalog roboczy z env
 		cwd = set_env_var(env, "PWD");
 		if (!cwd)
-			return (NULL); // Jeśli PWD nie istnieje, zwróć NULL
+			return (NULL);
 		// Połącz bieżący katalog z pełną ścieżką do skryptu
 		tmp = ft_strjoin(cwd, "/");
 		result = ft_strjoin(tmp, script + 2); // Pomijamy "./" z początku skryptu
 		free(tmp);
 		free(cwd);
-		 ft_putstr_fd("Script path: ", 2);
+		ft_putstr_fd("Script path: ", 2);
         ft_putstr_fd(result, 2);
         ft_putstr_fd("\n", 2);
 		return (result);
@@ -199,7 +204,7 @@ char	*find_script(char *script, t_data *env)
 		return (ft_strdup(script)); // Zwracamy kopię nazwy skryptu
 }
 
-/*char	*find_script(char *script, t_data *env)
+char	*find_script(char *script, t_data *env)
 {
 	char	*tmp;
 	char	*tmp2;

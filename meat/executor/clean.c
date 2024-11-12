@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:09:57 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/06 11:56:41 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/12 20:20:10 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ void	clear_env(t_data *env)
 	{
 		clear_tab(env->env_var);
 		env->env_var = NULL;
-	}
-	if (env->envp)
-	{
-		clear_tab(env->envp);
-		env->envp = NULL;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/11 12:42:38 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/12 16:43:23 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,16 +178,20 @@ int				execute_command(t_simple_cmd *cmd, char **envp);
 int				check_for_builtins(t_simple_cmd *sc);
 char			*find_script(char *script, t_data *env);
 int				search_in_path(t_data *env, t_simple_cmd *cmd);
+void			free_paths(char **paths);
 /*pipes*/
 void			close_pipes(t_simple_cmd *cmd);
 int				create_pipes(t_data *env, t_simple_cmd *cmd);
 int				fork_and_execute(t_simple_cmd *cmd, t_data *env);
 int				execute(t_simple_cmd *cmd, t_data *env);
+void			setup_redirection(t_simple_cmd *current);
 /*redirection*/
 int				redir_check(t_simple_cmd *cmd);
 /*signals*/
 void			handle_sigquit(int signal);
 void			handle_sigint(int signal);
 void			signals(void);
-
+/*utils*/
+void			handle_open_error(int fd, char *error_msg);
+int				error_command_not_found(void);
 #endif
