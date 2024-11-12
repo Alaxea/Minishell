@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/11 12:55:53 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/12 10:51:33 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,32 @@ int	check_permission(struct stat file)
 	}
 	return (0);
 }
+
+
+/*char	*find_script(char *script, t_data *env)
+{
+	char	*cwd;
+	char	*result;
+
+	if (script[0] == '.' && script[1] == '/')
+	{
+		// Pobierz bieżący katalog roboczy z env
+		cwd = set_env_var(env, "PWD");
+		if (!cwd)
+		{
+            ft_putstr_fd("PWD not found\n", 2);
+            return (NULL);
+        }
+		// Dodaj `/` i nazwę skryptu pomijając `./`
+		result = ft_strjoin(cwd, script + 1);
+		free(cwd);
+		return (result);
+	}
+	else
+		return (ft_strdup(script)); // Zwróć kopię nazwy skryptu
+}*/
+
+
 char	*find_script(char *script, t_data *env)
 {
 	char	*tmp;
@@ -164,6 +190,9 @@ char	*find_script(char *script, t_data *env)
 		result = ft_strjoin(tmp, script + 2); // Pomijamy "./" z początku skryptu
 		free(tmp);
 		free(cwd);
+		 ft_putstr_fd("Script path: ", 2);
+        ft_putstr_fd(result, 2);
+        ft_putstr_fd("\n", 2);
 		return (result);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:15:43 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/10 16:08:06 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/12 11:04:17 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,14 @@ int	execute_path(char *bin_path, t_data *env, t_simple_cmd *cmd)
 {
 	pid_t	pid;
 	int		result;
-	char	**argv;
 
 	pid = fork();
-	argv = NULL;
 	result = 0;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (pid == 0)
 	{
-		argv = cmd->cmd;
-		result = execve(bin_path, argv, env->env_var);
+		result = execve(bin_path, cmd->cmd, env->env_var);
 		if (result == -1)
 		{
 			ft_putstr_fd("execve failed", 2);
