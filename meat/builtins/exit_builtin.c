@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:42:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 21:09:46 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/13 11:33:34 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	exit_builtin(t_data *env, t_simple_cmd *cmd)
 		exit_shell(env, NULL, 0);
 	if (cmd->cmd[2])
 	{
-		ft_putstr_fd("Too many cmd\n", 2);
+		ft_putstr_fd("Too many arguments\n", 2);
 		return (1);
 	}
 	if (!ft_isdigit(cmd->cmd[1][0]) || ft_overflow_int(cmd->cmd[1]))
