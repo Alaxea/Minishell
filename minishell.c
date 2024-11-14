@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/13 11:21:01 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/14 12:35:50 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	parsing(t_data *data)
 
 int	minishell(t_data *data)
 {
-	int				ret;
+	// int				ret;
 	t_simple_cmd	*current;
 	t_simple_cmd	*next;
 
@@ -99,9 +99,10 @@ int	minishell(t_data *data)
 		add_history(data->input);
 		if (parsing(data))
 		{
-			ret = executing(data);
-			if (ret != 0)
-				printf("Executing returned with error: %d\n", ret);
+			// ret = executing(data);
+			executing(data);
+			//if (ret != 0)
+				//printf("Executing returned with error: %d\n", ret);
 			if (data->tokens)
 				ft_lstclear(&data->tokens);
 			if (data->simple_cmds)

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 21:10:05 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/14 12:54:54 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,35 +31,34 @@
 
 # define BUFFER_SIZE 42
 
-typedef enum	s_redir_type
+typedef enum s_redir_type
 {
 	STANDARD,
-	REDIR_INPUT, // < //
-	REDIR_OUTPUT, // > //
-	REDIR_APPEND, // >> //
-	REDIR_HEREDOC, // << - specific mode //
+	REDIR_INPUT,
+	REDIR_OUTPUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC,
 	PIPE
 }	t_redir_type;
 
-typedef	enum	s_node_type
+typedef enum s_node_type
 {
 	COMMAND_NODE,
 	PIPE_NODE,
 }	t_node_type;
 
-typedef enum	s_quote_mode
+typedef enum s_quote_mode
 {
 	DEFAULT,
 	SINGLE_Q,
 	DOUBLE_Q
 }	t_quote_mode;
 
-typedef enum	s_type
+typedef enum s_type
 {
 	WORD,
 	OPERATOR
 }	t_type;
-
 
 typedef struct s_token
 {
@@ -71,12 +70,12 @@ typedef struct s_token
 
 typedef struct s_io_fds
 {
-	struct s_simple_cmd *command;
-	char *infile;
-	char *outfile;
-	int		fd_in;
-	int		fd_out;
-}   t_io_fds;
+	struct s_simple_cmd	*command;
+	char				*infile;
+	char				*outfile;
+	int					fd_in;
+	int					fd_out;
+}	t_io_fds;
 
 typedef struct s_simple_cmd
 {

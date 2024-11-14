@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:01:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 16:48:39 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/14 12:48:15 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int	fork_and_execute(t_simple_cmd *cmd, t_data *env)
 			current->pid = fork();
 			if (current->pid == 0)
 				execute_builtin_fork(current, env);
-			waitpid(current->pid, &status, 0);
-			return (WEXITSTATUS(status));
+			//waitpid(current->pid, &status, 0);
+			return (waitpid(current->pid, &status, 0), WEXITSTATUS(status));
 		}
 		full_path = get_full_path(current->cmd[0], env->envp);
 		if (!full_path)
