@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:01:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 16:50:34 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/14 15:50:04 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ static int	execute_single_command(t_simple_cmd *current, t_data *env)
 	current->pid = fork();
 	if (current->pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, handle_sigquit);
+        signal(SIGTERM, SIG_DFL);
 		if (redir_check(current) == -1)
 			exit(1);
 		if (check_for_builtins(current))
@@ -56,6 +59,8 @@ static void	execute_child_command(t_simple_cmd *current,
 {
 	char	*full_path;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	close_other_fds(cmd, current);
 	setup_redirection(current);
 	if (check_for_builtins(current))
@@ -85,6 +90,9 @@ int	execute(t_simple_cmd *cmd, t_data *env)
 
 	current = cmd;
 	status = 0;
+	signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, handle_sigquit);
+    signal(SIGTERM, SIG_IGN);
 	if (!current)
 		return (-1);
 	if (!cmd->next)
@@ -95,7 +103,12 @@ int	execute(t_simple_cmd *cmd, t_data *env)
 	{
 		current->pid = fork();
 		if (current->pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+        	signal(SIGQUIT, SIG_DFL);
+       		signal(SIGTERM, SIG_DFL);
 			execute_child_command(current, cmd, env);
+		}
 		current = current->next;
 	}
 	close_pipes(cmd);

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:15:43 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 17:01:23 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/14 15:33:44 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,6 @@ int	execute_path(char *bin_path, t_data *env, t_simple_cmd *cmd)
 
 	pid = fork();
 	result = 0;
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 	if (pid == 0)
 	{
 		result = execve(bin_path, cmd->cmd, env->env_var);
