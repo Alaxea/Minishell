@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/10/02 14:33:43 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:29:57 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,13 @@ char *replace_env(char *str, char **env)
 }
 
 
-void	expand_cmd(int i, t_simple_cmd *sc_node, char **env)
+void	expand_cmd(int i, t_simple_cmd *sc_node, char **env, t_data *data)
 {
+	if ((sc_node->cmd[i][0] == '$' && sc_node->cmd[i][1] == '?') && i > 0)
+	{
+		replace_with_exit_status(sc_node, data);
+		return ;
+	}
 	if (i == 0)
 	{
 		sc_node->cmd[i] = replace_env(sc_node->cmd[i], env);
@@ -91,7 +96,7 @@ void	expand_cmd(int i, t_simple_cmd *sc_node, char **env)
 		sc_node->cmd[i] = replace_env(sc_node->cmd[i], env);
 }
 
-int	expand(t_simple_cmd *cmds, char **env)
+int	expand(t_simple_cmd *cmds, char **env, t_data *data)
 {
 	int	i;
 	t_simple_cmd *buf;
@@ -107,7 +112,7 @@ int	expand(t_simple_cmd *cmds, char **env)
 			found = ft_strchr(buf->cmd[i], '$');
 			if (found)
 			{
-				expand_cmd(i, buf, env);
+				expand_cmd(i, buf, env, data);
 				if (buf->cmd[i][0] == '\"')
 					i--;
 			}

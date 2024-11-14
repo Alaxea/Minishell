@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 21:10:05 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/14 12:29:37 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char			*trim_the_value(char *old);
 char			*cut_out_path(char *value);
 t_simple_cmd	*parser(t_token *tokens);
 char			*replace_env(char *str, char **env);
-int				expand(t_simple_cmd *cmds, char **env);
+int				expand(t_simple_cmd *cmds, char **env, t_data *data);
 char			*double_quotes_env(char *str, char **env);
 char			*trim_quotes(char *command);
 void			path_expander(t_simple_cmd *cmds, char **env);
@@ -143,6 +143,7 @@ int				is_cmd_valid(t_simple_cmd *cmds, char **env);
 char			*find_env_var(char *str, int *start, int *stop);
 size_t			ft_len_until_eq_sign(char *env);
 char			*get_env(char **env, char *var);
+void			replace_with_exit_status(t_simple_cmd *sc, t_data *data);
 /*EXECUTOR PART*/
 /*env_helper*/
 void			copy_env_var(t_data *env, char **env_var);

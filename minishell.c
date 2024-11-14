@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/13 11:21:01 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/14 12:33:01 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	parsing(t_data *data)
 		data->simple_cmds = parser(data->tokens);
 		if (!data->simple_cmds)
 			return (0);
-		if (!expand(data->simple_cmds, data->envp))
+		if (!expand(data->simple_cmds, data->envp, data))
 			return (0);
 		if (!cmd_validation(data->simple_cmds, data->envp))
 			return (0);
@@ -84,7 +84,7 @@ int	minishell(t_data *data)
 
 	while (1)
 	{
-		signals();
+		// signals();
 		data->input = readline("minishell>> ");
 		if (!data->input)
 		{
@@ -100,6 +100,7 @@ int	minishell(t_data *data)
 		if (parsing(data))
 		{
 			ret = executing(data);
+			data->last_result = ret;
 			if (ret != 0)
 				printf("Executing returned with error: %d\n", ret);
 			if (data->tokens)

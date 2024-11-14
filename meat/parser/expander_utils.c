@@ -1,5 +1,24 @@
 #include "../../minishell.h"
 
+void	replace_with_exit_status(t_simple_cmd *sc, t_data *data)
+{
+	int	i;
+
+	i = 1;
+	while (sc->cmd[i])
+	{
+		if (ft_strcmp(sc->cmd[i], "$?") == 0)
+		{
+			free(sc->cmd[i]);
+			// if (data->last_result != -1)
+				sc->cmd[i] = ft_itoa(data->last_result);
+			// else
+			// 	sc->cmd[i] = ft_itoa(0);
+		}
+		i++;
+	}
+}
+
 char *find_env_var(char *str, int *start, int *stop)
 {
 	*start = 0;
