@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 20:42:48 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/14 12:16:45 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,33 +178,6 @@ char	*find_script(char *script, t_data *env)
 }
 
 /*char	*find_script(char *script, t_data *env)
-{
-	char	*tmp;
-	char	*cwd;
-	char	*result;
-
-	// Jeśli skrypt zaczyna się od "./", dodaj bieżący katalog
-	if (script[0] == '.' && script[1] == '/')
-	{
-		// Pobierz bieżący katalog roboczy z env
-		cwd = set_env_var(env, "PWD");
-		if (!cwd)
-			return (NULL);
-		// Połącz bieżący katalog z pełną ścieżką do skryptu
-		tmp = ft_strjoin(cwd, "/");
-		result = ft_strjoin(tmp, script + 2); // Pomijamy "./" z początku skryptu
-		free(tmp);
-		free(cwd);
-		ft_putstr_fd("Script path: ", 2);
-        ft_putstr_fd(result, 2);
-        ft_putstr_fd("\n", 2);
-		return (result);
-	}
-	else
-		return (ft_strdup(script)); // Zwracamy kopię nazwy skryptu
-}
-
-char	*find_script(char *script, t_data *env)
 {
 	char	*tmp;
 	char	*tmp2;
