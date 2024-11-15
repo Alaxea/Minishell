@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 11:11:32 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/14 15:44:51 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:46:04 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,23 @@ void	handle_sigint(int signal)
 	}
 }
 
-/*void	signals(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
-	signal(SIGTERM, handle_sigquit);
-}*/
-
-
-void setup_signals(void)
+void	setup_signals(void)
 {
         signal(SIGQUIT, SIG_IGN);
         signal(SIGINT, handle_sigint);
         signal(SIGTERM, handle_sigquit);
+}
+
+void	ignore_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, handle_sigquit);
+    signal(SIGTERM, SIG_IGN);
+}
+
+void	default_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
+    signal(SIGTERM, SIG_DFL);
 }

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/14 16:53:16 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:47:08 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,12 +187,14 @@ int				execute(t_simple_cmd *cmd, t_data *env);
 void			setup_redirection(t_simple_cmd *current);
 /*redirection*/
 int				redir_check(t_simple_cmd *cmd);
-void	heredoc_redir(t_simple_cmd *cmd);
+void			heredoc_redir(t_simple_cmd *cmd);
 /*signals*/
 void			handle_sigquit(int signal);
 void			handle_sigint(int signal);
-void			signals(void);
 void			setup_signals(void);
+void			ignore_signals(void);
+void			default_signals(void);
+
 /*utils*/
 void			handle_open_error(int fd, char *error_msg);
 int				error_command_not_found(void);

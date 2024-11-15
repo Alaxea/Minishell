@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/14 12:16:45 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 11:56:09 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,12 @@ char	*get_full_path(const char *command, char **envp)
 	char		*full_path;
 	int			i;
 
-	//printf("get_full_path: received command = %s\n", command);
 	if (ft_strchr(command, '/') != NULL)
     {
         if (access(command, X_OK) == 0)
             return (ft_strdup(command));
         return (NULL);
     }
-    // Sprawdzenie w bieżącym katalogu, jeśli command nie zawiera ścieżki
     if (access(command, X_OK) == 0)
     {
         full_path = ft_strjoin("./", command);

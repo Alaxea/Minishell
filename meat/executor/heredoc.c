@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/14 16:20:06 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 13:25:09 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	heredoc_redir(t_simple_cmd *cmd)
 	fd = open(".heredoc", O_RDONLY);
 	handle_open_error(fd, "Error: failed to open heredoc file for reading\n");
 	handle_dup2_error(fd, "Error: failed to duplicate file descriptor\n");
+	dup2(fd, STDIN_FILENO);
 	close(fd);
 	unlink(".heredoc");
 }

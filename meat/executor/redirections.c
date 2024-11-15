@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:30:42 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 12:50:49 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 13:40:27 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,11 @@ int	redir_check(t_simple_cmd *cmd)
 	cmd->saved_stdout = -1;
 	if (cmd->input_path)
 		in_redir(cmd);
+	if (cmd->heredoc)
+		heredoc_redir(cmd);
 	if (cmd->output_path)
 		out_redir(cmd);
 	if (cmd->output_path_append)
 		append_redir(cmd);
-	if (cmd->heredoc)
-		heredoc_redir(cmd);
 	return (0);
 }

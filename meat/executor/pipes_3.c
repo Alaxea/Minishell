@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:01:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/14 15:50:04 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:54:35 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ static void	execute_child_command(t_simple_cmd *current,
 {
 	char	*full_path;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	default_signals();
 	close_other_fds(cmd, current);
 	setup_redirection(current);
 	if (check_for_builtins(current))
@@ -90,9 +89,7 @@ int	execute(t_simple_cmd *cmd, t_data *env)
 
 	current = cmd;
 	status = 0;
-	signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, handle_sigquit);
-    signal(SIGTERM, SIG_IGN);
+	ignore_signals();
 	if (!current)
 		return (-1);
 	if (!cmd->next)
@@ -104,9 +101,7 @@ int	execute(t_simple_cmd *cmd, t_data *env)
 		current->pid = fork();
 		if (current->pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);
-        	signal(SIGQUIT, SIG_DFL);
-       		signal(SIGTERM, SIG_DFL);
+			default_signals();
 			execute_child_command(current, cmd, env);
 		}
 		current = current->next;
