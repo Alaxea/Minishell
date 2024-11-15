@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:01:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/15 12:54:35 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 17:34:36 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static int	execute_single_command(t_simple_cmd *current, t_data *env)
 	if (current->pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, handle_sigquit);
-        signal(SIGTERM, SIG_DFL);
+		signal(SIGQUIT, handle_sigquit);
+		signal(SIGTERM, SIG_DFL);
 		if (redir_check(current) == -1)
 			exit(1);
 		if (check_for_builtins(current))
@@ -61,6 +61,7 @@ static void	execute_child_command(t_simple_cmd *current,
 
 	default_signals();
 	close_other_fds(cmd, current);
+	redir_check(current);
 	setup_redirection(current);
 	if (check_for_builtins(current))
 		exit(execute_builtin(env, current));

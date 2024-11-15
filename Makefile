@@ -6,7 +6,7 @@
 #    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/11/14 13:10:58 by alicja           ###   ########.fr        #
+#    Updated: 2024/11/15 17:35:45 by alicja           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/executor/pipes_2.c \
 		meat/executor/pipes_3.c \
 		meat/executor/utils.c \
-		meat/signals/handle_ctrl.c \
+		meat/signals/handle_signals.c \
 		minishell.c \
 
 		

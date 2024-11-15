@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/15 11:56:09 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 16:20:30 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*concat_path(const char *dir, const char *command)
 	return (path);
 }
 
-char	*get_env_var(const char *var_name, char **envp)
+static char	*get_envp_var(const char *var_name, char **envp)
 {
 	int		i;
 	size_t	len;
@@ -58,7 +58,69 @@ char	*get_env_var(const char *var_name, char **envp)
 	return (NULL);
 }
 
+static char	*check_direct_command(const char *command)
+{
+	if (ft_strchr(command, '/') && access(command, X_OK) == 0)
+		return (ft_strdup(command));
+	return (NULL);
+}
+
+static char	*check_local_command(const char *command)
+{
+	char	*full_path;
+
+	if (access(command, X_OK) == 0)
+	{
+		full_path = ft_strjoin("./", command);
+		if (access(full_path, X_OK) == 0)
+			return (full_path);
+		free(full_path);
+	}
+	return (NULL);
+}
+
+static char	*search_in_paths(char **paths, const char *command)
+{
+	char	*full_path;
+	int		i;
+
+	i = 0;
+	while (paths[i])
+	{
+		full_path = concat_path(paths[i], command);
+		if (access(full_path, X_OK) == 0)
+		{
+			free_paths(paths);
+			return (full_path);
+		}
+		free(full_path);
+		i++;
+	}
+	return (NULL);
+}
+
 char	*get_full_path(const char *command, char **envp)
+{
+	char	*path_env;
+	char	**paths;
+
+	if (check_direct_command(command))
+		return (check_direct_command(command));
+	if (check_local_command(command))
+		return (check_local_command(command));
+	path_env = get_envp_var("PATH", envp);
+	if (!path_env)
+	{
+		write(STDERR_FILENO, "PATH variable not found\n", 24);
+		return (NULL);
+	}
+	paths = ft_split(path_env, ':');
+	if (!paths)
+		return (NULL);
+	return (search_in_paths(paths, command));
+}
+
+/*char	*get_full_path(const char *command, char **envp)
 {
 	char		*path_env;
 	char		**paths;
@@ -66,18 +128,18 @@ char	*get_full_path(const char *command, char **envp)
 	int			i;
 
 	if (ft_strchr(command, '/') != NULL)
-    {
-        if (access(command, X_OK) == 0)
-            return (ft_strdup(command));
-        return (NULL);
-    }
-    if (access(command, X_OK) == 0)
-    {
-        full_path = ft_strjoin("./", command);
-        if (access(full_path, X_OK) == 0)
-            return (full_path);
-        free(full_path);
-    }
+	{
+		if (access(command, X_OK) == 0)
+			return (ft_strdup(command));
+		return (NULL);
+	}
+	if (access(command, X_OK) == 0)
+	{
+		full_path = ft_strjoin("./", command);
+		if (access(full_path, X_OK) == 0)
+			return (full_path);
+		free(full_path);
+	}
 	path_env = get_env_var("PATH", envp);
 	if (!path_env)
 	{
@@ -101,9 +163,43 @@ char	*get_full_path(const char *command, char **envp)
 	}
 	free_paths(paths);
 	return (NULL);
+}*/
+
+static int	execute_child(t_simple_cmd *cmd, char *full_path, char **envp)
+{
+	redir_check(cmd);
+	if (execve(full_path, cmd->cmd, envp) == -1)
+	{
+		perror("execve");
+		free(full_path);
+		exit(EXIT_FAILURE);
+	}
+	return (0);
 }
 
 int	execute_command(t_simple_cmd *cmd, char **envp)
+{
+	pid_t	pid;
+	char	*full_path;
+	int		status;
+
+	full_path = get_full_path(cmd->cmd[0], envp);
+	if (!full_path)
+		return (ft_putstr_fd("Command not found\n", 2), 127);
+	pid = fork();
+	if (pid == 0)
+		execute_child(cmd, full_path, envp);
+	else if (pid > 0)
+	{
+		free(full_path);
+		waitpid(pid, &status, 0);
+		return (WEXITSTATUS(status));
+	}
+	free(full_path);
+	return (ft_putstr_fd("Fork failed\n", 2), -1);
+}
+
+/*int	execute_command(t_simple_cmd *cmd, char **envp)
 {
 	pid_t		pid;
 	char		*full_path;
@@ -140,7 +236,7 @@ int	execute_command(t_simple_cmd *cmd, char **envp)
 		return (-1);
 	}
 	return (status);
-}
+}*/
 
 int	check_permission(struct stat file)
 {
@@ -174,22 +270,3 @@ char	*find_script(char *script, t_data *env)
 	else
 		return (ft_strdup(script));
 }
-
-/*char	*find_script(char *script, t_data *env)
-{
-	char	*tmp;
-	char	*tmp2;
-	char	*result;
-
-	if (script[0] == '.')
-	{
-		tmp = ft_substr(script, 1, ft_strlen(script) - 1);
-		tmp2 = set_env_var(env, "PWD");
-		result = ft_strjoin(tmp2, tmp);
-		free(tmp);
-		free(tmp2);
-		return (result);
-	}
-	else
-		return (script);
-}*/

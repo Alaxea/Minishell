@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_ctrl.c                                      :+:      :+:    :+:   */
+/*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 11:11:32 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/15 12:46:04 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 17:37:12 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ void	handle_sigquit(int signal)
 	{
 		exit(0);
 	}
+}
+
+void	int_handler(int signal)
+{
+	(void)signal;
+	write(1, "\n", 1);
+	exit(signal);
 }
 
 void	handle_sigint(int signal)
@@ -33,21 +40,21 @@ void	handle_sigint(int signal)
 
 void	setup_signals(void)
 {
-        signal(SIGQUIT, SIG_IGN);
-        signal(SIGINT, handle_sigint);
-        signal(SIGTERM, handle_sigquit);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
+	signal(SIGTERM, handle_sigquit);
 }
 
 void	ignore_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, handle_sigquit);
-    signal(SIGTERM, SIG_IGN);
+	signal(SIGQUIT, handle_sigquit);
+	signal(SIGTERM, SIG_IGN);
 }
 
 void	default_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
-    signal(SIGTERM, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTERM, SIG_DFL);
 }

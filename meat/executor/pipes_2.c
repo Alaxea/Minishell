@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:01:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/14 12:48:15 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 16:39:54 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	setup_redirection(t_simple_cmd *current)
 		dup2(current->fd_in, STDIN_FILENO);
 	if (current->fd_out > 2)
 		dup2(current->fd_out, STDOUT_FILENO);
+	redir_check(current);
 }
 
 static void	close_fds(t_simple_cmd *current)
@@ -68,7 +69,6 @@ int	fork_and_execute(t_simple_cmd *cmd, t_data *env)
 			current->pid = fork();
 			if (current->pid == 0)
 				execute_builtin_fork(current, env);
-			//waitpid(current->pid, &status, 0);
 			return (waitpid(current->pid, &status, 0), WEXITSTATUS(status));
 		}
 		full_path = get_full_path(current->cmd[0], env->envp);
