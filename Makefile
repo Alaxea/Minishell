@@ -6,7 +6,7 @@
 #    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/11/15 17:35:45 by alicja           ###   ########.fr        #
+#    Updated: 2024/11/15 23:55:39 by alicja           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,12 +45,15 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/executor/heredoc.c \
 		meat/executor/execute.c \
 		meat/executor/exec_path.c \
-		meat/executor/pipes.c \
+		meat/executor/pipes_1.c \
 		meat/executor/pipes_2.c \
 		meat/executor/pipes_3.c \
 		meat/executor/utils.c \
+		meat/executor/env_utils.c \
+		meat/executor/execute_utils.c \
 		meat/signals/handle_signals.c \
 		minishell.c \
+		main.c \
 
 		
 OBJ = $(SRC:.c=.o)

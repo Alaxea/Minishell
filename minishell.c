@@ -6,18 +6,45 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/15 11:54:50 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/16 00:06:07 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	restore_std(int saved_stdout, int saved_stdin)
+{
+	if (saved_stdout != -1)
+	{
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdout);
+	}
+	if (saved_stdin != -1)
+	{
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdin);
+	}
+}
+
+static int	execute_builtin_cmd(t_data *data, t_simple_cmd *current)
+{
+	int	saved_stdout;
+	int	saved_stdin;
+	int	ret;
+
+	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
+	if (redir_check(current) == -1)
+		return (1);
+	ret = execute_builtin(data, current);
+	restore_std(saved_stdout, saved_stdin);
+	return (ret);
+}
+
 int	executing(t_data *data)
 {
 	t_simple_cmd	*current;
 	int				ret;
-	int				saved_stdout;
-	int				saved_stdin;
 
 	if (!data || !data->simple_cmds)
 		return (1);
@@ -26,31 +53,11 @@ int	executing(t_data *data)
 	while (current && current->name)
 	{
 		if (check_for_builtins(current) && !current->next)
-		{
-			saved_stdout = dup(STDOUT_FILENO);
-			saved_stdin = dup(STDIN_FILENO);
-			if (redir_check(current) == -1)
-				return (1);
-			ret = execute_builtin(data, current);
-			if (saved_stdout != -1)
-			{
-				dup2(saved_stdout, STDOUT_FILENO);
-				close(saved_stdout);
-			}
-			if (saved_stdin != -1)
-			{
-				dup2(saved_stdin, STDIN_FILENO);
-				close(saved_stdin);
-			}
-			if (ret != 0)
-				return (ret);
-		}
+			ret = execute_builtin_cmd(data, current);
 		else
-		{
 			ret = execute(current, data);
-			if (ret != 0)
-				return (ret);
-		}
+		if (ret != 0)
+			return (ret);
 		break ;
 	}
 	return (ret);
@@ -116,22 +123,5 @@ int	minishell(t_data *data)
 		free(data->input);
 		data->input = NULL;
 	}
-	return (0);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_data	data;
-
-	(void)argv;
-	(void)argc;
-	ft_memset(&data, 0, sizeof(t_data));
-	copy_env_var(&data, envp);
-	if (!data.env_var)
-		return (1);
-	data.envp = data.env_var;
-	minishell(&data);
-	if (data.env_var)
-		clear_tab(data.env_var);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 11:11:32 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/15 17:37:12 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 23:38:13 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@ void	handle_sigquit(int signal)
 	{
 		exit(0);
 	}
-}
-
-void	int_handler(int signal)
-{
-	(void)signal;
-	write(1, "\n", 1);
-	exit(signal);
 }
 
 void	handle_sigint(int signal)
@@ -58,3 +51,10 @@ void	default_signals(void)
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGTERM, SIG_DFL);
 }
+
+/*void	int_handler(int signal)
+{
+	(void)signal;
+	write(1, "\n", 1);
+	exit(signal);
+}*/

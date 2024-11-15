@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:09:57 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/12 20:20:10 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/15 23:20:59 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,17 @@ void	free_simple_cmd(t_simple_cmd *cmd)
 	if (cmd->path)
 		free(cmd->path);
 	free(cmd);
+}
+
+void	free_paths(char **paths)
+{
+	int		i;
+
+	i = 0;
+	while (paths[i])
+	{
+		free(paths[i]);
+		i++;
+	}
+	free(paths);
 }

@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/15 17:33:16 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/16 00:04:33 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,10 +194,11 @@ void			handle_sigint(int signal);
 void			setup_signals(void);
 void			ignore_signals(void);
 void			default_signals(void);
-void	int_handler(int signal);
-void	test(int sig);
-
 /*utils*/
 void			handle_open_error(int fd, char *error_msg);
 int				error_command_not_found(void);
+/*main*/
+int				parsing(t_data *data);
+int				executing(t_data *data);
+int				minishell(t_data *data);
 #endif
