@@ -6,7 +6,7 @@
 #    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/11/15 23:55:39 by alicja           ###   ########.fr        #
+#    Updated: 2024/11/16 19:31:16 by alicja           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,21 +56,39 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		main.c \
 
 		
-OBJ = $(SRC:.c=.o)
+OBJ_DIR = objects
+OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
+
 all: $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR) $(OBJ_DIR)/meat/utils $(OBJ_DIR)/meat/parser \
+	    $(OBJ_DIR)/meat/lexer $(OBJ_DIR)/meat/builtins $(OBJ_DIR)/meat/executor \
+	    $(OBJ_DIR)/meat/signals
+
 $(LIBFT):
 	make -C $(LIBFT_PATH)
-$(NAME) :$(OBJ) $(LIBFT)
+
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) -lreadline
+
 clean:
 	$(RM) $(OBJ)
 	make -C $(LIBFT_PATH) clean
+	$(RM) -r $(OBJ_DIR)
+
 fclean: clean
 	$(RM) $(NAME)
 	make -C $(LIBFT_PATH) fclean
-re: fclean $(NAME)
+
+re: fclean all
 
 .PHONY: all clean fclean re
+
+
 
 PATHUNITY = unity/src
 
