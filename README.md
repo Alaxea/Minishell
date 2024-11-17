@@ -1,4 +1,4 @@
-# Minishell
+# ~~Minis~~hell
 
 ## Usage
 
@@ -7,6 +7,9 @@ git clone git@github.com:Alaxea/Minishell.git minishell
 cd minishell
 make && ./minishell
 ```
+## Authors
+1. [Alicja](https://github.com/Alaxea)
+2. [Zosia](https://github.com/tsetsuko)
 ### Troubleshooting
 If you have an error when running **make**, it is probably because you do not have the **readline library** installed on your computer, or that it is not well linked.
 ## wstęp
