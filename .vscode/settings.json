@@ -62,5 +62,6 @@
     "stdbool.h": "c",
     "typeinfo": "c"
   },
-  "C_Cpp.errorSquiggles": "disabled"
+  "C_Cpp.errorSquiggles": "disabled",
+  "cmake.sourceDirectory": "/home/alicja/Projects/minishell/unity"
 }
