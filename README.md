@@ -8,8 +8,8 @@ cd minishell
 make && ./minishell
 ```
 ## Authors
-1. [Alicja](https://github.com/Alaxea)
-2. [Zosia](https://github.com/tsetsuko)
+1. [Zosia](https://github.com/tsetsuko)
+2. [Alicja](https://github.com/Alaxea)
 ### Troubleshooting
 If you have an error when running **make**, it is probably because you do not have the **readline library** installed on your computer, or that it is not well linked.
 ## wstęp
