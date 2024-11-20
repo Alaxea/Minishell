@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_valid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:09:00 by zogorzeb          #+#    #+#             */
 /*   Updated: 2024/11/20 15:11:47 by zogorzeb         ###   ########.fr       */
