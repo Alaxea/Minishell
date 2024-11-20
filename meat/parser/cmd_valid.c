@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:09:00 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/20 15:11:47 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:45:07 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ int	cmd_validation(t_simple_cmd *cmds, char **env)
 	if (!check_for_builtins(cmds))
 	{
 		if (!is_cmd_valid(cmds, env))
+		{
+			free_simple_cmd(cmds);
 			return (0);
+		}
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/20 14:13:27 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:48:04 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	parsing(t_data *data)
 		if (!validation(&data->tokens))
 			return (0);
 		data->simple_cmds = parser(data->tokens);
+		ft_lstclear(&data->tokens);
 		if (!data->simple_cmds)
 			return (0);
 		if (!expand(data->simple_cmds, data->envp, data))
