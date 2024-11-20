@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:16:30 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/15 23:35:44 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/20 14:45:34 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*get_full_path(const char *command, char **envp)
 {
 	char	*path_env;
 	char	**paths;
+	char	*ret;
 
 	if (check_direct_command(command))
 		return (check_direct_command(command));
@@ -87,5 +88,7 @@ char	*get_full_path(const char *command, char **envp)
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (NULL);
-	return (search_in_paths(paths, command));
+	ret = search_in_paths(paths, command);
+	free_paths(paths);
+	return (ret);
 }
