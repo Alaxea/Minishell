@@ -10,7 +10,7 @@ void tearDown(void) {
 }
 
 void test_function1(void) {
-    t_token *tokens = token_creator("echo 1 > file1");
+    t_token *tokens = token_creator("echo 1 > file1", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("echo", sc->name);
 	TEST_ASSERT_EQUAL_STRING("file1", sc->output_path);
@@ -22,7 +22,7 @@ void test_function1(void) {
 }
 
 void test_function2(void) {
-    t_token *tokens = token_creator("cat file1.txt file2.txt");
+    t_token *tokens = token_creator("cat file1.txt file2.txt", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("cat", sc->name);
 	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path);
@@ -35,7 +35,7 @@ void test_function2(void) {
 }
 
 void test_function3(void) {
-    t_token *tokens = token_creator("watch -n 5 'df -h | grep \"^/dev\"'");
+    t_token *tokens = token_creator("watch -n 5 'df -h | grep \"^/dev\"'", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("watch", sc->name);
 	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path);
@@ -50,7 +50,7 @@ void test_function3(void) {
 }
 
 void test_function4(void) {
-    t_token *tokens = token_creator("sort < input.txt >> output.txt");
+    t_token *tokens = token_creator("sort < input.txt >> output.txt", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 
 	TEST_ASSERT_EQUAL_STRING("sort", sc->name);

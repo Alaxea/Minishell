@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alicja <alicja@student.42.fr>              +#+  +:+       +#+         #
+#    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/11/17 14:39:00 by alicja           ###   ########.fr        #
+#    Updated: 2024/11/20 15:09:26 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/utils/ft_lstnew.c \
 		meat/utils/ft_lstsize.c \
 		meat/parser/0_parser.c \
+		meat/parser/parser_utils.c \
 		meat/parser/ft_split_quotes.c \
+		meat/parser/quotes_utils.c	\
 		meat/parser/expander.c \
 		meat/parser/expander_utils.c \
 		meat/parser/cmd_valid.c \
@@ -100,10 +102,10 @@ test_lexer:
 test_validation:
 	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/lex_valid_test.c -lreadline meat/lexer/tokenization.c meat/lexer/validation.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
 test_sc:
-	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/single_sc_test.c -lreadline meat/parser/ft_split_quotes.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
+	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/single_sc_test.c -lreadline meat/parser/ft_split_quotes.c meat/parser/parser_utils.c meat/lexer/tokenization.c meat/parser/quotes_utils.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
 test_lst:
-	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/sc_list.c -lreadline meat/parser/ft_split_quotes.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
+	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/sc_list.c -lreadline meat/parser/quotes_utils.c meat/parser/ft_split_quotes.c meat/lexer/tokenization.c meat/parser/parser_utils.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
 test_expander:
-	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_expander.c -lreadline meat/parser/ft_split_quotes.c meat/parser/expander_utils.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
+	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_expander.c -lreadline meat/parser/ft_split_quotes.c meat/parser/parser_utils.c meat/parser/expander_utils.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c && ./a.out
 test_exec:
-	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_exec.c -lreadline meat/parser/ft_split_quotes.c meat/parser/expander_utils.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c meat/executor/builtins_gate.c meat/executor/execute.c meat/utils/env_helper.c meat/executor/redirections.c && ./a.out
+	cc -Wall -Wextra -Werror $(PATHUNITY)/unity.c tests/test_exec.c -lreadline meat/parser/ft_split_quotes.c meat/parser/expander_utils.c meat/parser/parser_utils.c meat/parser/expander.c meat/lexer/tokenization.c meat/parser/0_parser.c includes/libft/libft.a meat/utils/ft_lstadd_back.c meat/utils/ft_lstclear.c meat/utils/ft_lstdelone.c meat/utils/ft_lstlast.c meat/utils/ft_lstnew.c meat/executor/builtins_gate.c meat/executor/execute.c meat/utils/env_helper.c meat/executor/redirections.c && ./a.out

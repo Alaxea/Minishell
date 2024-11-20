@@ -10,47 +10,47 @@ void tearDown(void) {
 }
 
 void test_function1(void) {
-t_token *token = token_creator("| cat file2");
+t_token *token = token_creator("| cat file2", 0, 0);
 TEST_ASSERT_EQUAL(0, validation(&token));
 }
 
 void test_function2(void) {
-t_token *token = token_creator("ls | grep 'zosia >>' >");
+t_token *token = token_creator("ls | grep 'zosia >>' >", 0, 0);
 TEST_ASSERT_EQUAL(0, validation(&token));
 }
 
 void test_function3(void) {
-t_token *token = token_creator("uniq | sort");
+t_token *token = token_creator("uniq | sort", 0, 0);
 TEST_ASSERT_EQUAL(1, validation(&token));
 }
 
 void test_function4(void) {
-t_token *token = token_creator("cat file | sort | | uniq");
+t_token *token = token_creator("cat file | sort | | uniq", 0, 0);
 TEST_ASSERT_EQUAL(0, validation(&token));
 }
 
 void test_function5(void) {
-t_token *token = token_creator(" < < file2 cat");
+t_token *token = token_creator(" < < file2 cat", 0, 0);
 TEST_ASSERT_EQUAL(0, validation(&token));
 }
 
 void test_function6(void) {
-t_token *token = token_creator("echo zosia > > file");
+t_token *token = token_creator("echo zosia > > file", 0, 0);
 TEST_ASSERT_EQUAL(0, validation(&token));
 }
 
 void test_function7(void) {
-t_token *token = token_creator("echo zosia >> file |");
+t_token *token = token_creator("echo zosia >> file |", 0, 0);
 TEST_ASSERT_EQUAL(0, validation(&token));
 }
 
 void test_function8(void) {
-t_token *token = token_creator("ls>cat>>test<s | <<eof cat -e |  sort -e");
+t_token *token = token_creator("ls>cat>>test<s | <<eof cat -e |  sort -e", 0, 0);
 TEST_ASSERT_EQUAL(1, validation(&token));
 }
 
 void test_function9(void) {
-t_token *token = token_creator("cat > | sort");
+t_token *token = token_creator("cat > | sort", 0, 0);
 TEST_ASSERT_EQUAL(0, validation(&token));
 }
 

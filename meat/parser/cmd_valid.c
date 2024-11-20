@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:09:00 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/10/02 14:41:53 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:11:47 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 int	is_cmd_valid(t_simple_cmd *cmds, char **env)
 {
 	char	*str;
+
 	while (cmds)
 	{
 		if (access(cmds->name, F_OK | X_OK) == -1)
@@ -32,6 +33,7 @@ int	is_cmd_valid(t_simple_cmd *cmds, char **env)
 				printf("minishell: %s: command not found\n", cmds->name);
 				return (0);
 			}
+			free(str);
 		}
 		cmds = cmds->next;
 	}

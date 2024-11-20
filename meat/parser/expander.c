@@ -6,12 +6,11 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/14 12:29:57 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:04:51 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 void	check_quote_str(t_quote_mode *mode, char *str)
 {
@@ -25,25 +24,20 @@ void	check_quote_str(t_quote_mode *mode, char *str)
 	}
 }
 
-char	*double_quotes_env(char *str, char **env)
+char	*double_quotes_env(char *str, char **env, int *start, int *stop)
 {
-	int		stop;
-	int		start;
-	char	*var;
 	char	*env_expanded;
 	char	*b;
 	char	*e;
 	char	*first;
 	char	*sec;
 
-	var = find_env_var(str, &start, &stop);
-	env_expanded = get_env(env, var);
-	b = ft_substr(str, 0, start - 1);
+	env_expanded = get_env(env, find_env_var(str, start, stop));
+	b = ft_substr(str, 0, *start - 1);
 	first = ft_strjoin(b, env_expanded);
-	free(var);
-	if (str[ft_strlen(str) - stop])
+	if (str[ft_strlen(str) - *stop])
 	{
-		e = ft_substr(str, stop, ft_strlen(str) - stop);
+		e = ft_substr(str, *stop, ft_strlen(str) - *stop);
 		sec = ft_strjoin(first, e);
 	}
 	else
@@ -51,12 +45,12 @@ char	*double_quotes_env(char *str, char **env)
 	return (sec);
 }
 
-char *replace_env(char *str, char **env)
+char	*replace_env(char *str, char **env)
 {
-	int	start;
-	int	stop;
-	char	*var;
-	char	*env_expanded;
+	int				start;
+	int				stop;
+	char			*var;
+	char			*env_expanded;
 	t_quote_mode	mode;
 
 	start = 0;
@@ -65,7 +59,7 @@ char *replace_env(char *str, char **env)
 	if (mode == SINGLE_Q)
 		return (str);
 	if (mode == DOUBLE_Q)
-		return (double_quotes_env(str, env));
+		return (double_quotes_env(str, env, &start, &stop));
 	while (str[start] != '$' && str[start])
 		start++;
 	start++;
@@ -78,7 +72,6 @@ char *replace_env(char *str, char **env)
 	free(var);
 	return (env_expanded);
 }
-
 
 void	expand_cmd(int i, t_simple_cmd *sc_node, char **env, t_data *data)
 {
@@ -98,9 +91,9 @@ void	expand_cmd(int i, t_simple_cmd *sc_node, char **env, t_data *data)
 
 int	expand(t_simple_cmd *cmds, char **env, t_data *data)
 {
-	int	i;
-	t_simple_cmd *buf;
-	char 	*found;
+	int				i;
+	t_simple_cmd	*buf;
+	char			*found;
 
 	buf = cmds;
 	while (buf)
@@ -116,7 +109,7 @@ int	expand(t_simple_cmd *cmds, char **env, t_data *data)
 				if (buf->cmd[i][0] == '\"')
 					i--;
 			}
-			buf->cmd[i] = trim_quotes(buf->cmd[i]);	
+			buf->cmd[i] = trim_quotes(buf->cmd[i]);
 			i++;
 		}
 		buf = buf->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/16 00:06:07 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/20 14:13:27 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	parsing(t_data *data)
 {
 	if (data->input)
 	{
-		data->tokens = token_creator(data->input);
+		data->tokens = token_creator(data->input, 0, 0);
 		if (!data->tokens)
 			return (0);
 		if (!validation(&data->tokens))

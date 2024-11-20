@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/20 14:25:09 by zogorzeb          #+#    #+#             */
+/*   Updated: 2024/11/20 15:04:51 by zogorzeb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 void	replace_with_exit_status(t_simple_cmd *sc, t_data *data)
@@ -10,16 +22,13 @@ void	replace_with_exit_status(t_simple_cmd *sc, t_data *data)
 		if (ft_strcmp(sc->cmd[i], "$?") == 0)
 		{
 			free(sc->cmd[i]);
-			// if (data->last_result != -1)
-				sc->cmd[i] = ft_itoa(data->last_result);
-			// else
-			// 	sc->cmd[i] = ft_itoa(0);
+			sc->cmd[i] = ft_itoa(data->last_result);
 		}
 		i++;
 	}
 }
 
-char *find_env_var(char *str, int *start, int *stop)
+char	*find_env_var(char *str, int *start, int *stop)
 {
 	*start = 0;
 	while (str[*start] != '$' && str[*start])
@@ -30,7 +39,8 @@ char *find_env_var(char *str, int *start, int *stop)
 		(*stop)++;
 	return (ft_substr(str, *start, *stop - *start));
 }
-char *trim_quotes(char *command)
+
+char	*trim_quotes(char *command)
 {
 	bool	trim;
 	char	*copy;
@@ -71,9 +81,14 @@ char	*get_env(char **env, char *var)
 	while (env[i])
 	{
 		if (ft_strncmp(var, env[i], ft_len_until_eq_sign(env[i])) == 0)
-			return (ft_strjoin("", (env[i] + ft_len_until_eq_sign(env[i]) + 1)));
+		{
+			free(var);
+			return (ft_strjoin("",
+					(env[i] + ft_len_until_eq_sign(env[i]) + 1)));
+		}
 		else
 			i++;
 	}
+	free(var);
 	return (ft_strdup(""));
 }

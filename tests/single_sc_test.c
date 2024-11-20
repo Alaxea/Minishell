@@ -14,7 +14,7 @@ void test_function1(void) {
 	    printf("\033[0;32mTEST1\033[0m\n");
 	printf("\033[1;32mecho 1 > file1\033[0m\n");
 
-    t_token *tokens = token_creator("echo 1 > file1");
+    t_token *tokens = token_creator("echo 1 > file1", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 
 	TEST_ASSERT_EQUAL_STRING("echo", sc->name);
@@ -30,7 +30,7 @@ void test_function2(void) {
     printf("\033[0;32mTEST2\033[0m\n");
 	printf("\033[1;32mcat file1.txt file2.txt\033[0m\n");
 
-    t_token *tokens = token_creator("cat file1.txt file2.txt");
+    t_token *tokens = token_creator("cat file1.txt file2.txt", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("cat", sc->name);
 	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path);
@@ -46,7 +46,7 @@ void test_function3(void) {
 	printf("\033[0;32mTEST3\033[0m\n");
 	printf("\033[1;32mwatch -n 5 'df -h | grep \"^/dev\"'\033[0m\n");
 
-    t_token *tokens = token_creator("watch -n 5 'df -h | grep \"^/dev\"'");
+    t_token *tokens = token_creator("watch -n 5 'df -h | grep \"^/dev\"'", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 
 	TEST_ASSERT_EQUAL_STRING("watch", sc->name);
@@ -62,7 +62,7 @@ void test_function3(void) {
 }
 
 void test_function4(void) {
-    t_token *tokens = token_creator("< input.txt sort >> output.txt");
+    t_token *tokens = token_creator("< input.txt sort >> output.txt", 0, 0);
 		printf("\033[1;32m< input.txt sort >> output.txt\033[0m\n");
 
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
@@ -79,7 +79,7 @@ void test_function4(void) {
 void test_function7(void) {
     printf("\033[0;32mTEST7\033[0m\n");
 	printf("\033[1;32mcat file\033[0m\n");
-    t_token *tokens = token_creator("cat file");
+    t_token *tokens = token_creator("cat file", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("cat", sc->name);
 	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path);
@@ -93,7 +93,7 @@ void test_function6(void) {
     printf("\033[0;32mTEST6\033[0m\n");
 	printf("\033[1;32mecho \"super fajnie to wychodzi\" >> file\033[0m\n");
 
-    t_token *tokens = token_creator("echo \"super fajnie to wychodzi\" >> file");
+    t_token *tokens = token_creator("echo \"super fajnie to wychodzi\" >> file", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("echo", sc->name);
 	TEST_ASSERT_EQUAL_STRING(NULL, sc->output_path);
@@ -108,7 +108,7 @@ void test_function5(void) {
     printf("\033[0;32mTEST5\033[0m\n");
 	printf("\033[1;32mls -a -l<file>file1\033[0m\n");
 
-    t_token *tokens = token_creator("ls -a -l<file>file1");
+    t_token *tokens = token_creator("ls -a -l<file>file1", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("ls", sc->name);
 	TEST_ASSERT_EQUAL_STRING("file1", sc->output_path);
@@ -126,7 +126,7 @@ void test_function8(void) {
 
     printf("\033[1;32m<<x cat\033[0m\n");
 
-    t_token *tokens = token_creator("<<x cat");
+    t_token *tokens = token_creator("<<x cat", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("cat", sc->name);
 
@@ -141,7 +141,7 @@ void test_function8(void) {
 
 void test_function9(void) {
     printf("\033[0;32mTEST9\033[0m\n");
-    t_token *tokens = token_creator("<input.txt sort>>output.txt");
+    t_token *tokens = token_creator("<input.txt sort>>output.txt", 0, 0);
 		printf("\033[1;32m<input.txt sort>>output.txt\033[0m\n");
 
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
@@ -161,7 +161,7 @@ void test_function10(void) {
 
     printf("\033[1;32m<< x cat >o\033[0m\n");
 
-    t_token *tokens = token_creator("<< x cat >o");
+    t_token *tokens = token_creator("<< x cat >o", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 
 	TEST_ASSERT_EQUAL_STRING("cat", sc->name);
@@ -181,7 +181,7 @@ void test_function11(void) {
 
     printf("\033[1;32mecho hello > file.txt\033[0m\n");
 
-    t_token *tokens = token_creator("echo hello > file.txt");
+    t_token *tokens = token_creator("echo hello > file.txt", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("echo", sc->name);
 
@@ -200,7 +200,7 @@ void test_function12(void) {
 
     printf("\033[1;32mcat < input.txt\033[0m\n");
 
-    t_token *tokens = token_creator("cat < input.txt");
+    t_token *tokens = token_creator("cat < input.txt", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("cat", sc->name);
 
@@ -218,7 +218,7 @@ void test_function13(void) {
 
     printf("\033[1;32mgcc -o program file.c\033[0m\n");
 
-    t_token *tokens = token_creator("gcc -o program file.c");
+    t_token *tokens = token_creator("gcc -o program file.c", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("gcc", sc->name);
 
@@ -239,7 +239,7 @@ void test_function14(void) {
 
     printf("\033[1;32mrm -rf /home/user/*\033[0m\n");
 
-    t_token *tokens = token_creator("rm -rf /home/user/*");
+    t_token *tokens = token_creator("rm -rf /home/user/*", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("rm", sc->name);
 
@@ -259,7 +259,7 @@ void test_function15(void) {
 
     printf("\033[1;32mmkdir -p /new/dir && cd /new/dir\033[0m\n");
 
-    t_token *tokens = token_creator("mkdir -p /new/dir && cd /new/dir");
+    t_token *tokens = token_creator("mkdir -p /new/dir && cd /new/dir", 0, 0);
 	t_simple_cmd *sc = simple_cmd_creator(tokens);
 	TEST_ASSERT_EQUAL_STRING("mkdir", sc->name);
 
