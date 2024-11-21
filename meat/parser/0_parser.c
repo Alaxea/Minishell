@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 14:51:43 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/20 15:13:22 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:48:44 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	sc_initializer(t_simple_cmd *sc)
 	sc->name = NULL;
 	sc->parser_done = false;
 	sc->path = NULL;
+	sc->next = NULL;
+	sc->prev = NULL;
 	sc->fd_in = -1;
 	sc->fd_out = -1;
 }
@@ -60,7 +62,7 @@ t_simple_cmd	*simple_cmd_creator(t_token *token)
 	t_token			*buf;
 
 	buf = token;
-	simple_cmd = malloc(sizeof(t_simple_cmd));
+	simple_cmd = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
 	sc_initializer(simple_cmd);
 	while (buf && buf->data_type != PIPE)
 	{

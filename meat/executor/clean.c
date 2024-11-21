@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:09:57 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/15 23:20:59 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/21 19:54:00 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,33 +59,29 @@ void	exit_shell(t_data *env, char *mess, int fail)
 		exit(fail);
 }
 
-void	free_simple_cmd(t_simple_cmd *cmd)
+void	free_simple_cmd(t_simple_cmd *sc)
 {
 	int	i;
 
 	i = 0;
-	if (!cmd)
-		return ;
-	if (cmd->cmd)
+	while (sc->cmd[i])
 	{
-		while (cmd->cmd[i])
-		{
-			free(cmd->cmd[i]);
-			i++;
-		}
-		free(cmd->cmd);
+		free(sc->cmd[i]);
+		sc->cmd[i] = NULL;
+		i++;
 	}
-	if (cmd->delimiter_heredoc)
-		free(cmd->delimiter_heredoc);
-	if (cmd->input_path)
-		free(cmd->input_path);
-	if (cmd->output_path)
-		free(cmd->output_path);
-	if (cmd->output_path_append)
-		free(cmd->output_path_append);
-	if (cmd->path)
-		free(cmd->path);
-	free(cmd);
+	free(sc->cmd);
+	if (sc->delimiter_heredoc)
+		free(sc->delimiter_heredoc);
+	if (sc->input_path)
+		free(sc->input_path);
+	if (sc->output_path)
+		free(sc->output_path);
+	if (sc->output_path_append)
+		free(sc->output_path_append);
+	if (sc->path)
+		free(sc->path);
+	free(sc);
 }
 
 void	free_paths(char **paths)

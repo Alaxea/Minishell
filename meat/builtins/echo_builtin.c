@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:21:26 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/07 14:05:49 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:33:59 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	echo_builtin(t_simple_cmd *cmd)
 	i = 1;
 	while (cmd->cmd[i])
 	{
-		if (ft_strcmp(cmd->cmd[i], "-n") == 0)
+		while (ft_strcmp(cmd->cmd[i], "-n") == 0)
 		{
 			flag = 1;
 			i++;

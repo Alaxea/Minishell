@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_gate.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:18:20 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/08 09:28:02 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/21 19:46:11 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	clean_builtin(t_simple_cmd *sc, t_data *data)
+{
+	int	i;
+	(void)data;
+
+	i = 0;
+	while (sc->cmd[i])
+	{
+		free(sc->cmd[i]);
+		sc->cmd[i] = NULL;
+		i++;
+	}
+	free(sc->cmd);
+	sc->name = NULL;
+	if (sc->path)
+		free(sc->path);
+	if (sc->path)
+		free(sc->input_path);
+	if (sc->path)
+		free(sc->output_path);
+}
 
 int	execute_builtin(t_data *data, t_simple_cmd *cmd)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:01:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/21 14:47:41 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/21 19:54:50 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,24 @@ static int	execute_single_command(t_simple_cmd *current, t_data *env)
 
 static void	close_other_fds(t_simple_cmd *cmd, t_simple_cmd *current)
 {
-	while (cmd)
+	t_simple_cmd	*buf;
+
+	buf = cmd;
+	while (buf)
 	{
-		if (cmd != current)
+		if (buf != current)
 		{
-			if (cmd->fd_in > 2)
-				close(cmd->fd_in);
-			if (cmd->fd_out > 2)
-				close(cmd->fd_out);
+			if (buf->fd_in > 2)
+				close(buf->fd_in);
+			if (buf->fd_out > 2)
+				close(buf->fd_out);
 		}
-		cmd = cmd->next;
+		buf = buf->next;
 	}
 }
 
 static void	execute_child_command(t_simple_cmd *current,
-		t_simple_cmd *cmd, t_data *env)
+		t_simple_cmd *cmd, t_data *data)
 {
 	char	*full_path;
 	int		k;
@@ -67,17 +70,18 @@ static void	execute_child_command(t_simple_cmd *current,
 	setup_redirection(current);
 	if (check_for_builtins(current))
 	{
-		code = execute_builtin(env, current);
+		code = execute_builtin(data, current);
 		k = 0;
-		while (env->env_var[k])
-			free(env->env_var[k++]);
-		free(env->env_var);
+		while (data->env_var[k])
+			free(data->env_var[k++]);
+		free(data->env_var);
+		clean_builtin(current, data);
 		exit(code);
 	}
-	full_path = get_full_path(current->cmd[0], env->envp);
+	full_path = get_full_path(current->cmd[0], data->envp);
 	if (!full_path)
 		exit(127);
-	execve(full_path, current->cmd, env->envp);
+	execve(full_path, current->cmd, data->envp);
 	perror("execve");
 	free(full_path);
 	exit(127);

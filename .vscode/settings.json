@@ -60,7 +60,9 @@
     "libft.h": "c",
     "minishell.h": "c",
     "stdbool.h": "c",
-    "typeinfo": "c"
+    "typeinfo": "c",
+    "limits": "c",
+    "cstdlib": "c"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "cmake.sourceDirectory": "/home/alicja/Projects/minishell/unity"

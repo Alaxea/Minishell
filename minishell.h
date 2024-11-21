@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/20 15:05:17 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:47:52 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ typedef struct s_simple_cmd
 	int					fd_in;
 	char				*name;
 	char				**cmd;
-	char				*flags;
 	char				*path;
 	char				*output_path;
 	char				*output_path_append;
@@ -94,11 +93,8 @@ typedef struct s_simple_cmd
 	int					saved_stdin;
 	int					saved_stdout;
 	pid_t				pid;
-	char				*command;
 	struct s_simple_cmd	*next;
 	struct s_simple_cmd	*prev;
-	struct s_data		*data;
-	t_io_fds			*io_fds;
 }	t_simple_cmd;
 
 typedef struct s_data
@@ -169,6 +165,7 @@ int				unset_builtin(t_data *env, t_simple_cmd *cmd);
 int				check_for_builtins(t_simple_cmd *sc);
 int				execute_builtin(t_data *data, t_simple_cmd *cmd);
 int				is_builtin(t_data *command, int fd);
+void			clean_builtin(t_simple_cmd *sc, t_data *data);
 /*exec_path*/
 char			*concat_path(const char *dir, const char *command);
 char			*get_full_path(const char *command, char **envp);

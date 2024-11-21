@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/20 15:48:04 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:19:01 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,16 @@ int	executing(t_data *data)
 		return (1);
 	current = data->simple_cmds;
 	ret = 0;
-	while (current && current->name)
-	{
+	// while (current && current->name)
+	// {
 		if (check_for_builtins(current) && !current->next)
 			ret = execute_builtin_cmd(data, current);
 		else
 			ret = execute(current, data);
 		if (ret != 0)
 			return (ret);
-		break ;
-	}
+	// 	current = current->next;
+	// }
 	return (ret);
 }
 
@@ -86,7 +86,6 @@ int	parsing(t_data *data)
 
 int	minishell(t_data *data)
 {
-	t_simple_cmd	*current;
 	t_simple_cmd	*next;
 
 	while (1)
@@ -107,19 +106,13 @@ int	minishell(t_data *data)
 		if (parsing(data))
 		{
 			data->last_result = executing(data);
-			if (data->tokens)
-				ft_lstclear(&data->tokens);
-			if (data->simple_cmds)
+			while (data->simple_cmds)
 			{
-				current = data->simple_cmds;
-				while (current)
-				{
-					next = current->next;
-					free_simple_cmd(current);
-					current = next;
-				}
-				data->simple_cmds = NULL;
+				next = data->simple_cmds->next;
+				free_simple_cmd(data->simple_cmds);
+				data->simple_cmds = next;
 			}
+			data->simple_cmds = NULL;
 		}
 		free(data->input);
 		data->input = NULL;
