@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:01:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/15 17:34:36 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/21 14:47:41 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,22 @@ static void	execute_child_command(t_simple_cmd *current,
 		t_simple_cmd *cmd, t_data *env)
 {
 	char	*full_path;
+	int		k;
+	int		code;
 
 	default_signals();
 	close_other_fds(cmd, current);
 	redir_check(current);
 	setup_redirection(current);
 	if (check_for_builtins(current))
-		exit(execute_builtin(env, current));
+	{
+		code = execute_builtin(env, current);
+		k = 0;
+		while (env->env_var[k])
+			free(env->env_var[k++]);
+		free(env->env_var);
+		exit(code);
+	}
 	full_path = get_full_path(current->cmd[0], env->envp);
 	if (!full_path)
 		exit(127);

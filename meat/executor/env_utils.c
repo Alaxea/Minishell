@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:06:17 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/20 23:58:01 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/21 14:51:36 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	copy_env_var(t_data *env, char **env_var)
 	}
 	env->env_var[i] = NULL;
 }
-
 
 char	*set_env_var(t_data *env, char *name)
 {
