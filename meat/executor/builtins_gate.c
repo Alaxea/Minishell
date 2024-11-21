@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:18:20 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/21 19:46:11 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:07:17 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	clean_builtin(t_simple_cmd *sc, t_data *data)
 {
 	int	i;
-	(void)data;
 
+	(void)data;
 	i = 0;
 	while (sc->cmd[i])
 	{
@@ -32,6 +32,7 @@ void	clean_builtin(t_simple_cmd *sc, t_data *data)
 		free(sc->input_path);
 	if (sc->path)
 		free(sc->output_path);
+	clear_tab(data->env_var);
 }
 
 int	execute_builtin(t_data *data, t_simple_cmd *cmd)
