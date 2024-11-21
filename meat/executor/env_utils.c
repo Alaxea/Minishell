@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:06:17 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/21 14:51:36 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/21 15:13:07 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ void	copy_env_var(t_data *env, char **env_var)
 		if (!env->env_var[i])
 		{
 			while (i > 0)
-			{
-				i--;
-				free(env->env_var[i]);
-			}
+				free(env->env_var[i--]);
 			free(env->env_var);
 			env->env_var = NULL;
 			return ;
