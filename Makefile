@@ -6,7 +6,7 @@
 #    By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 13:39:33 by astefans          #+#    #+#              #
-#    Updated: 2024/11/20 15:09:26 by zogorzeb         ###   ########.fr        #
+#    Updated: 2024/11/22 11:04:39 by zogorzeb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC =	meat/utils/ft_lstadd_back.c \
 		meat/utils/ft_lstmap.c \
 		meat/utils/ft_lstnew.c \
 		meat/utils/ft_lstsize.c \
+		meat/utils/clean_data.c \
 		meat/parser/0_parser.c \
 		meat/parser/parser_utils.c \
 		meat/parser/ft_split_quotes.c \

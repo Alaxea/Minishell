@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/22 10:57:01 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:10:17 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,13 @@ void			check_quote(t_quote_mode *mode, char c);
 char			**ft_split_quotes(char *str, char c);
 char			*trim_the_value(char *old);
 char			*cut_out_path(char *value);
-void			redir_modify(t_token *token, t_simple_cmd *simple_cmd, t_redir_type type);
+void			redir_modify(t_token *token,
+					t_simple_cmd *simple_cmd, t_redir_type type);
 t_simple_cmd	*parser(t_token *tokens);
 char			*replace_env(char *str, char **env);
 int				expand(t_simple_cmd *cmds, char **env, t_data *data);
-char			*double_quotes_env(char *str, char **env, int *start, int *stop);
+char			*double_quotes_env(char *str, char **env,
+					int *start, int *stop);
 char			*trim_quotes(char *command);
 void			path_expander(t_simple_cmd *cmds, char **env);
 int				cmd_validation(t_simple_cmd *cmds, char **env);
@@ -195,6 +197,7 @@ void			default_signals(void);
 /*utils*/
 void			handle_open_error(int fd, char *error_msg);
 int				error_command_not_found(void);
+void			clean_data(t_data *data);
 /*main*/
 int				parsing(t_data *data);
 int				executing(t_data *data);
