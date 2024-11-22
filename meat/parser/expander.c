@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/22 13:32:27 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 13:51:09 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ char	*replace_env(char *str, char **env)
 	var = ft_substr(str, start, stop);
 	free(str);
 	env_expanded = get_env(env, var);
-	free(var);
 	return (env_expanded);
 }
 
