@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/22 11:49:32 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:38:35 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	expand(t_simple_cmd *cmds, char **env, t_data *data)
 		{
 			found = NULL;
 			found = ft_strchr(buf->cmd[i], '$');
-			if (found && buf->cmd[i][1] != '\0')
+			if (found && buf->cmd[i][1] != '\0' && buf->cmd[i][1] != ' ')
 			{
 				expand_cmd(i, buf, env, data);
 				if (buf->cmd[i][0] == '\"')

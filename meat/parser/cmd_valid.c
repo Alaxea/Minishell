@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:09:00 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/22 11:54:31 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:53:00 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,15 @@ void	path_expander(t_simple_cmd *cmds, char **env)
 	char	*str2;
 	char	*str3;
 
-	while (cmds)
+	if (cmds->name[0] == '.' && cmds->name[1] == '/')
 	{
-		if (cmds->name[0] == '.' && cmds->name[1] == '/')
-		{
-			str1 = ft_substr(cmds->name, 2, ft_strlen(cmds->name) - 2);
-			str2 = ft_strjoin(get_env(env, "PWD"), "/");
-			str3 = ft_strjoin(str2, str1);
-			free(str2);
-			free(cmds->cmd[0]);
-			cmds->cmd[0] = str1;
-			cmds->name = str3;
-		}
-		cmds = cmds->next;
+		str1 = ft_substr(cmds->name, 2, ft_strlen(cmds->name) - 2);
+		str2 = ft_strjoin(get_env(env, "PWD"), "/");
+		str3 = ft_strjoin(str2, str1);
+		free(str2);
+		free(cmds->cmd[0]);
+		cmds->cmd[0] = str1;
+		cmds->name = str3;
 	}
 }
 
@@ -66,7 +62,7 @@ int	cmd_validation(t_data *data, t_simple_cmd *cmds, char **env)
 	buf = cmds;
 	while (buf)
 	{
-		path_expander(buf, env);
+		// path_expander(buf, env);
 		if (!check_for_builtins(buf))
 		{
 			if (!is_cmd_valid(buf, env))
