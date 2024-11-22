@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:09:57 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/21 19:54:00 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:34:05 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	exit_shell(t_data *env, char *mess, int fail)
 		exit(EXIT_SUCCESS);
 	}
 	clear_env(env);
+	clean_data(env);
 	if (fail == -1)
 		exit(EXIT_FAILURE);
 	else if (!fail)

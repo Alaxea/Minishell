@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/22 11:05:52 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:31:23 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	minishell(t_data *data)
 		if (!data->input)
 		{
 			write(1, "exit\n", 5);
+			clean_data(data);
 			break ;
 		}
 		if (ft_strcmp(data->input, "") == 0)
