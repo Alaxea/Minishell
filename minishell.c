@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/22 11:31:23 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:54:42 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	parsing(t_data *data)
 			return (0);
 		if (!expand(data->simple_cmds, data->envp, data))
 			return (0);
-		if (!cmd_validation(data->simple_cmds, data->envp))
+		if (!cmd_validation(data, data->simple_cmds, data->envp))
 			return (0);
 	}
 	return (1);
@@ -89,7 +89,6 @@ int	minishell(t_data *data)
 		if (!data->input)
 		{
 			write(1, "exit\n", 5);
-			clean_data(data);
 			break ;
 		}
 		if (ft_strcmp(data->input, "") == 0)

@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/22 11:10:17 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:54:07 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char			*double_quotes_env(char *str, char **env,
 					int *start, int *stop);
 char			*trim_quotes(char *command);
 void			path_expander(t_simple_cmd *cmds, char **env);
-int				cmd_validation(t_simple_cmd *cmds, char **env);
+int				cmd_validation(t_data *data, t_simple_cmd *cmds, char **env);
 int				is_cmd_valid(t_simple_cmd *cmds, char **env);
 char			*find_env_var(char *str, int *start, int *stop);
 size_t			ft_len_until_eq_sign(char *env);

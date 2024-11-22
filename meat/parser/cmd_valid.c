@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:09:00 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/22 11:36:11 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:54:31 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,17 @@ int	is_cmd_valid(t_simple_cmd *cmds, char **env)
 {
 	char	*str;
 
-	while (cmds)
+	if (access(cmds->name, F_OK | X_OK) == -1)
 	{
-		if (access(cmds->name, F_OK | X_OK) == -1)
+		str = get_full_path(cmds->name, env);
+		if (str == NULL)
 		{
-			str = get_full_path(cmds->name, env);
-			if (str == NULL)
-			{
-				printf("minishell: %s: command not found\n", cmds->name);
-				return (0);
-			}
-			free(str);
+			printf("minishell: %s: command not found\n", cmds->name);
+			return (0);
 		}
-		cmds = cmds->next;
+		free(str);
 	}
+	cmds = cmds->next;
 	return (1);
 }
 
@@ -62,16 +59,23 @@ void	path_expander(t_simple_cmd *cmds, char **env)
 	}
 }
 
-int	cmd_validation(t_simple_cmd *cmds, char **env)
+int	cmd_validation(t_data *data, t_simple_cmd *cmds, char **env)
 {
-	path_expander(cmds, env);
-	if (!check_for_builtins(cmds))
+	t_simple_cmd	*buf;
+
+	buf = cmds;
+	while (buf)
 	{
-		if (!is_cmd_valid(cmds, env))
+		path_expander(buf, env);
+		if (!check_for_builtins(buf))
 		{
-			free_simple_cmd(cmds);
-			return (0);
+			if (!is_cmd_valid(buf, env))
+			{
+				clean_data(data);
+				return (0);
+			}
 		}
+		buf = buf->next;
 	}
 	return (1);
 }
