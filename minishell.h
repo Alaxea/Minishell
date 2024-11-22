@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:29 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/21 19:47:52 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:57:01 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ typedef struct s_data
 	t_simple_cmd	*simple_cmds;
 	char			**envp;
 	char			**env_var;
-	t_simple_cmd	*cmd;
-	t_token			*token;
 	t_io_fds		fd_out;
 	int				last_result;
 	int				fd[2];
@@ -165,7 +163,7 @@ int				unset_builtin(t_data *env, t_simple_cmd *cmd);
 int				check_for_builtins(t_simple_cmd *sc);
 int				execute_builtin(t_data *data, t_simple_cmd *cmd);
 int				is_builtin(t_data *command, int fd);
-void			clean_builtin(t_simple_cmd *sc, t_data *data);
+void			clean_builtin(t_data *data);
 /*exec_path*/
 char			*concat_path(const char *dir, const char *command);
 char			*get_full_path(const char *command, char **envp);

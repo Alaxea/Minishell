@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:01:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/21 19:54:50 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:56:50 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,7 @@ static void	execute_child_command(t_simple_cmd *current,
 	{
 		code = execute_builtin(data, current);
 		k = 0;
-		while (data->env_var[k])
-			free(data->env_var[k++]);
-		free(data->env_var);
-		clean_builtin(current, data);
+		clean_builtin(data);
 		exit(code);
 	}
 	full_path = get_full_path(current->cmd[0], data->envp);

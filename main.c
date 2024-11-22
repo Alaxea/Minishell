@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:02:18 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/21 20:06:49 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:32:33 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	ft_memset(&data, 0, sizeof(t_data));
+	data.tokens = NULL;
+	data.input = NULL;
 	copy_env_var(&data, envp);
 	if (!data.env_var)
 		return (1);

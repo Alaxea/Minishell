@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 14:25:09 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/20 15:04:51 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:58:18 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,10 @@ char	*get_env(char **env, char *var)
 	while (env[i])
 	{
 		if (ft_strncmp(var, env[i], ft_len_until_eq_sign(env[i])) == 0)
-		{
-			free(var);
 			return (ft_strjoin("",
 					(env[i] + ft_len_until_eq_sign(env[i]) + 1)));
-		}
 		else
 			i++;
 	}
-	free(var);
 	return (ft_strdup(""));
 }
