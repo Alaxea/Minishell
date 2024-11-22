@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:49:58 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/22 12:38:35 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 13:05:35 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,21 @@ char	*double_quotes_env(char *str, char **env, int *start, int *stop)
 	env_expanded = get_env(env, find_env_var(str, start, stop));
 	b = ft_substr(str, 0, *start - 1);
 	first = ft_strjoin(b, env_expanded);
+	free(b);
+	free(env_expanded);
 	if (str[ft_strlen(str) - *stop])
 	{
 		e = ft_substr(str, *stop, ft_strlen(str) - *stop);
+		free(str);
 		sec = ft_strjoin(first, e);
+		free(first);
+		free(e);
 	}
 	else
+	{
+		free(str);
 		return (first);
+	}
 	return (sec);
 }
 

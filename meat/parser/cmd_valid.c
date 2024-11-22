@@ -6,7 +6,7 @@
 /*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:09:00 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/22 12:53:00 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:56:10 by zogorzeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	cmd_validation(t_data *data, t_simple_cmd *cmds, char **env)
 	buf = cmds;
 	while (buf)
 	{
-		// path_expander(buf, env);
 		if (!check_for_builtins(buf))
 		{
 			if (!is_cmd_valid(buf, env))
