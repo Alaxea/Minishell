@@ -6,7 +6,7 @@
 /*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:06:17 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/21 15:13:07 by alicja           ###   ########.fr       */
+/*   Updated: 2024/11/22 14:05:16 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*set_env_var(t_data *env, char *name)
 		temp = ft_strchrn(env->env_var[i], '=');
 		if (ft_strncmp(env->env_var[i], name, ft_strlen(name)) == 0
 			&& temp == ft_strlen(name))
-			return (ft_strdup(env->env_var[i] + temp + 1));
+			return (env->env_var[i] + temp + 1);
 		i++;
 	}
 	return (NULL);
