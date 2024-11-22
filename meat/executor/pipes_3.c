@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:01:19 by astefans          #+#    #+#             */
-/*   Updated: 2024/11/22 10:56:50 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:28:18 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	execute_child_command(t_simple_cmd *current,
 		t_simple_cmd *cmd, t_data *data)
 {
 	char	*full_path;
-	int		k;
 	int		code;
 
 	default_signals();
@@ -71,7 +70,6 @@ static void	execute_child_command(t_simple_cmd *current,
 	if (check_for_builtins(current))
 	{
 		code = execute_builtin(data, current);
-		k = 0;
 		clean_builtin(data);
 		exit(code);
 	}

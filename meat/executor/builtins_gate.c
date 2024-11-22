@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_gate.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zogorzeb <zogorzeb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alicja <alicja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:18:20 by zogorzeb          #+#    #+#             */
-/*   Updated: 2024/11/22 10:56:44 by zogorzeb         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:20:44 by alicja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	clean_builtin(t_data *data)
 {
-	int				i;
 	t_simple_cmd	*next;
 
-	i = 0;
 	while (data->simple_cmds)
 	{
 		next = data->simple_cmds->next;
